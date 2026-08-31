@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Sesión 1 (Bloque 1) — FICHA-AVATAR.md + FICHA-MERCADO.md creadas; monetización, precio y arquitectura decididos. Usuario confirmó: NO tiene clientes aún. / Siguiente acción exacta: presentar resumen de Bloque 1 al usuario + cerrar sesión → Bloque 2 (página de ventas) tras su OK
+⏸️ CHECKPOINT — Última acción completada: Bloque 2 — `docs/copy/landing.md` (copy trazado a FICHA-AVATAR) + `docs/revisiones/landing.html` renderizada (10 secciones canónicas del 19, dirección "Cuaderno de obra"). Título elegido por el usuario: opción 1. Presentada para aprobación de contenido. / Siguiente acción exacta: recoger feedback del usuario sobre la landing → aplicar cambios → cerrar Bloque 2 → Bloque 3 (preview + paywall + login) tras su OK
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -72,7 +72,9 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 ## Secuencia maestra de construcción (NO saltar)
 - Estado de la secuencia: NADA de código construido todavía. Identidad + fichas listas.
 - Ruta aprobada: `/` (landing) → `/probar` (preview anónimo: sube plano → marca tramo → ve "La Prueba de Campo") → `/planes` (paywall) → `/entrar` (login/registro) → `/app`
-- Landing: pendiente (Bloque 2) · Preview/onboarding: pendiente (Bloque 3) · Paywall: pendiente (Bloque 3) · Login: pendiente (Bloque 3) · App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
+- Landing: **copy + render aprobables** (Bloque 2) — `docs/copy/landing.md` + `docs/revisiones/landing.html`. Título: "Todo tu avance de obra de fibra, en un toque." Mecanismo: "La Prueba de Campo". Oferta fundador: 20 empresas a $99/mes.
+- Preview/onboarding: pendiente (Bloque 3) · Paywall: pendiente (Bloque 3) · Login: pendiente (Bloque 3) · App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
+- ⚠️ Pendientes de la landing antes de "terminada" (SO): (1) construirla sobre el kit React del SO en el proyecto Next.js — el HTML de revisiones es la especificación; (2) revisor-visual /40·/20·/20 (pantalla del dinero); (3) 4 páginas legales redactadas con el archivo 47; (4) reemplazar los marcos placeholder del carrusel por capturas reales cuando exista la app (Bloque 4); (5) contador de fundador real contra la base de datos.
 
 ## Decisiones técnicas (implementación pura — decididas 2026-08-31, NO se presentan al usuario)
 - **Framework:** Next.js App Router (landing + SEO + API routes + webhook Stripe + app interna) sobre el scaffold pineado del 51.
