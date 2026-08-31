@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EA Fiber Track — La app por dentro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f1e8;--surface:#fdfaf3;--surface-2:#ece4d5;--ink:#241d13;--ink-2:#5f5646;--ink-3:#6b6252;
+  --line:#e4dccb;--accent:#e8590c;--accent-ink:#fff;--accent-2:#5f7248;--warn:#b26a00;--crit:#b3261e;
+  --r-card:16px;--r-btn:12px;--chip:color-mix(in oklab,var(--accent) 11%,transparent);
+  --font-d:'Fraunces',Georgia,serif;--font-b:'IBM Plex Sans','Segoe UI',sans-serif;--font-m:'IBM Plex Mono',ui-monospace,monospace;
+  --sh-1:0 1px 2px rgb(52 40 26/.07);--sh-2:0 12px 28px -14px rgb(52 40 26/.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(900px 500px at 12% -5%,#efe7d6,transparent 70%),#e7ddc8;color:var(--ink);
+  font-family:var(--font-b);padding:34px 18px 60px}
+.head{max-width:1200px;margin:0 auto 24px}
+.head h1{font-family:var(--font-d);font-size:25px;font-weight:700}
+.head p{margin-top:8px;font-size:14px;color:var(--ink-2);max-width:78ch;line-height:1.55}
+.grid{max-width:1200px;margin:0 auto;display:grid;gap:30px 22px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.col{display:flex;flex-direction:column;gap:12px}
+.col .lab{font-family:var(--font-m);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.col .lab b{color:var(--accent)}
+.col .cap{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+.phone{width:300px;margin:0 auto;border:10px solid #0c0d10;border-radius:44px;overflow:hidden;position:relative;
+  box-shadow:0 24px 50px -18px rgb(52 40 26/.4),inset 0 0 0 2px #1d1f24;background:var(--bg)}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:108px;height:20px;background:#0c0d10;border-radius:0 0 13px 13px;z-index:6}
+.app{display:flex;flex-direction:column;min-height:560px}
+.sb{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:10.5px;font-weight:600;padding:22px 20px 4px;color:var(--ink-2)}
+.bar{display:flex;align-items:center;gap:9px;padding:6px 13px 10px}
+.bar .proj{flex:1;min-width:0}
+.bar .p1{font-family:var(--font-m);font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .p2{font-size:10px;color:var(--ink-3)}
+.bar .m{width:26px;height:26px;border-radius:8px;background:var(--chip);border:1px solid color-mix(in oklab,var(--accent) 24%,transparent);display:grid;place-items:center;flex:none}
+.bar .m svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2.2;stroke-linecap:round}
+.body{flex:1;overflow:hidden;padding:0 13px}
+
+h2{font-family:var(--font-d);font-weight:600;font-size:18px;line-height:1.14}
+.eyebrow{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:14px 2px 8px}
+.mono{font-family:var(--font-m);font-variant-numeric:tabular-nums}
+
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:4px}
+.tile{border:1px solid var(--line);border-radius:12px;padding:9px 8px;background:var(--surface);box-shadow:var(--sh-1)}
+.tile .k{font-family:var(--font-d);font-weight:700;font-size:19px;line-height:1;font-variant-numeric:tabular-nums}
+.tile .k.acc{color:var(--accent)}
+.tile .k.warn{color:var(--warn)}
+.tile .l{font-size:9px;color:var(--ink-3);margin-top:5px;text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+
+.card{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--sh-1)}
+.pad{padding:11px 12px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tiny{font-size:11px}.muted{color:var(--ink-2)}
+
+.map{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface);margin-top:8px}
+.map svg{display:block;width:100%}
+.legend{display:flex;gap:10px;padding:7px 10px;border-top:1px solid var(--line);font-size:9px;color:var(--ink-2)}
+.legend i{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px}
+
+.item{display:flex;gap:10px;padding:10px 11px;border-bottom:1px solid var(--line);align-items:center}
+.item:last-child{border-bottom:0}
+.item .ic{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line)}
+.item .ic svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.item .t{font-weight:600;font-size:12.5px}
+.item .s{font-size:10px;color:var(--ink-2);margin-top:1px}
+.item .n{margin-left:auto;font-family:var(--font-m);font-weight:600;font-size:13px}
+
+.streak{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--surface);margin-top:8px}
+.streak .flame{width:30px;height:30px;border-radius:9px;background:color-mix(in oklab,var(--accent-2) 16%,transparent);display:grid;place-items:center;flex:none}
+.streak .flame svg{width:15px;height:15px;stroke:var(--accent-2);fill:none;stroke-width:2}
+.streak .t{font-weight:600;font-size:12px}
+.streak .s{font-size:10px;color:var(--ink-2)}
+.streak .dots{margin-left:auto;display:flex;gap:3px}
+.streak .dots i{width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
+.streak .dots i.off{background:var(--line)}
+
+/* plan viewer */
+.pv{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin-top:8px;position:relative}
+.pv svg{display:block;width:100%}
+.toolbar{display:flex;gap:6px;margin-top:9px}
+.toolbar b{font-size:11px;font-weight:600;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.toolbar b.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.mk{display:flex;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:11.5px}
+.mk:last-child{border-bottom:0}
+.mk .mi{width:24px;height:24px;border-radius:7px;flex:none;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line)}
+.mk .mv{margin-left:auto;font-family:var(--font-m);font-weight:600}
+
+/* fotos */
+.gal{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px}
+.gal .g{aspect-ratio:1;border-radius:8px;border:1px solid var(--line);position:relative;overflow:hidden;background:#b45a1e}
+.gal .g:nth-child(2){background:#3c6a89}.gal .g:nth-child(3){background:#7a5a1f}
+.gal .g:nth-child(4){background:#2f7d3a}.gal .g:nth-child(5){background:#8a4f22}.gal .g:nth-child(6){background:#5a6b7a}
+.gal .g span{position:absolute;left:0;right:0;bottom:0;font-family:var(--font-m);font-size:7px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6));padding:3px 4px}
+.chips{display:flex;gap:5px;overflow-x:auto;padding:8px 0;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips b{flex:none;font-size:10.5px;font-weight:600;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.chips b.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* 811 */
+.banner{display:flex;gap:8px;align-items:flex-start;border-radius:12px;padding:10px 11px;font-size:11px;margin:8px 0;background:color-mix(in oklab,var(--warn) 14%,transparent);color:var(--warn)}
+.tk{display:flex;flex-direction:column;gap:2px;padding:10px 11px;border-left:3px solid var(--line);border-bottom:1px solid var(--line)}
+.tk:last-child{border-bottom:0}
+.tk.good{border-left-color:var(--accent-2)}.tk.warn{border-left-color:var(--warn)}.tk.crit{border-left-color:var(--crit)}
+.tk .r1{display:flex;align-items:center;gap:6px}
+.tk .num{font-family:var(--font-m);font-weight:600;font-size:12px}
+.tk .pill{margin-left:auto;font-family:var(--font-m);font-size:8.5px;font-weight:600;padding:2px 7px;border-radius:999px}
+.tk .pill.good{background:color-mix(in oklab,var(--accent-2) 16%,transparent);color:var(--accent-2)}
+.tk .pill.warn{background:color-mix(in oklab,var(--warn) 15%,transparent);color:var(--warn)}
+.tk .pill.crit{background:color-mix(in oklab,var(--crit) 13%,transparent);color:var(--crit)}
+.tk .loc{font-size:11px;font-weight:500}
+.tk .meta{font-size:9.5px;color:var(--ink-2);display:flex;gap:8px;margin-top:2px}
+.tk .act{align-self:flex-start;margin-top:5px;font-size:10px;font-weight:600;color:var(--accent);border:1px solid color-mix(in oklab,var(--accent) 30%,transparent);border-radius:999px;padding:3px 9px}
+
+/* cuadrillas */
+.crew{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:11px 12px;margin-top:8px;box-shadow:var(--sh-1)}
+.crew .h{display:flex;align-items:center;gap:8px}
+.crew .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.crew h3{font-size:13px;font-family:var(--font-d);font-weight:600}
+.crew .tm{margin-left:auto;font-size:9.5px;color:var(--ink-3)}
+.crew .sub{font-size:10.5px;color:var(--ink-2);margin-top:3px}
+.crew .eq{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
+.crew .eq span{font-size:9px;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.crew .roll{display:flex;gap:12px;margin-top:8px;font-family:var(--font-m);font-size:11px}
+.crew .roll b{font-weight:600}
+
+/* bottom nav */
+.bnav{display:flex;justify-content:space-around;border-top:1px solid var(--line);padding:8px 4px calc(8px + 4px);background:var(--surface)}
+.bnav i{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:8.5px;font-weight:600;color:var(--ink-3);font-family:var(--font-m)}
+.bnav i.on{color:var(--accent)}
+.bnav .k{width:30px;height:28px;border-radius:8px;display:grid;place-items:center}
+.bnav i.on .k{background:var(--chip)}
+.bnav .k svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* empty state */
+.empty{text-align:center;padding:34px 18px}
+.empty svg{width:36px;height:36px;stroke:var(--ink-3);fill:none;stroke-width:1.5;margin-bottom:10px}
+.empty .t{font-family:var(--font-d);font-weight:600;font-size:14px}
+.empty .s{font-size:11px;color:var(--ink-2);margin-top:5px;max-width:24ch;margin-inline:auto}
+.empty .b{margin-top:14px;display:inline-flex;height:38px;align-items:center;padding:0 16px;border-radius:var(--r-btn);font-size:12px;font-weight:700;color:#fff;
+  background:linear-gradient(180deg,color-mix(in oklab,#fff 20%,var(--accent)),var(--accent));box-shadow:0 6px 16px color-mix(in oklab,var(--accent) 32%,transparent)}
+
+.fab{position:absolute;right:16px;bottom:70px;width:46px;height:46px;border-radius:50%;background:linear-gradient(180deg,color-mix(in oklab,#fff 20%,var(--accent)),var(--accent));
+  display:grid;place-items:center;box-shadow:0 10px 22px color-mix(in oklab,var(--accent) 38%,transparent);z-index:5}
+.fab svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.6;stroke-linecap:round}
+
+.pie{max-width:1200px;margin:34px auto 0;font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px;line-height:1.7}
+@media(max-width:640px){.phone{width:280px}}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1>La app por dentro — 5 pantallas</h1>
+  <p>Todas con datos de ejemplo de un proyecto real (Louisville, KY). El bucle de la app: el foreman marca la producción del día sobre el plano → “El día de hoy” se actualiza y el dueño ve el avance sin llamar → cada tramo probado se acumula en el plano y en la racha de partes.</p>
+</header>
+
+<div class="grid">
+
+  <!-- HOY -->
+  <div class="col">
+    <p class="lab"><b>1 · Hoy</b> — el avance de un vistazo</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar">
+        <span class="m"><svg viewBox="0 0 24 24"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>
+        <div class="proj"><div class="p1">Fibra Louisville — Fase 2</div><div class="p2">LG&amp;E / KU · Louisville, KY</div></div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b6252" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="body">
+        <h2>El día de hoy</h2>
+        <div class="tiles" style="margin-top:8px">
+          <div class="tile"><div class="k acc">4 250</div><div class="l">pies hoy</div></div>
+          <div class="tile"><div class="k warn">2</div><div class="l">811 x vencer</div></div>
+          <div class="tile"><div class="k">3/3</div><div class="l">cuadrillas</div></div>
+        </div>
+        <div class="map">
+          <svg viewBox="0 0 272 116" xmlns="http://www.w3.org/2000/svg">
+            <rect width="272" height="116" fill="#fdfaf3"/>
+            <g stroke="#e4dccb" stroke-width="1"><path d="M0 39H272M0 78H272M68 0V116M150 0V116M214 0V116"/></g>
+            <path d="M20 52H180" stroke="#e8590c" stroke-width="4" stroke-linecap="round"/><text x="20" y="44" font-family="monospace" font-size="8" fill="#e8590c">1 850 ft</text>
+            <path d="M40 92H230" stroke="#3c6a89" stroke-width="4" stroke-linecap="round"/><text x="40" y="86" font-family="monospace" font-size="8" fill="#3c6a89">2 400 ft</text>
+            <circle cx="120" cy="30" r="4.5" fill="#e8590c" stroke="#fff" stroke-width="1.5"/><text x="128" y="33" font-family="Fraunces,serif" font-size="8" fill="#241d13">A</text>
+            <circle cx="200" cy="70" r="4.5" fill="#3c6a89" stroke="#fff" stroke-width="1.5"/><text x="208" y="73" font-family="Fraunces,serif" font-size="8" fill="#241d13">B</text>
+            <rect x="60" y="24" width="10" height="10" rx="1.5" fill="none" stroke="#b26a00" stroke-width="1.6" stroke-dasharray="2 1.5"/>
+          </svg>
+          <div class="legend"><span><i style="background:#e8590c"></i>Cuadrilla</span><span><i style="background:#5f7248"></i>Tramo probado</span><span><i style="background:#b26a00;border-radius:2px"></i>811</span></div>
+        </div>
+        <div class="streak">
+          <span class="flame"><svg viewBox="0 0 24 24"><path d="M12 2c1 3 4 4 4 8a4 4 0 0 1-8 0c0-1 .5-2 1-3-2 1-4 3-4 7a7 7 0 0 0 14 0c0-6-5-8-7-19z"/></svg></span>
+          <div><div class="t">6 días con parte cerrado</div><div class="s">La cuadrilla no ha fallado un día</div></div>
+          <div class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i></div>
+        </div>
+        <p class="eyebrow">Actividad de hoy</p>
+        <div class="card">
+          <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19V9l4-4M4 19h16M12 19v-8M20 19v-5"/></svg></span><div><div class="t">HDD Bore · Cuadrilla A</div><div class="s">STA 12+00 → 30+50 · 9:41</div></div><span class="n">1 850</span></div>
+          <div class="item"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 19V9l4-4M4 19h16M12 19v-8M20 19v-5"/></svg></span><div><div class="t">Zanja · Cuadrilla B</div><div class="s">STA 0+00 → 24+00 · 8:15</div></div><span class="n">2 400</span></div>
+        </div>
+      </div>
+      <nav class="bnav">
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Lo que el dueño abre a las 6 p.m.: pies por cuadrilla, 811 por vencer, el mapa de tramos probados y la racha de partes.</p>
+  </div>
+
+  <!-- PLANOS -->
+  <div class="col">
+    <p class="lab"><b>2 · Planos</b> — marcar la producción</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar"><span class="m"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>
+        <div class="proj"><div class="p1">Sheet C-3 — Colfax / Peoria</div><div class="p2">3 marcas · 3 050 ft marcados</div></div></div>
+      <div class="body">
+        <div class="toolbar"><b class="on">╱ Marcar tramo</b><b>● Punto</b><b style="margin-left:auto">👁 Marcas</b></div>
+        <div class="pv">
+          <svg viewBox="0 0 272 150" xmlns="http://www.w3.org/2000/svg">
+            <rect width="272" height="150" fill="#fff"/>
+            <g stroke="#ece4d7" stroke-width="1"><path d="M0 44H272M0 88H272M0 120H272M66 0V150M150 0V150M214 0V150"/></g>
+            <text x="12" y="18" font-family="monospace" font-size="7" fill="#8d8271">SHEET C-3 · OSP PLAN &amp; PROFILE · 1"=40'</text>
+            <path d="M16 74H252" stroke="#cbb9a3" stroke-width="2" stroke-dasharray="6 4"/>
+            <path d="M16 74H150" stroke="#e8590c" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="16" cy="74" r="4.5" fill="#e8590c"/><circle cx="150" cy="74" r="4.5" fill="#e8590c"/>
+            <text x="60" y="66" font-family="monospace" font-size="8.5" fill="#e8590c" text-anchor="middle">1 850 ft</text>
+            <rect x="122" y="66" width="14" height="14" fill="#e8590c" fill-opacity=".2" stroke="#e8590c" stroke-width="1.6"/>
+            <text x="16" y="112" font-family="monospace" font-size="7.5" fill="#c0562f">HH-12 · set a grade</text>
+          </svg>
+        </div>
+        <p class="eyebrow">Marcas de producción</p>
+        <div class="card pad">
+          <div class="mk"><span class="mi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2"><path d="M4 19V9l4-4M4 19h16M12 19v-8"/></svg></span><div><div style="font-weight:600">1 850 ft · HDD Bore</div><div class="tiny muted">Cuadrilla A · registro creado</div></div><span class="mv">→</span></div>
+          <div class="mk"><span class="mi">⬛</span><div><div style="font-weight:600">1 ea · Handhole</div><div class="tiny muted">HH-12 · Cuadrilla A</div></div><span class="mv">→</span></div>
+          <div class="mk"><span class="mi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2"><path d="M4 19V9l4-4"/></svg></span><div><div style="font-weight:600">1 200 ft · Zanja</div><div class="tiny muted">Cuadrilla B</div></div><span class="mv">→</span></div>
+        </div>
+      </div>
+      <div class="fab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <nav class="bnav">
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Sube el plano (PDF o foto) y marca encima los tramos y puntos. Cada marca puede crear su registro de producción y su Prueba de Campo.</p>
+  </div>
+
+  <!-- FOTOS -->
+  <div class="col">
+    <p class="lab"><b>3 · Fotos</b> — evidencia con GPS</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar"><span class="m"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>
+        <div class="proj"><div class="p1">Fotos GPS</div><div class="p2">28 fotos · fecha, hora y coordenadas</div></div></div>
+      <div class="body">
+        <div class="chips"><b class="on">Todas</b><b>Cuadrilla A</b><b>Cuadrilla B</b><b>Bore</b><b>Zanja</b><b>Hoy</b></div>
+        <div class="gal">
+          <div class="g"><span>9:41 · 38.254,−85.758</span></div>
+          <div class="g"><span>9:12 · 38.253,−85.760</span></div>
+          <div class="g"><span>8:47 · 38.255,−85.755</span></div>
+          <div class="g"><span>8:20 · 38.251,−85.762</span></div>
+          <div class="g"><span>7:58 · 38.256,−85.751</span></div>
+          <div class="g"><span>7:30 · 38.252,−85.759</span></div>
+        </div>
+        <p class="eyebrow">Ayer · 12 fotos</p>
+        <div class="gal">
+          <div class="g"><span>16:40</span></div><div class="g"><span>15:10</span></div><div class="g"><span>14:02</span></div>
+        </div>
+      </div>
+      <div class="fab"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></div>
+      <nav class="bnav">
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Cada foto lleva fecha, hora y coordenadas pegadas. Filtras por cuadrilla, actividad o fecha. Se toca una y se ve en el plano.</p>
+  </div>
+
+  <!-- 811 -->
+  <div class="col">
+    <p class="lab"><b>4 · 811</b> — vencimientos y alertas</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar"><span class="m"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>
+        <div class="proj"><div class="p1">Tickets 811</div><div class="p2">6 tickets · Kentucky 811</div></div></div>
+      <div class="body">
+        <div class="banner"><span>⚠</span><span><b>2 tickets</b> vencen en 3 días o menos. Verifica el estado con Kentucky 811 antes de excavar.</span></div>
+        <div class="card">
+          <div class="tk crit"><div class="r1"><span class="num">#2024-2208891</span><span class="pill crit">Vencido</span></div><div class="loc">Havana St, 100–400 blk</div><div class="meta"><span>Excavó 18 ago</span><span>Venció ayer</span></div><span class="act">Renovar +21 d</span></div>
+          <div class="tk warn"><div class="r1"><span class="num">#2024-2210455</span><span class="pill warn">Por vencer</span></div><div class="loc">E Colfax Ave &amp; Peoria St</div><div class="meta"><span>Vence 3 sep</span><span>📎 2 fotos</span></div><span class="act">Renovar +21 d</span></div>
+          <div class="tk good"><div class="r1"><span class="num">#2024-2214788</span><span class="pill good">Activo</span></div><div class="loc">Chambers Rd &amp; 13th Ave</div><div class="meta"><span>Vence 12 sep</span><span>5 días</span></div></div>
+          <div class="tk good"><div class="r1"><span class="num">#2024-2215002</span><span class="pill good">Activo</span></div><div class="loc">Montview Blvd &amp; Moline St</div><div class="meta"><span>Vence 18 sep</span><span>18 días</span></div></div>
+        </div>
+      </div>
+      <div class="fab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <nav class="bnav">
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Estado por color: verde al día, ámbar por vencer, rojo vencido. Botón “Renovar” a la vista, con el aviso de que no reemplaza al 811.</p>
+  </div>
+
+  <!-- CUADRILLAS + EMPTY -->
+  <div class="col">
+    <p class="lab"><b>5 · Cuadrillas</b> — quién y con qué</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar"><span class="m"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>
+        <div class="proj"><div class="p1">Cuadrillas</div><div class="p2">3 cuadrillas · Fibra Louisville — Fase 2</div></div></div>
+      <div class="body">
+        <div class="crew">
+          <div class="h"><span class="sw" style="background:#e8590c"></span><h3>Cuadrilla A — Bore</h3><span class="tm">hace 25 min</span></div>
+          <div class="sub">Foreman Miguel Santos · 4 personas</div>
+          <div class="eq"><span>Vermeer D24x40</span><span>Vac-Tron</span></div>
+          <div class="roll"><span><b>1 850</b> ft hoy</span><span><b>3</b> HH hoy</span></div>
+        </div>
+        <div class="crew">
+          <div class="h"><span class="sw" style="background:#3c6a89"></span><h3>Cuadrilla B — Zanja</h3><span class="tm">hace 8 min</span></div>
+          <div class="sub">Foreman David Nguyen · 3 personas</div>
+          <div class="eq"><span>Ditch Witch RT45</span><span>Mini-ex</span></div>
+          <div class="roll"><span><b>2 400</b> ft hoy</span></div>
+        </div>
+        <div class="crew">
+          <div class="h"><span class="sw" style="background:#5f7248"></span><h3>Cuadrilla C — Splice</h3><span class="tm">hace 2 h</span></div>
+          <div class="sub">Foreman Ray Ortiz · 2 personas</div>
+          <div class="eq"><span>Splice trailer</span></div>
+          <div class="roll"><span><b>6</b> cierres hoy</span></div>
+        </div>
+      </div>
+      <div class="fab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+      <nav class="bnav">
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Cada cuadrilla: foreman, gente, equipo asignado, última ubicación y lo que produjeron hoy.</p>
+
+    <p class="lab" style="margin-top:10px"><b>Estado vacío</b> — cómo se ve al empezar</p>
+    <div class="phone"><div class="notch"></div><div class="app">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="bar"><span class="m"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>
+        <div class="proj"><div class="p1">Planos</div><div class="p2">Fibra Louisville — Fase 2</div></div></div>
+      <div class="body">
+        <div class="empty">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 9h16M9 9v10"/></svg>
+          <div class="t">Sube tu primer plano</div>
+          <div class="s">PDF o foto. Después marcas encima los tramos construidos.</div>
+          <span class="b">Subir plano</span>
+        </div>
+      </div>
+      <nav class="bnav">
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/></svg></span>Hoy</i>
+        <i class="on"><span class="k"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+        <i><span class="k"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+      </nav>
+    </div></div>
+    <p class="cap">Las pantallas vacías no dicen “No hay datos” — muestran qué hacer y un botón para hacerlo.</p>
+  </div>
+
+</div>
+
+<p class="pie">
+  App interna: 5 secciones, una misión por sección, navegación abajo siempre visible, cero pantallas vacías sin propósito (32).
+  Bucle de retención: parte del día → “El día de hoy” cambia → tramos y racha se acumulan (si borras el historial, la app de mañana NO es igual → el bucle es real).
+  Datos de ejemplo: proyecto de OSP en Louisville, KY. Pantallas de aprobación — la versión real se construye en código en el bloque de conexión.
+</p>
+</body>
+</html>
