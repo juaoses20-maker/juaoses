@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 3 — `docs/revisiones/funnel.html` (8 pantallas: /probar 1-4 con primera victoria "La Prueba de Campo" · /planes paywall de 3 páginas · /entrar registro al final). Landing (Bloque 2) APROBADA por el usuario sin cambios. / Siguiente acción exacta: recoger feedback del funnel → cerrar Bloque 3 → Bloque 4 (app interna: Planos/Fotos/811/Cuadrillas) tras su OK
+⏸️ CHECKPOINT — Última acción completada: Bloque 4 — `docs/revisiones/app.html` (5 pantallas: Hoy · Planos · Fotos · 811 · Cuadrillas + estado vacío). Bloque 3 (funnel) APROBADO por el usuario. BITACORA.md creada (registro completo). / Siguiente acción exacta: recoger feedback de la app → cerrar Bloque 4 → **Bloque 5** (construir todo en código Next.js real + conectar Supabase/Stripe/Vercel/dominio — AQUÍ el usuario crea cuentas y pega claves)
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -74,7 +74,9 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Ruta aprobada: `/` (landing) → `/probar` (preview anónimo: sube plano → marca tramo → ve "La Prueba de Campo") → `/planes` (paywall) → `/entrar` (login/registro) → `/app`
 - Landing: **copy + render aprobables** (Bloque 2) — `docs/copy/landing.md` + `docs/revisiones/landing.html`. Título: "Todo tu avance de obra de fibra, en un toque." Mecanismo: "La Prueba de Campo". Oferta fundador: 20 empresas a $99/mes.
 - Preview/onboarding + Paywall + Login: **diseño aprobable** (Bloque 3) — `docs/revisiones/funnel.html`. Preview = 3 pasos + primera victoria (marca un tramo real). Paywall = 3 páginas (recap / calendario del trial / precio). Login = Google + magic-link, al final.
-- App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
+- App interna: **diseño aprobable** (Bloque 4) — `docs/revisiones/app.html`. 5 secciones, 1 protagonista c/u, nav abajo, estado vacío incluido.
+- Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
+- ⚠️ Bloque 5 = primer bloque que necesita al usuario: cuentas Supabase/Vercel/Stripe/Resend + dominio + 3-4 claves (guiado clic por clic).
 - ⚠️ Pendientes de la landing antes de "terminada" (SO): (1) construirla sobre el kit React del SO en el proyecto Next.js — el HTML de revisiones es la especificación; (2) revisor-visual /40·/20·/20 (pantalla del dinero); (3) 4 páginas legales redactadas con el archivo 47; (4) reemplazar los marcos placeholder del carrusel por capturas reales cuando exista la app (Bloque 4); (5) contador de fundador real contra la base de datos.
 
 ## Decisiones técnicas (implementación pura — decididas 2026-08-31, NO se presentan al usuario)
@@ -95,7 +97,9 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Identidad visual — 2026-08-31 — dirección "Cuaderno de obra" (combinación A+B+C) APROBADA · FICHA-ARTE.md
 - Bloque 1 — Cliente y dinero — 2026-08-31 — FICHA-AVATAR.md + FICHA-MERCADO.md · monetización onboarding-first + Stripe · precio propuesto · arquitectura/datos/auth decididos
 - Bloque 2 — Página de ventas — 2026-08-31 — `docs/copy/landing.md` + `docs/revisiones/landing.html` (10 secciones canónicas) · APROBADA por el usuario sin cambios · título "Todo tu avance de obra de fibra, en un toque"
-- Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · pendiente de OK del usuario
+- Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · APROBADO
+- Bloque 4 — App interna — 2026-08-31 — `docs/revisiones/app.html` (Hoy/Planos/Fotos/811/Cuadrillas + estado vacío) · pendiente de OK del usuario
+- Loop de retención (Regla 6) DEFINIDO: gatillo = aviso 6 p.m. "cierra el parte" / 811 por vencer → acción = foreman marca la producción sobre el plano + cierra el parte → recompensa = "El día de hoy" se actualiza (el owner ve el avance sin llamar) + racha de días con parte → inversión = cada tramo se acumula en el plano + crece el historial de pruebas. Test "borrar historial": la app de mañana NO es idéntica ✓.
 
 ## Sesión en progreso 🔧
 - (ninguna — esperando OK del usuario para Bloque 2)

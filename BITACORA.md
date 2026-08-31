@@ -50,11 +50,20 @@ Lo que la app **nunca** hace: reemplazar la llamada al 811, publicar o enviar al
 - Título elegido: **“Todo tu avance de obra de fibra, en un toque.”**
 - 10 secciones: portada · problema · lo que te cuesta · la solución · la app por dentro · oferta · garantía · preguntas · cierre · pie legal.
 
-### 6 · Los primeros minutos del usuario (Bloque 3 — pendiente de OK)
+### 6 · Los primeros minutos del usuario (Bloque 3 — APROBADO)
 - 8 pantallas: `docs/revisiones/funnel.html` (+ captura `funnel.png`).
 - `/probar` (sin cuenta): sube plano → marca tramo → describe el trabajo → ve “La Prueba de Campo”.
 - `/planes`: paywall de 3 pantallas (recap → calendario de la prueba → precio de fundador).
 - `/entrar`: registro al final, con Google o enlace por correo.
+
+### 7 · La app por dentro (Bloque 4 — pendiente de OK)
+- 5 pantallas + estado vacío: `docs/revisiones/app.html` (+ captura `app.png`).
+- **Hoy**: pies por cuadrilla, 811 por vencer, mapa de tramos probados, racha de partes.
+- **Planos**: subir plano y marcar producción encima (aquí vive “La Prueba de Campo”).
+- **Fotos**: galería con GPS y filtros.
+- **811**: lista por color (verde al día / ámbar por vencer / rojo vencido) + botón Renovar.
+- **Cuadrillas**: foreman, gente, equipo, producción del día.
+- El bucle que la hace hábito: el foreman cierra el parte → “Hoy” se actualiza → los tramos y la racha se acumulan.
 
 ---
 
@@ -69,10 +78,9 @@ Lo que la app **nunca** hace: reemplazar la llamada al 811, publicar o enviar al
 
 ## Qué falta
 
-**Siguiente:** Bloque 4 — la app por dentro (Planos, Fotos, 811, Cuadrillas), con datos de ejemplo.
+**Siguiente:** Bloque 5 — convertir todo lo diseñado (página de ventas + primeros minutos + app) en un sitio web y una app de verdad, en código, y conectar el cobro. **Aquí el usuario tiene que crear cuentas** (Supabase = base de datos, Vercel = publicación, Stripe = cobro, Resend = correos), comprar el dominio (~$12/año) y pegar 3–4 claves. Se avisa y se guía clic por clic.
 
 **Después:**
-- Bloque 5 — convertir todo en un sitio web real y conectar el cobro. **Aquí el usuario tiene que crear cuentas** (Supabase, Vercel, Stripe, Resend), comprar el dominio (~$12/año) y pegar 3–4 claves. Se avisa y se guía paso a paso.
 - Bloque 6 — pruebas, pulido y revisión de calidad.
 - Bloque 7 — lanzamiento y conseguir los primeros clientes.
 
