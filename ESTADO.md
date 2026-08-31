@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: B3 Constitución del Producto APROBADA por el usuario (nombre + planos PDF/foto añadidos) / Siguiente acción exacta: B4 referencias visuales (1 pregunta) → luego B5 Plan Maestro
+⏸️ CHECKPOINT — Última acción completada: Protocolo A/B/C — comparativa `docs/revisiones/direcciones-abc.html` (+ .png) construida y verificada (fuentes OK, divergencia OK, sin emojis). Presentada al usuario. / Siguiente acción exacta: esperar elección A/B/C (o combinar/otras 3/ajustar) → volcar en FICHA-ARTE.md → luego B5 Plan Maestro
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -47,9 +47,14 @@ App móvil para contratistas de construcción de fibra óptica subterránea / HD
 Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 + foto GPS en UN registro operacional, (3) precio por empresa, no por peón. Referencias: FiberField (flujo y funciones núcleo; su error: solo inglés, por asiento, sin 811), CompanyCam (la magia de la foto GPS auto-archivada; su error: solo fotos, caro al crecer), Maptraq Field (captura de producción en campo + reporte diario que sincroniza).
 
 ## Dirección de Arte (Sesión 2 — NO cambiar sin justificación)
-- FICHA-ARTE.md: NO (pendiente Sesión 2)
-- ¿Hubo referencia visual del usuario?: NO todavía (nombró "FiberField" como referencia de PATRONES → investigar su sistema visual en Sesión 2; protocolo APP NOMBRADA del 16)
-- Pendiente: 3 opciones A/B/C a 375px (protocolo 54)
+- FICHA-ARTE.md: NO (se crea al elegir A/B/C)
+- ¿Hubo referencia visual del usuario?: NO. Nombró "FiberField", pero FiberField es oscuro + cian + sans geométrica = "look de IA" → NO se replica; se fusionan los LÍDERES de categoría (Procore/Raken/Fieldwire/CompanyCam), todos claros + acento naranja de obra + grotesca robusta.
+- Comparativa A/B/C: `docs/revisiones/direcciones-abc.html` (+ `direcciones-abc-375.png`) — construida 2026-08-31, verificada (fuentes clase por clase OK, test de divergencia OK, sin emojis, mockups llenos, datos semilla Louisville KY).
+  - A "Naranja de obra": claro · papel cálido `#f6f3ec` · acento `#e8590c` (naranja seguridad = color APWA de fibra) + oliva/verde `#2f7d3a` verificado · grotesca **Archivo** (1 familia) · layout tarjeta-plano apilada · dispositivo ownable = esquina recortada (etiqueta de obra). Fusión: Procore+Raken+Fieldwire.
+  - B "Tierra": claro cálido `#f8f1e9` · textura de puntos · acento barro cocido `#c0562f` (banco 54 #7 Terracota) + oliva `#5f7248` verificado · serif **Fraunces** + body **Figtree** · layout lista editorial con doble regla · dispositivo = masthead + textura arena. Fusión: CompanyCam+Raken como cuaderno de obra.
+  - C "Turno noche": OSCURO cálido `#12100c` (banco 54 #4 Retro-deportiva) · acento `#e8590c` + ámbar `#e0a93a` (por vencer) · **IBM Plex Sans** + **IBM Plex Mono** (cifras) · layout bento 2×2 + banda de plano · dispositivo = regla vertical de dato + numerales monoespaciados. Fusión: Fieldwire+CompanyCam en modo contrario a A.
+- Elección del usuario: PENDIENTE.
+- REGISTRO ANTI-REPETICIÓN: al cerrar, anotar paleta + par tipográfico elegidos (veto para el próximo proyecto SO).
 
 ## Avatar y venta (Sesión 1 — NO cambiar sin validar)
 - FICHA-AVATAR.md: NO (pendiente — el usuario ya aportó un brief rico con dolores/deseos/objeciones/citas en sesión previa; se formaliza en FICHA-AVATAR.md en Sesión 1)
