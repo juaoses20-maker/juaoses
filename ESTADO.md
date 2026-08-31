@@ -1,13 +1,30 @@
-# ESTADO — FiberTrack (nombre provisional)
+# ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Reporte de validación B2 (investigación de mercado hecha) / Siguiente acción exacta: presentar B2 al usuario, obtener OK, y hacer B3 (Constitución del Producto — preguntas que faltan)
+⏸️ CHECKPOINT — Última acción completada: B3 Constitución del Producto APROBADA por el usuario (nombre + planos PDF/foto añadidos) / Siguiente acción exacta: B4 referencias visuales (1 pregunta) → luego B5 Plan Maestro
+
+## Nombre
+EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
 
 ## Qué es esta app (3 líneas máximo)
-App móvil para contratistas de construcción de fibra óptica subterránea / HDD en EE. UU. con cuadrillas hispanohablantes. Centraliza: fotos con GPS, planos con marcado de producción diaria encima, cuadrillas, y tickets 811 (empezando por Kentucky 811) conectados a la producción. Monetización: suscripción por empresa (no por trabajador). Modelo (hard paywall vs onboarding-first) se decide en Sesión 1 con la matriz A-F del 02C.
+App móvil para contratistas de construcción de fibra óptica subterránea / HDD en EE. UU. con cuadrillas hispanohablantes. Centraliza: fotos con GPS, planos (PDF o fotografía) con marcado de producción diaria encima, cuadrillas, y tickets 811 (empezando por Kentucky 811) conectados a la producción. Monetización: suscripción por empresa (no por trabajador). Modelo (hard paywall vs onboarding-first) se decide en Sesión 1 con la matriz A-F del 02C.
 
 ## Promesa central
-"Esta app ayuda a los contratistas de fibra subterránea con cuadrillas hispanohablantes a demostrar qué se construyó, dónde, quién y bajo qué ticket 811, sin rastrear entre WhatsApp, fotos sueltas y papeles — con el plano, la producción, la foto GPS y el ticket 811 en un solo registro."
+"EA Fiber Track ayuda a los contratistas de fibra subterránea con cuadrillas hispanohablantes a demostrar qué se construyó, dónde, quién y bajo qué ticket 811 — sin rastrear entre WhatsApp, fotos sueltas y papeles."
+
+## Constitución del Producto (B3 — APROBADA 2026-08-31)
+- Primera victoria (bautizada): "La Prueba de Campo" — subir plano (PDF o foto) → tocar los dos extremos de un tramo construido → foto GPS → aparece una tarjeta-prueba (tramo · pies · cuadrilla · ticket 811 · fecha · foto · ubicación) lista para enviar al cliente/utility. Mecanismo memorable = "marcar sobre el plano y que quede probado".
+- Funciones MVP (en orden):
+  1. Planos con marcado de producción — subir plano **PDF o fotografía**, marcar encima tramos y puntos construidos (bore, zanja, tendido de fibra, handholes) con sus pies.
+  2. Fotos con GPS — sello fecha/hora/coordenadas, pegada al tramo del plano + cuadrilla + (opcional) ticket 811.
+  3. Tickets 811 (Kentucky primero) — número, ubicación, fecha de excavación, vencimiento 21 días, alertas pre-vencimiento, conectado a producción y fotos del tramo.
+  4. Cuadrillas — foreman, trabajadores, equipo asignado, producción del día por cuadrilla.
+  - Producción diaria NO es sección aparte: se registra al marcar sobre el plano y al cerrar el parte de la cuadrilla.
+- "Regla nunca":
+  - Nunca reemplaza la llamada al 811 ni declara un locate "aprobado"; solo evidencia + alertas; estado oficial se verifica con el 811.
+  - Nunca publica/envía nada sin permiso del usuario.
+  - Nunca inventa datos ni pies de producción.
+  - No hace nómina, contabilidad, facturación, CRM, inventario, licitaciones, gestión de flota. No intenta ser Procore.
 
 ## Reporte de validación (Sesión 1)
 - Veredicto: EXCELENTE OPORTUNIDAD (mercado probado + brecha clara en español + hueco de 811 conectado a producción)
@@ -50,7 +67,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 ## Decisiones técnicas (NO re-discutir sin pedirlo el usuario)
 - Framework: PENDIENTE — probable Next.js App Router (landing + SEO + API routes + webhook Hotmart). Se fija en Sesión 1/2.
 - Stack base SO: React + TS + Tailwind v4 + shadcn/ui + Lucide + Motion + Supabase + Vercel (51-STACK-PINEADO).
-- Features candidatas del MVP (a priorizar en B3): 1) Fotos GPS, 2) Planos + marcado de producción encima, 3) Cuadrillas/crews, 4) Tickets 811 (Kentucky) conectados a producción, 5) Producción diaria (bore/trench/fiber ft, handholes).
+- Features del MVP (B3 aprobada, en orden): 1) Planos PDF/foto + marcado de producción encima, 2) Fotos GPS, 3) Tickets 811 (Kentucky) conectados a producción, 4) Cuadrillas.
+- Render de planos PDF: necesita pdf.js (pdfjs-dist) para rasterizar la página a canvas y marcar encima; planos-foto van directo como imagen. Decisión técnica interna — confirmar en Sesión 2/5.
 - Idioma UI: español primero (es-US / español neutro de campo). Multi-idioma (añadir inglés) = posible V2, decidir en Sesión 1.
 - IA: reportes/as-builts generados (texto). Sin IA de imagen/audio en MVP. Confirmar en Sesión 1.
 
