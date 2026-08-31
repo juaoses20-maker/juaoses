@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 2 — `docs/copy/landing.md` (copy trazado a FICHA-AVATAR) + `docs/revisiones/landing.html` renderizada (10 secciones canónicas del 19, dirección "Cuaderno de obra"). Título elegido por el usuario: opción 1. Presentada para aprobación de contenido. / Siguiente acción exacta: recoger feedback del usuario sobre la landing → aplicar cambios → cerrar Bloque 2 → Bloque 3 (preview + paywall + login) tras su OK
+⏸️ CHECKPOINT — Última acción completada: Bloque 3 — `docs/revisiones/funnel.html` (8 pantallas: /probar 1-4 con primera victoria "La Prueba de Campo" · /planes paywall de 3 páginas · /entrar registro al final). Landing (Bloque 2) APROBADA por el usuario sin cambios. / Siguiente acción exacta: recoger feedback del funnel → cerrar Bloque 3 → Bloque 4 (app interna: Planos/Fotos/811/Cuadrillas) tras su OK
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -73,7 +73,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Estado de la secuencia: NADA de código construido todavía. Identidad + fichas listas.
 - Ruta aprobada: `/` (landing) → `/probar` (preview anónimo: sube plano → marca tramo → ve "La Prueba de Campo") → `/planes` (paywall) → `/entrar` (login/registro) → `/app`
 - Landing: **copy + render aprobables** (Bloque 2) — `docs/copy/landing.md` + `docs/revisiones/landing.html`. Título: "Todo tu avance de obra de fibra, en un toque." Mecanismo: "La Prueba de Campo". Oferta fundador: 20 empresas a $99/mes.
-- Preview/onboarding: pendiente (Bloque 3) · Paywall: pendiente (Bloque 3) · Login: pendiente (Bloque 3) · App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
+- Preview/onboarding + Paywall + Login: **diseño aprobable** (Bloque 3) — `docs/revisiones/funnel.html`. Preview = 3 pasos + primera victoria (marca un tramo real). Paywall = 3 páginas (recap / calendario del trial / precio). Login = Google + magic-link, al final.
+- App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
 - ⚠️ Pendientes de la landing antes de "terminada" (SO): (1) construirla sobre el kit React del SO en el proyecto Next.js — el HTML de revisiones es la especificación; (2) revisor-visual /40·/20·/20 (pantalla del dinero); (3) 4 páginas legales redactadas con el archivo 47; (4) reemplazar los marcos placeholder del carrusel por capturas reales cuando exista la app (Bloque 4); (5) contador de fundador real contra la base de datos.
 
 ## Decisiones técnicas (implementación pura — decididas 2026-08-31, NO se presentan al usuario)
@@ -89,10 +90,12 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Features del MVP (B3, en orden): 1) Planos PDF/foto + marcado de producción, 2) Fotos GPS, 3) Tickets 811 (Kentucky primero) conectados a producción, 4) Cuadrillas.
 
 ## Sesiones completadas ✅
-- Idea + Validación (B1-B2) — 2026-08-31 — mercado confirmado, competencia mapeada
-- Constitución del Producto (B3) — 2026-08-31 — nombre EA Fiber Track, 4 funciones, primera victoria "La Prueba de Campo", regla nunca
-- Identidad visual (Bloque "identidad") — 2026-08-31 — dirección "Cuaderno de obra" (combinación A+B+C) aprobada · FICHA-ARTE.md
+- Idea + Validación — 2026-08-31 — mercado confirmado, competencia mapeada
+- Constitución del Producto — 2026-08-31 — nombre EA Fiber Track, 4 funciones, primera victoria "La Prueba de Campo", regla nunca
+- Identidad visual — 2026-08-31 — dirección "Cuaderno de obra" (combinación A+B+C) APROBADA · FICHA-ARTE.md
 - Bloque 1 — Cliente y dinero — 2026-08-31 — FICHA-AVATAR.md + FICHA-MERCADO.md · monetización onboarding-first + Stripe · precio propuesto · arquitectura/datos/auth decididos
+- Bloque 2 — Página de ventas — 2026-08-31 — `docs/copy/landing.md` + `docs/revisiones/landing.html` (10 secciones canónicas) · APROBADA por el usuario sin cambios · título "Todo tu avance de obra de fibra, en un toque"
+- Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · pendiente de OK del usuario
 
 ## Sesión en progreso 🔧
 - (ninguna — esperando OK del usuario para Bloque 2)
