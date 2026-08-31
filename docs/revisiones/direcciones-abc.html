@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direcciones de arte A/B/C — EA Fiber Track</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:
+      radial-gradient(900px 500px at 15% -5%, #23252c, transparent 70%),
+      radial-gradient(800px 460px at 105% 5%, #1d2733, transparent 70%),
+      #15161a;
+    color:#e9e9ee;
+    font-family:'Segoe UI',system-ui,sans-serif;
+    padding:36px 20px 72px;
+  }
+  .cabecera{max-width:1240px;margin:0 auto 8px}
+  .cabecera h1{font-size:27px;font-weight:800;letter-spacing:-0.015em;color:#fff}
+  .cabecera p.sub{margin-top:8px;font-size:14px;color:#9aa0ac;max-width:74ch;line-height:1.55}
+  .salidas{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .salidas span{display:inline-flex;align-items:center;gap:6px;border:1px solid #343842;border-radius:999px;
+    padding:7px 13px;font-size:12.5px;font-weight:600;color:#c8ccd4;background:#1e2027}
+  .salidas b{color:#fff}
+  .aviso-fuentes{max-width:1240px;margin:12px auto 30px;font-size:12.5px;color:#7f8592;line-height:1.55}
+
+  .opciones{max-width:1240px;margin:0 auto;display:grid;gap:40px;
+    grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
+  .opcion{display:flex;flex-direction:column;gap:18px}
+
+  .meta{background:#1c1e24;border:1px solid #2c2f37;border-radius:16px;padding:18px}
+  .meta .letra{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;
+    border-radius:8px;font-weight:800;font-size:15px;color:#15161a;background:#f4f4f6;margin-right:9px}
+  .meta h2{display:flex;align-items:center;font-size:17px;font-weight:700;color:#fff}
+  .meta .direccion{margin-top:7px;font-size:13px;color:#aab0bc;line-height:1.5}
+  .meta .fusion{margin-top:6px;font-size:12px;color:#8b93a0;line-height:1.5}
+  .hipotesis{margin-top:11px;font-size:12.5px;line-height:1.55;color:#d7dae1;
+    border-left:2px solid #3a3f49;padding-left:10px}
+  .hipotesis b{color:#fff}
+  .swatches{display:flex;gap:7px;margin-top:13px}
+  .swatches i{width:26px;height:26px;border-radius:7px;border:1px solid rgba(255,255,255,.12)}
+  .especimen{margin-top:13px;border-top:1px solid #2c2f37;padding-top:12px}
+  .especimen .esp-d{font-size:22px;font-weight:700;letter-spacing:-0.01em;color:#f2f2f5}
+  .especimen .esp-b{margin-top:5px;font-size:13.5px;color:#aab0bc}
+
+  /* ── chasis de teléfono ── */
+  .telefono{width:330px;margin:0 auto;border:11px solid #0c0d10;border-radius:48px;
+    box-shadow:0 30px 70px rgb(0 0 0 / .45), inset 0 0 0 2px #1d1f24;
+    overflow:hidden;position:relative;display:flex;flex-direction:column}
+  .telefono.mini{width:330px}
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:26px;
+    background:#0c0d10;border-radius:0 0 16px 16px;z-index:5}
+  .statusbar{display:flex;align-items:center;justify-content:space-between;padding:11px 24px 5px;
+    font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
+  .statusbar .der{display:flex;align-items:center;gap:5px}
+  .home-ind{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:120px;height:5px;
+    border-radius:999px;opacity:.8}
+  .pantalla{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+  .frame-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:#8b93a0;margin:2px 0 -6px}
+
+  .pie{max-width:1240px;margin:44px auto 0;font-size:12px;color:#7f8592;border-top:1px solid #2c2f37;
+    padding-top:16px;line-height:1.7}
+
+  /* ==========================================================================
+     OPCIÓN A — "Naranja de obra"  ·  claro · grotesca sólida · plano-tarjeta apilada
+     Fusión: Procore + Raken + Fieldwire (líderes de operación de campo en construcción)
+     ========================================================================== */
+  .op-a{
+    --bg:#f6f3ec; --surface:#fdfbf6; --sunk:#efe9dd;
+    --ink:#211d15; --ink-2:#5f584a; --ink-3:#8a8272;
+    --line:#e2dccc;
+    --accent:#e8590c;            /* naranja de seguridad / color APWA de fibra */
+    --accent-ink:#fff;
+    --ok:#2f7d3a;                /* 2ª nota — "verificado / al día" */
+    --warn:#b26a00;
+    --r-card:20px; --r-btn:13px;
+    --font-d:'Archivo',monospace;
+    --font-b:'Archivo',monospace;
+    --sh:44 36 22;
+  }
+  .op-a .telefono{background:var(--bg)}
+  .op-a .statusbar,.op-a .pantalla{color:var(--ink)}
+  .op-a .home-ind{background:var(--ink)}
+  .op-a .especimen .esp-d,.op-a .especimen .esp-b{font-family:var(--font-d)}
+  .op-a .pantalla{font-family:var(--font-b);padding:0 16px 14px;
+    background:
+      radial-gradient(340px 200px at 100% 0%, color-mix(in oklab,var(--accent) 8%,transparent), transparent 70%),
+      var(--bg)}
+
+  .op-a .top{display:flex;align-items:center;gap:9px;padding:8px 0 12px}
+  .op-a .proj{flex:1;min-width:0}
+  .op-a .proj .p1{font-family:var(--font-d);font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .op-a .proj .p2{font-size:11px;color:var(--ink-3);margin-top:1px}
+  .op-a .avatar{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;
+    background:color-mix(in oklab,var(--accent) 12%,transparent);
+    border:1px solid color-mix(in oklab,var(--accent) 26%,transparent)}
+
+  .op-a .hero{
+    border-radius:var(--r-card);position:relative;overflow:hidden;
+    background:linear-gradient(180deg, color-mix(in oklab,#fff 60%, var(--surface)), var(--surface));
+    box-shadow:0 1px 2px rgb(var(--sh)/.07), 0 16px 34px -14px rgb(var(--sh)/.22);
+    border:1px solid var(--line);
+    /* dispositivo ownable: esquina recortada tipo etiqueta de obra */
+    clip-path:polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+  }
+  .op-a .hero .eyebrow{display:flex;align-items:center;gap:6px;padding:12px 14px 0;
+    font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .op-a .plano{margin:9px 12px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+    background:#fff;position:relative}
+  .op-a .plano svg{display:block;width:100%;height:auto}
+  .op-a .prueba-row{display:flex;gap:10px;padding:12px 14px 6px}
+  .op-a .prueba-row .foto{width:52px;height:52px;border-radius:10px;flex:none;object-fit:cover;
+    border:1px solid var(--line)}
+  .op-a .prueba-row .dato{flex:1;min-width:0}
+  .op-a .prueba-row .ft{font-family:var(--font-d);font-weight:800;font-size:27px;line-height:1;
+    letter-spacing:-0.02em;font-variant-numeric:tabular-nums}
+  .op-a .prueba-row .ft small{font-size:13px;font-weight:600;color:var(--ink-2)}
+  .op-a .prueba-row .sub{font-size:11.5px;color:var(--ink-2);margin-top:4px}
+  .op-a .meta-line{display:flex;flex-wrap:wrap;gap:6px;padding:2px 14px 13px}
+  .op-a .tag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;
+    padding:3px 8px;border-radius:999px;background:var(--sunk);color:var(--ink-2)}
+  .op-a .tag.warn{background:color-mix(in oklab,var(--warn) 14%,transparent);color:var(--warn)}
+  .op-a .tag.ok{background:color-mix(in oklab,var(--ok) 14%,transparent);color:var(--ok)}
+
+  .op-a .mods{display:flex;flex-direction:column;gap:9px;margin-top:11px}
+  .op-a .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:11px 12px;display:flex;gap:11px;align-items:center;
+    box-shadow:0 1px 2px rgb(var(--sh)/.05)}
+  .op-a .chip{width:38px;height:38px;border-radius:11px;flex:none;display:grid;place-items:center;
+    background:color-mix(in oklab,var(--accent) 10%,transparent);
+    border:1px solid color-mix(in oklab,var(--accent) 20%,transparent)}
+  .op-a .card .c-t{font-family:var(--font-d);font-weight:700;font-size:13.5px}
+  .op-a .card .c-s{font-size:11px;color:var(--ink-2);margin-top:2px}
+  .op-a .card .c-n{margin-left:auto;font-family:var(--font-d);font-weight:800;font-size:16px;
+    font-variant-numeric:tabular-nums}
+
+  .op-a .cta{margin-top:12px;height:46px;border-radius:var(--r-btn);display:flex;align-items:center;
+    justify-content:center;gap:8px;font-family:var(--font-d);font-weight:700;font-size:14px;
+    color:var(--accent-ink);
+    background:linear-gradient(180deg, color-mix(in oklab,#fff 22%,var(--accent)), var(--accent));
+    box-shadow:0 8px 20px color-mix(in oklab,var(--accent) 34%,transparent),
+               inset 0 1px 0 rgb(255 255 255 / .3)}
+
+  .op-a .bnav{display:flex;justify-content:space-around;padding:10px 4px 4px;margin-top:12px;
+    border-top:1px solid var(--line)}
+  .op-a .bnav i{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;
+    font-weight:600;color:var(--ink-3)}
+  .op-a .bnav i.on{color:var(--accent)}
+  .op-a .bnav i.on .ic{background:color-mix(in oklab,var(--accent) 14%,transparent)}
+  .op-a .bnav .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+
+  /* landing hero A */
+  .op-a .lp{padding:20px 18px 22px;background:
+      radial-gradient(300px 200px at 90% 0%, color-mix(in oklab,var(--accent) 12%,transparent), transparent 70%),
+      var(--bg);flex:1;display:flex;flex-direction:column}
+  .op-a .lp .kicker{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .op-a .lp h3{font-family:var(--font-d);font-weight:800;font-size:26px;line-height:1.08;margin-top:8px;
+    letter-spacing:-0.02em}
+  .op-a .lp h3 .hl{color:var(--accent)}
+  .op-a .lp p{font-size:12.5px;color:var(--ink-2);margin-top:10px;line-height:1.5}
+  .op-a .lp p b{color:var(--ink);font-weight:600}
+  .op-a .lp .cta{margin-top:auto}
+  .op-a .lp .trust{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10.5px;color:var(--ink-3)}
+
+  /* ==========================================================================
+     OPCIÓN B — "Tierra"  ·  claro cálido · serif display + sans · lista editorial
+     Fusión: CompanyCam (evidencia) + Raken (parte diario) — leído como cuaderno de obra
+     ========================================================================== */
+  .op-b{
+    --bg:#f8f1e9; --surface:#fdf8f1; --sunk:#efe4d6;
+    --ink:#33281f; --ink-2:#6e6152; --ink-3:#948676;
+    --line:#e6d8c6;
+    --accent:#c0562f;           /* barro cocido (Terracota mediterránea, banco 54 #7) */
+    --accent-ink:#fff;
+    --ok:#5f7248;               /* oliva — SOLO en verificado/al día */
+    --warn:#b0741d;
+    --r-card:16px; --r-btn:11px;
+    --font-d:'Fraunces',monospace;
+    --font-b:'Figtree',monospace;
+    --sh:58 44 30;
+  }
+  .op-b .telefono{background:var(--bg)}
+  .op-b .statusbar,.op-b .pantalla{color:var(--ink)}
+  .op-b .home-ind{background:var(--ink)}
+  .op-b .especimen .esp-d{font-family:var(--font-d)}
+  .op-b .especimen .esp-b{font-family:var(--font-b)}
+  .op-b .pantalla{font-family:var(--font-b);padding:0 18px 14px;
+    background-image:radial-gradient(color-mix(in oklab,var(--ink) 6%,transparent) 1px, transparent 1px);
+    background-size:15px 15px;background-color:var(--bg)}
+
+  .op-b .masthead{margin-top:8px;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);
+    padding:8px 0 9px;position:relative}
+  .op-b .masthead::after{content:'';position:absolute;left:0;right:0;bottom:-4px;border-top:1px solid var(--ink)}
+  .op-b .masthead .ed{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2)}
+  .op-b .masthead h3{font-family:var(--font-d);font-weight:600;font-size:22px;line-height:1.1;margin-top:3px}
+
+  .op-b .doc{margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
+    box-shadow:0 1px 2px rgb(var(--sh)/.06), 0 14px 30px -16px rgb(var(--sh)/.20);overflow:hidden}
+  .op-b .doc .dh{display:flex;align-items:baseline;gap:8px;padding:12px 13px 0}
+  .op-b .doc .dh .k{font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}
+  .op-b .doc .dh .t{margin-left:auto;font-size:10px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .op-b .doc .ft{font-family:var(--font-d);font-weight:700;font-size:34px;line-height:1;padding:6px 13px 2px;
+    font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+  .op-b .doc .ft small{font-family:var(--font-b);font-size:13px;font-weight:600;color:var(--ink-2)}
+  .op-b .doc .plano{margin:8px 13px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  .op-b .doc .plano svg{display:block;width:100%;height:auto}
+  .op-b .doc .rows{padding:6px 13px 13px}
+  .op-b .doc .row{display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px}
+  .op-b .doc .row:last-child{border-bottom:0}
+  .op-b .doc .row .lbl{color:var(--ink-3);width:74px;flex:none;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+  .op-b .doc .row .val{font-weight:600}
+  .op-b .doc .row .val.warn{color:var(--warn)}
+  .op-b .check{width:16px;height:16px;border-radius:999px;flex:none;display:grid;place-items:center;
+    background:color-mix(in oklab,var(--ok) 16%,transparent)}
+
+  .op-b .list{margin-top:12px;display:flex;flex-direction:column}
+  .op-b .li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px 0;
+    border-bottom:1px solid var(--line)}
+  .op-b .li .chip{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;
+    background:color-mix(in oklab,var(--accent) 10%,transparent)}
+  .op-b .li .t{font-weight:600;font-size:13px}
+  .op-b .li .s{font-size:10.5px;color:var(--ink-2);margin-top:1px}
+  .op-b .li .n{font-family:var(--font-d);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+
+  .op-b .cta{margin-top:13px;height:44px;border-radius:var(--r-btn);display:flex;align-items:center;
+    justify-content:center;gap:8px;font-family:var(--font-b);font-weight:700;font-size:13.5px;color:var(--accent-ink);
+    background:linear-gradient(180deg, color-mix(in oklab,#fff 18%,var(--accent)), var(--accent));
+    box-shadow:0 8px 20px color-mix(in oklab,var(--accent) 30%,transparent), inset 0 1px 0 rgb(255 255 255 /.25)}
+  .op-b .bnav{display:flex;justify-content:space-around;padding:11px 4px 2px;margin-top:12px;border-top:1px solid var(--ink)}
+  .op-b .bnav i{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:600;color:var(--ink-3)}
+  .op-b .bnav i.on{color:var(--accent)}
+  .op-b .bnav .ic{width:28px;height:28px;display:grid;place-items:center}
+
+  .op-b .lp{flex:1;display:flex;flex-direction:column;padding:22px 20px;
+    background-image:radial-gradient(color-mix(in oklab,var(--ink) 6%,transparent) 1px, transparent 1px);
+    background-size:15px 15px;background-color:var(--bg)}
+  .op-b .lp .ed{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);
+    border-bottom:1px solid var(--ink);padding-bottom:6px}
+  .op-b .lp h3{font-family:var(--font-d);font-weight:600;font-size:27px;line-height:1.12;margin-top:12px}
+  .op-b .lp h3 .hl{color:var(--accent);font-style:italic}
+  .op-b .lp p{font-size:12.5px;color:var(--ink-2);margin-top:11px;line-height:1.55}
+  .op-b .lp p b{color:var(--ink);font-weight:600}
+  .op-b .lp .cta{margin-top:auto}
+  .op-b .lp .trust{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10.5px;color:var(--ink-3)}
+
+  /* ==========================================================================
+     OPCIÓN C — "Turno noche"  ·  OSCURO cálido · IBM Plex (Sans+Mono) · bento + lectura
+     Fusión: Fieldwire (plano protagonista) + CompanyCam (evidencia), en el modo contrario
+     ========================================================================== */
+  .op-c{
+    --bg:#12100c; --surface:#1b1813; --sunk:#211d16; --raised:#242019;
+    --ink:#f1ede4; --ink-2:#b0a892; --ink-3:#7d765f;
+    --line:#2c281f;
+    --accent:#e8590c;
+    --accent-ink:#1a0f05;
+    --warn:#e0a93a;              /* 2ª nota — sólo "por vencer" */
+    --ok:#63ba6e;
+    --r-card:14px; --r-btn:11px;
+    --font-d:'IBM Plex Sans',monospace;
+    --font-b:'IBM Plex Sans',monospace;
+    --font-m:'IBM Plex Mono',monospace;
+    --sh:0 0 0;
+  }
+  .op-c .telefono{background:var(--bg)}
+  .op-c .statusbar,.op-c .pantalla{color:var(--ink)}
+  .op-c .home-ind{background:var(--ink)}
+  .op-c .especimen .esp-d,.op-c .especimen .esp-b{font-family:var(--font-d)}
+  .op-c .pantalla{font-family:var(--font-b);padding:0 15px 12px;
+    background:linear-gradient(180deg,#1a1712 0%, var(--bg) 240px), var(--bg)}
+
+  .op-c .top{display:flex;align-items:center;gap:8px;padding:8px 0 11px}
+  .op-c .top .p1{font-family:var(--font-m);font-weight:600;font-size:12.5px;letter-spacing:-0.01em}
+  .op-c .top .p2{font-size:10px;color:var(--ink-3)}
+  .op-c .live{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:600;
+    color:var(--ok);font-family:var(--font-m)}
+  .op-c .live::before{content:'';width:6px;height:6px;border-radius:999px;background:var(--ok)}
+
+  .op-c .bento{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .op-c .tile{background:linear-gradient(180deg, rgb(255 255 255 /.04), transparent), var(--surface);
+    border:1px solid var(--line);border-radius:var(--r-card);padding:11px;
+    box-shadow:inset 0 1px 0 rgb(255 255 255 /.05)}
+  .op-c .tile.wide{grid-column:1 / -1}
+  .op-c .tile .tl{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:600;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-3)}
+  /* dispositivo ownable: regla vertical de acento + numerales tabulares */
+  .op-c .tile .tn{margin-top:8px;padding-left:10px;position:relative;font-family:var(--font-m);font-weight:600;
+    font-size:23px;font-variant-numeric:tabular-nums;letter-spacing:-0.02em}
+  .op-c .tile .tn::before{content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;border-radius:2px;
+    background:linear-gradient(180deg, var(--accent), transparent)}
+  .op-c .tile .tn small{font-family:var(--font-b);font-size:11px;font-weight:500;color:var(--ink-2)}
+  .op-c .tile .tn.warn{color:var(--warn)}
+  .op-c .tile .tn.warn::before{background:linear-gradient(180deg, var(--warn), transparent)}
+
+  .op-c .tile.wide .plano{margin-top:9px;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+    background:#0e0c09}
+  .op-c .tile.wide .plano svg{display:block;width:100%;height:auto}
+  .op-c .tile.wide .prow{display:flex;gap:9px;align-items:center;margin-top:9px}
+  .op-c .tile.wide .prow img{width:44px;height:44px;border-radius:9px;flex:none;object-fit:cover;border:1px solid var(--line)}
+  .op-c .tile.wide .prow .pd{flex:1;min-width:0}
+  .op-c .tile.wide .prow .pd .pt{font-family:var(--font-m);font-weight:600;font-size:13px}
+  .op-c .tile.wide .prow .pd .ps{font-size:10px;color:var(--ink-2);margin-top:2px}
+  .op-c .tile.wide .prow .chev{color:var(--ink-3)}
+
+  .op-c .cta{margin-top:11px;height:44px;border-radius:var(--r-btn);display:flex;align-items:center;justify-content:center;
+    gap:8px;font-family:var(--font-d);font-weight:600;font-size:13.5px;color:var(--accent-ink);
+    background:linear-gradient(180deg, color-mix(in oklab,#fff 20%,var(--accent)), var(--accent));
+    box-shadow:0 8px 22px color-mix(in oklab,var(--accent) 40%,transparent), inset 0 1px 0 rgb(255 255 255 /.25)}
+  .op-c .bnav{display:flex;justify-content:space-around;padding:10px 4px 2px;margin-top:11px;border-top:1px solid var(--line)}
+  .op-c .bnav i{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;font-weight:600;
+    color:var(--ink-3);font-family:var(--font-m)}
+  .op-c .bnav i.on{color:var(--accent)}
+  .op-c .bnav .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+  .op-c .bnav i.on .ic{background:color-mix(in oklab,var(--accent) 18%,transparent)}
+
+  .op-c .lp{flex:1;display:flex;flex-direction:column;padding:22px 18px;
+    background:linear-gradient(180deg,#1a1712 0%, var(--bg) 260px), var(--bg)}
+  .op-c .lp .kicker{font-family:var(--font-m);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent)}
+  .op-c .lp h3{font-family:var(--font-d);font-weight:700;font-size:25px;line-height:1.1;margin-top:9px;letter-spacing:-0.01em}
+  .op-c .lp h3 .hl{color:var(--accent)}
+  .op-c .lp p{font-size:12.5px;color:var(--ink-2);margin-top:10px;line-height:1.55}
+  .op-c .lp p b{color:var(--ink);font-weight:600}
+  .op-c .lp .cta{margin-top:auto}
+  .op-c .lp .trust{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--ink-3);font-family:var(--font-m)}
+
+  @media (max-width:760px){ .telefono,.telefono.mini{width:300px} }
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <h1>Dirección visual — 3 opciones para EA Fiber Track</h1>
+  <p class="sub">
+    La misma pantalla real (“La Prueba de Campo”) y el mismo hero de la página de ventas, resueltos en
+    tres direcciones distintas. Ninguna es un borrador: cualquiera de las tres puede ser la app final.
+    Nota: FiberField usa oscuro + cian (el look genérico de app de IA); estas tres van por un camino
+    más propio del oficio.
+  </p>
+  <div class="salidas">
+    <span><b>1 · Elegir</b> A, B o C</span>
+    <span><b>2 · Combinar</b> («la B con la letra de la A»)</span>
+    <span><b>3 · Pedir otras 3</b></span>
+    <span><b>4 · Ajustar un detalle</b></span>
+  </div>
+</header>
+<p class="aviso-fuentes">
+  Ábrelo con internet: las tipografías cargan de Google Fonts. Si algún texto se ve como “máquina de
+  escribir” (monospace), esa fuente no cargó — recárgalo. Cada panel muestra el nombre de su tipografía
+  escrito EN esa tipografía.
+</p>
+
+<div class="opciones">
+
+  <!-- ═══════════════════ OPCIÓN A ═══════════════════ -->
+  <section class="opcion op-a" aria-label="Opción A">
+    <div class="meta">
+      <h2><span class="letra">A</span> Naranja de obra</h2>
+      <p class="direccion">Modo claro, papel cálido. Naranja de seguridad (el mismo color que el 811 usa para fibra) SOLO en la acción y el dato. Letra grotesca sólida, de señalética. La prueba es una tarjeta grande con esquina recortada, como una etiqueta de obra.</p>
+      <p class="fusion">Fusión de líderes: Procore + Raken + Fieldwire (operación de campo en construcción).</p>
+      <p class="hipotesis"><b>Por qué convertiría:</b> el contratista ya asocia el naranja con “obra en curso / seguridad”; una app que habla ese idioma se siente hecha para el terreno, no otra herramienta de oficina.</p>
+      <div class="swatches">
+        <i style="background:#f6f3ec"></i><i style="background:#fdfbf6"></i><i style="background:#211d15"></i>
+        <i style="background:#e8590c"></i><i style="background:#2f7d3a"></i><i style="background:#b26a00"></i>
+      </div>
+      <div class="especimen">
+        <p class="esp-d">Archivo — AaBbÑñ 0123 · pies</p>
+        <p class="esp-b">Archivo — 1 850 pies de bore verificados hoy en la estación 12+00.</p>
+      </div>
+    </div>
+
+    <p class="frame-label">Pantalla principal</p>
+    <div class="telefono">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 4.2a9.5 9.5 0 0 1 13 0"/><path d="M3.8 6.6a6.2 6.2 0 0 1 8.4 0"/><path d="M6.2 9a2.8 2.8 0 0 1 3.6 0"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/><rect x="22.5" y="3.8" width="2" height="4.4" rx="1" fill="currentColor" opacity=".4"/></svg>
+      </span></div>
+      <div class="pantalla">
+        <div class="top">
+          <div class="avatar" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2.2" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg>
+          </div>
+          <div class="proj"><div class="p1">Fibra Louisville — Fase 2</div><div class="p2">LG&amp;E / KU · Louisville, KY</div></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8272" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <div class="hero">
+          <p class="eyebrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            Prueba de campo · Hoy 9:41
+          </p>
+          <div class="plano">
+            <svg viewBox="0 0 300 118" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="118" fill="#fff"/>
+              <g stroke="#e7e7e7" stroke-width="1">
+                <path d="M0 40H300M0 78H300M60 0V118M150 0V118M240 0V118"/>
+              </g>
+              <path d="M20 60H278" stroke="#c9c9c9" stroke-width="2" stroke-dasharray="7 5"/>
+              <path d="M20 60H172" stroke="#e8590c" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="20" cy="60" r="4.5" fill="#e8590c"/><circle cx="172" cy="60" r="4.5" fill="#e8590c"/>
+              <rect x="150" y="52" width="16" height="16" fill="none" stroke="#333" stroke-width="2"/>
+              <text x="20" y="46" font-family="monospace" font-size="9" fill="#e8590c">STA 12+00 → 30+50</text>
+              <text x="150" y="88" font-family="monospace" font-size="8" fill="#555" text-anchor="middle">HH-12</text>
+            </svg>
+          </div>
+          <div class="prueba-row">
+            <img class="foto" alt="pozo de bore" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%23b45a1e'/%3E%3Cpath d='M6 44q12-16 26-8t22 2' stroke='%23fff' stroke-width='4' fill='none'/%3E%3Ccircle cx='30' cy='30' r='9' fill='none' stroke='%23fff' stroke-width='4'/%3E%3C/svg%3E">
+            <div class="dato">
+              <div class="ft">1 850 <small>pies</small></div>
+              <div class="sub">Bore HDD · Cuadrilla A — Miguel Santos</div>
+            </div>
+          </div>
+          <div class="meta-line">
+            <span class="tag">38.2542, −85.7585</span>
+            <span class="tag warn">Ticket 811 #2024-2210455 · vence en 3 días</span>
+            <span class="tag ok">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Foto GPS
+            </span>
+          </div>
+        </div>
+
+        <div class="mods">
+          <div class="card">
+            <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9l4-4M4 19h16M12 19v-8M20 19v-5"/></svg></span>
+            <div><div class="c-t">Producción de hoy</div><div class="c-s">Zanja 2 400 ft · 3 handholes</div></div>
+            <span class="c-n">4 250</span>
+          </div>
+          <div class="card">
+            <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/><path d="M12 8v5"/></svg></span>
+            <div><div class="c-t">Tickets 811</div><div class="c-s">2 por vencer esta semana</div></div>
+            <span class="c-n" style="color:#b26a00">2</span>
+          </div>
+          <div class="card">
+            <span class="chip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6a2.6 2.6 0 0 1 0 5"/></svg></span>
+            <div><div class="c-t">Cuadrillas activas</div><div class="c-s">A · B · C — todas reportaron</div></div>
+            <span class="c-n">3/3</span>
+          </div>
+        </div>
+
+        <button class="cta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+          Compartir prueba
+        </button>
+
+        <nav class="bnav">
+          <i class="on"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+          <i><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+          <i><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+          <i><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+        </nav>
+      </div>
+      <div class="home-ind"></div>
+    </div>
+
+    <p class="frame-label">Hero de la página de ventas</p>
+    <div class="telefono mini">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/></svg>
+      </span></div>
+      <div class="pantalla"><div class="lp">
+        <span class="kicker">Para contratistas de fibra subterránea</span>
+        <h3>Demuestra <span class="hl">cada pie</span> que construiste.</h3>
+        <p>Marca el tramo sobre el plano, súmale la foto con GPS y el ticket 811 — y <b>tienes la prueba en 30 segundos</b>, no buscando entre WhatsApp y fotos sueltas.</p>
+        <button class="cta">Empieza gratis · 14 días</button>
+        <div class="trust">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Sin tarjeta · en español
+        </div>
+      </div></div>
+      <div class="home-ind"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ OPCIÓN B ═══════════════════ -->
+  <section class="opcion op-b" aria-label="Opción B">
+    <div class="meta">
+      <h2><span class="letra">B</span> Tierra</h2>
+      <p class="direccion">Modo claro cálido, con textura de puntos como papel de obra. Titulares en serif con carácter (respeto, oficio), cuerpo en sans robusta. Acento barro cocido — la tierra que se excava — y oliva solo para “verificado”. La prueba se lee como una hoja del cuaderno de campo.</p>
+      <p class="fusion">Fusión de líderes: CompanyCam (evidencia) + Raken (parte diario), leídos como cuaderno de obra.</p>
+      <p class="hipotesis"><b>Por qué convertiría:</b> el dueño hispanohablante está cansado de herramientas frías en inglés; una identidad cálida y con oficio dice “esto se hizo pensando en tu cuadrilla, con respeto”.</p>
+      <div class="swatches">
+        <i style="background:#f8f1e9"></i><i style="background:#fdf8f1"></i><i style="background:#33281f"></i>
+        <i style="background:#c0562f"></i><i style="background:#5f7248"></i><i style="background:#b0741d"></i>
+      </div>
+      <div class="especimen">
+        <p class="esp-d">Fraunces — AaBbÑñ 0123 · pies</p>
+        <p class="esp-b">Figtree — 1 850 pies de bore verificados hoy en la estación 12+00.</p>
+      </div>
+    </div>
+
+    <p class="frame-label">Pantalla principal</p>
+    <div class="telefono">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 4.2a9.5 9.5 0 0 1 13 0"/><path d="M3.8 6.6a6.2 6.2 0 0 1 8.4 0"/><path d="M6.2 9a2.8 2.8 0 0 1 3.6 0"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/><rect x="22.5" y="3.8" width="2" height="4.4" rx="1" fill="currentColor" opacity=".4"/></svg>
+      </span></div>
+      <div class="pantalla">
+        <div class="masthead">
+          <div class="ed">Fibra Louisville — Fase 2 · Martes 31 ago</div>
+          <h3>La Prueba de Campo</h3>
+        </div>
+
+        <div class="doc">
+          <div class="dh"><span class="k">Tramo construido</span><span class="t">Hoy 9:41 · 38.2542, −85.7585</span></div>
+          <div class="ft">1 850 <small>pies · Bore HDD</small></div>
+          <div class="plano">
+            <svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="100" fill="#fff"/>
+              <g stroke="#ece4d7" stroke-width="1"><path d="M0 34H300M0 66H300M75 0V100M170 0V100"/></g>
+              <path d="M22 50H276" stroke="#cbb9a3" stroke-width="2" stroke-dasharray="7 5"/>
+              <path d="M22 50H168" stroke="#c0562f" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="22" cy="50" r="4.5" fill="#c0562f"/><circle cx="168" cy="50" r="4.5" fill="#c0562f"/>
+              <rect x="146" y="42" width="16" height="16" fill="none" stroke="#6e6152" stroke-width="2"/>
+              <text x="22" y="38" font-family="monospace" font-size="9" fill="#c0562f">STA 12+00 → 30+50</text>
+            </svg>
+          </div>
+          <div class="rows">
+            <div class="row"><span class="lbl">Cuadrilla</span><span class="val">A — Miguel Santos</span></div>
+            <div class="row"><span class="lbl">Ticket 811</span><span class="val warn">#2024-2210455 · vence en 3 días</span></div>
+            <div class="row"><span class="lbl">Evidencia</span><span class="val">
+              <span class="check"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#5f7248" stroke-width="3.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Foto con GPS adjunta</span></div>
+          </div>
+        </div>
+
+        <div class="list">
+          <div class="li">
+            <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0562f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9l4-4M4 19h16M12 19v-8M20 19v-5"/></svg></span>
+            <div><div class="t">Producción de hoy</div><div class="s">Zanja 2 400 ft · 3 handholes</div></div>
+            <span class="n">4 250</span>
+          </div>
+          <div class="li">
+            <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0562f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/><path d="M12 8v5"/></svg></span>
+            <div><div class="t">Tickets 811</div><div class="s">2 por vencer esta semana</div></div>
+            <span class="n" style="color:#b0741d">2</span>
+          </div>
+          <div class="li">
+            <span class="chip"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0562f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6a2.6 2.6 0 0 1 0 5"/></svg></span>
+            <div><div class="t">Cuadrillas activas</div><div class="s">A · B · C — todas reportaron</div></div>
+            <span class="n">3/3</span>
+          </div>
+        </div>
+
+        <button class="cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+          Compartir prueba
+        </button>
+
+        <nav class="bnav">
+          <i class="on"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+        </nav>
+      </div>
+      <div class="home-ind"></div>
+    </div>
+
+    <p class="frame-label">Hero de la página de ventas</p>
+    <div class="telefono mini">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/></svg>
+      </span></div>
+      <div class="pantalla"><div class="lp">
+        <span class="ed">EA Fiber Track</span>
+        <h3>La prueba de tu trabajo, <span class="hl">en un solo lugar</span>.</h3>
+        <p>Planos, producción, fotos con GPS y tickets 811 — juntos. <b>Hecha para tu cuadrilla</b>, en español, sin cobrarte por cada trabajador.</p>
+        <button class="cta">Empieza gratis · 14 días</button>
+        <div class="trust">
+          <span class="check" style="width:14px;height:14px;border-radius:999px;display:grid;place-items:center;background:color-mix(in oklab,#5f7248 16%,transparent)"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#5f7248" stroke-width="3.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          Precio por empresa, no por peón
+        </div>
+      </div></div>
+      <div class="home-ind"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ OPCIÓN C ═══════════════════ -->
+  <section class="opcion op-c" aria-label="Opción C">
+    <div class="meta">
+      <h2><span class="letra">C</span> Turno noche</h2>
+      <p class="direccion">Modo oscuro cálido (carbón, no negro puro). Tipografía técnica IBM Plex con cifras monoespaciadas — estética de tablero de instrumento / lectura de perforadora. Tablero bento: el estado del turno de un vistazo. Cada dato cuelga de una regla de acento que se desvanece.</p>
+      <p class="fusion">Fusión de líderes: Fieldwire (el plano manda) + CompanyCam (evidencia) — en el modo contrario a A.</p>
+      <p class="hipotesis"><b>Por qué convertiría:</b> muchas cuadrillas de HDD trabajan de noche o al amanecer; una pantalla oscura de alto contraste con números grandes se lee mejor en la cabina y de un vistazo antes de arrancar.</p>
+      <div class="swatches">
+        <i style="background:#12100c"></i><i style="background:#1b1813"></i><i style="background:#f1ede4"></i>
+        <i style="background:#e8590c"></i><i style="background:#e0a93a"></i><i style="background:#63ba6e"></i>
+      </div>
+      <div class="especimen">
+        <p class="esp-d">IBM Plex Sans — AaBbÑñ 0123 · pies</p>
+        <p class="esp-b">IBM Plex Mono — 1 850 pies · STA 12+00 → 30+50 · vence en 3 d</p>
+      </div>
+    </div>
+
+    <p class="frame-label">Pantalla principal</p>
+    <div class="telefono">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="16" height="11" viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1.5 4.2a9.5 9.5 0 0 1 13 0"/><path d="M3.8 6.6a6.2 6.2 0 0 1 8.4 0"/><path d="M6.2 9a2.8 2.8 0 0 1 3.6 0"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/><rect x="22.5" y="3.8" width="2" height="4.4" rx="1" fill="currentColor" opacity=".4"/></svg>
+      </span></div>
+      <div class="pantalla">
+        <div class="top">
+          <div><div class="p1">FIBRA-LOU-F2</div><div class="p2">Louisville, KY</div></div>
+          <span class="live">Cuadrilla A en sitio</span>
+        </div>
+
+        <div class="bento">
+          <div class="tile"><div class="tl">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7d765f" stroke-width="2" stroke-linecap="round"><path d="M4 19V9l4-4M4 19h16M12 19v-8M20 19v-5"/></svg>Pies hoy</div>
+            <div class="tn">4 250<small> ft</small></div></div>
+          <div class="tile"><div class="tl">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7d765f" stroke-width="2" stroke-linecap="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg>811 por vencer</div>
+            <div class="tn warn">2<small> tickets</small></div></div>
+
+          <div class="tile wide">
+            <div class="tl">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e8590c" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Prueba de campo · tramo verificado
+            </div>
+            <div class="plano">
+              <svg viewBox="0 0 300 92" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="92" fill="#0e0c09"/>
+                <g stroke="#241f17" stroke-width="1"><path d="M0 30H300M0 62H300M80 0V92M180 0V92"/></g>
+                <path d="M22 46H278" stroke="#3a3327" stroke-width="2" stroke-dasharray="7 5"/>
+                <path d="M22 46H176" stroke="#e8590c" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="22" cy="46" r="4.5" fill="#e8590c"/><circle cx="176" cy="46" r="4.5" fill="#e8590c"/>
+                <text x="22" y="34" font-family="monospace" font-size="9" fill="#e8590c">STA 12+00 → 30+50</text>
+              </svg>
+            </div>
+            <div class="prow">
+              <img alt="pozo de bore" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Crect width='48' height='48' fill='%237a4a22'/%3E%3Cpath d='M5 35q10-12 21-6t17 1' stroke='%23fff' stroke-width='3' fill='none'/%3E%3Ccircle cx='24' cy='24' r='7' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
+              <div class="pd"><div class="pt">1 850 ft · Bore HDD</div><div class="ps">Cuadrilla A · #2024-2210455 · vence 3 d</div></div>
+              <span class="chev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </div>
+          </div>
+
+          <div class="tile"><div class="tl">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7d765f" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>Cuadrillas</div>
+            <div class="tn">3<small>/3 activas</small></div></div>
+          <div class="tile"><div class="tl">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7d765f" stroke-width="2" stroke-linecap="round"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg>Fotos GPS hoy</div>
+            <div class="tn">14</div></div>
+        </div>
+
+        <button class="cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M16 6l-4-4-4 4M12 2v13"/></svg>
+          Compartir prueba
+        </button>
+
+        <nav class="bnav">
+          <i class="on"><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg></span>Planos</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg></span>Fotos</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/></svg></span>811</i>
+          <i><span class="ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg></span>Cuadrillas</i>
+        </nav>
+      </div>
+      <div class="home-ind"></div>
+    </div>
+
+    <p class="frame-label">Hero de la página de ventas</p>
+    <div class="telefono mini">
+      <div class="notch"></div>
+      <div class="statusbar"><span>9:41</span><span class="der">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="3" width="3" height="8" rx=".8"/><rect x="13.5" y=".5" width="3" height="10.5" rx=".8"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x=".5" y=".5" width="21" height="11" rx="3" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="16" height="8" rx="1.6" fill="currentColor"/></svg>
+      </span></div>
+      <div class="pantalla"><div class="lp">
+        <span class="kicker">EA Fiber Track</span>
+        <h3>Antes de excavar, sabe el ticket. Después, <span class="hl">prueba el trabajo</span>.</h3>
+        <p>Un tablero para el turno: pies del día, tickets 811 que vencen y la prueba de cada tramo. <b>Se lee de un vistazo</b>, hasta en la cabina a las 5 a. m.</p>
+        <button class="cta">Empieza gratis · 14 días</button>
+        <div class="trust">→ En español · precio por empresa</div>
+      </div></div>
+      <div class="home-ind"></div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="pie">
+  Divergencia (regla de los 4 ejes del 54): <b>A</b> claro · grotesca Archivo · tarjeta-plano apilada · esquina recortada ·
+  &nbsp;|&nbsp; <b>B</b> claro cálido · serif Fraunces + Figtree · lista editorial con doble regla · textura de puntos ·
+  &nbsp;|&nbsp; <b>C</b> oscuro · IBM Plex Sans/Mono · bento + regla de dato · numerales monoespaciados.
+  Test de divergencia en grises: A y B son claras pero con estructura y letra distintas; C invierte el modo. Íconos: SVG inline, cero emojis.
+  Datos semilla: proyecto real de OSP en Louisville, KY (por el 811 de Kentucky).
+</footer>
+
+</body>
+</html>
