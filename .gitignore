@@ -3,5 +3,7 @@ node_modules
 .env.*
 !.env.example
 dist
+.next
 .DS_Store
 _instalador/
+docs/revisiones/node_modules/
