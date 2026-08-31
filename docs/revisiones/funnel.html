@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EA Fiber Track — Primeros minutos: probar → planes → entrar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f1e8;--surface:#fdfaf3;--surface-2:#ece4d5;--ink:#241d13;--ink-2:#5f5646;--ink-3:#6b6252;
+  --line:#e4dccb;--accent:#e8590c;--accent-ink:#fff;--accent-2:#5f7248;--warn:#b26a00;
+  --r-card:18px;--r-btn:12px;--chip:color-mix(in oklab,var(--accent) 11%,transparent);
+  --font-d:'Fraunces',Georgia,serif;--font-b:'IBM Plex Sans','Segoe UI',sans-serif;--font-m:'IBM Plex Mono',ui-monospace,monospace;
+  --sh-1:0 1px 2px rgb(52 40 26/.07);--sh-2:0 14px 34px -14px rgb(52 40 26/.22);
+  --d-bg:#12100c;--d-surface:#1b1813;--d-ink:#f2ede2;--d-ink-2:#b3ab96;--d-line:#2c281f;--d-accent:#f26a1f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(900px 500px at 12% -5%,#efe7d6,transparent 70%),#e7ddc8;color:var(--ink);
+  font-family:var(--font-b);padding:34px 18px 60px}
+.head{max-width:1180px;margin:0 auto 26px}
+.head h1{font-family:var(--font-d);font-size:25px;font-weight:700}
+.head p{margin-top:8px;font-size:14px;color:var(--ink-2);max-width:76ch;line-height:1.55}
+.flow{max-width:1180px;margin:0 auto;display:grid;gap:30px 22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.step{display:flex;flex-direction:column;gap:12px}
+.step .lab{font-family:var(--font-m);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.step .lab b{color:var(--accent)}
+.step .cap{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+.phone{width:290px;margin:0 auto;border:10px solid #0c0d10;border-radius:42px;overflow:hidden;position:relative;
+  box-shadow:0 24px 50px -18px rgb(52 40 26/.4),inset 0 0 0 2px #1d1f24;background:var(--bg)}
+.phone.dark{background:var(--d-bg)}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:104px;height:20px;background:#0c0d10;border-radius:0 0 13px 13px;z-index:4}
+.scr{padding:24px 13px 14px;min-height:512px;display:flex;flex-direction:column}
+.phone.dark .scr{color:var(--d-ink)}
+.sb{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:10.5px;font-weight:600;padding:0 5px 8px;color:var(--ink-2)}
+.phone.dark .sb{color:var(--d-ink-2)}
+
+.top{display:flex;align-items:center;gap:8px;padding-bottom:10px}
+.top .b{display:flex;align-items:center;gap:7px;font-family:var(--font-d);font-weight:700;font-size:13px}
+.top .b .m{width:18px;height:18px;border-radius:5px;background:var(--accent);display:grid;place-items:center;flex:none}
+.top .x{margin-left:auto;color:var(--ink-3);font-size:16px}
+.prog{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden;margin-bottom:14px}
+.prog i{display:block;height:100%;background:var(--accent);border-radius:2px}
+
+h2{font-family:var(--font-d);font-weight:600;font-size:19px;line-height:1.14}
+.lede{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.5}
+.phone.dark .lede{color:var(--d-ink-2)}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;height:44px;border-radius:var(--r-btn);border:0;
+  font-family:var(--font-b);font-weight:700;font-size:13.5px;color:var(--accent-ink);width:100%;text-decoration:none;
+  background:linear-gradient(180deg,color-mix(in oklab,#fff 20%,var(--accent)),var(--accent));
+  box-shadow:0 8px 20px color-mix(in oklab,var(--accent) 32%,transparent),inset 0 1px 0 rgb(255 255 255/.3)}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:var(--sh-1)}
+.btn.g{background:#fff;color:#3c4043;border:1px solid #dadce0;box-shadow:var(--sh-1)}
+.mt{margin-top:auto}
+.skip{text-align:center;font-size:11.5px;color:var(--ink-3);margin-top:12px}
+.mono{font-family:var(--font-m);font-variant-numeric:tabular-nums}
+.acc{color:var(--accent)}
+
+/* upload */
+.drop{border:1.5px dashed color-mix(in oklab,var(--accent) 40%,var(--line));border-radius:var(--r-card);
+  padding:26px 14px;text-align:center;margin-top:16px;background:var(--surface)}
+.drop svg{width:30px;height:30px;stroke:var(--accent);fill:none;stroke-width:1.7;margin-bottom:8px}
+.drop .t{font-weight:600;font-size:13px}
+.drop .s{font-size:11px;color:var(--ink-3);margin-top:3px}
+.orb{display:flex;align-items:center;gap:8px;margin:12px 0;color:var(--ink-3);font-size:11px}
+.orb::before,.orb::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* plan canvas */
+.canvas{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin-top:14px;position:relative}
+.canvas svg{display:block;width:100%;height:auto}
+.hint{margin-top:10px;font-size:11.5px;color:var(--accent);background:var(--chip);border-radius:8px;padding:8px 10px;font-weight:600;display:flex;gap:7px;align-items:center}
+.hint svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4;flex:none}
+
+/* mini form */
+.field{margin-top:12px}
+.field label{font-family:var(--font-m);font-size:9.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:5px}
+.field .inp{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 11px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
+.field .inp .v{font-weight:600}
+.field .inp.mono .v{font-family:var(--font-m)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg span{font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2)}
+.seg span.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.addph{display:flex;align-items:center;gap:8px;border:1px dashed var(--line);border-radius:10px;padding:9px 11px;font-size:12px;color:var(--ink-2);margin-top:12px}
+.addph svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:2}
+
+/* proof card (the aha) */
+.proof{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:14px;
+  background:linear-gradient(180deg,#fff,var(--surface));box-shadow:var(--sh-2);
+  clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)}
+.proof .pe{display:flex;align-items:center;gap:5px;padding:11px 12px 0;font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.proof .pl{margin:8px 11px 0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+.proof .pl svg{display:block;width:100%}
+.proof .prow{display:flex;gap:10px;align-items:center;padding:10px 12px 4px}
+.proof .prow .im{width:42px;height:42px;border-radius:9px;flex:none;background:#b45a1e;border:1px solid var(--line)}
+.proof .ft{font-family:var(--font-d);font-weight:700;font-size:22px;line-height:1;padding-left:9px;position:relative;font-variant-numeric:tabular-nums}
+.proof .ft::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:2px;border-radius:2px;background:linear-gradient(180deg,var(--accent),transparent)}
+.proof .ft small{font-family:var(--font-b);font-size:10.5px;font-weight:600;color:var(--ink-2)}
+.proof .who{font-size:10px;color:var(--ink-2);margin-top:3px}
+.proof .tags{display:flex;flex-wrap:wrap;gap:4px;padding:2px 12px 12px}
+.proof .tag{font-family:var(--font-m);font-size:8.5px;font-weight:500;padding:2px 6px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.proof .tag.w{background:color-mix(in oklab,var(--warn) 15%,transparent);color:var(--warn)}
+.proof .tag.k{background:color-mix(in oklab,var(--accent-2) 16%,transparent);color:var(--accent-2)}
+
+.win{text-align:center;margin-top:12px}
+.win .badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:10px;font-weight:600;color:var(--accent-2);
+  background:color-mix(in oklab,var(--accent-2) 15%,transparent);padding:4px 10px;border-radius:999px}
+.win .badge svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round}
+
+/* paywall */
+.recap{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px;margin-top:12px;font-size:12px;color:var(--ink-2)}
+.recap b{color:var(--ink);font-weight:600}
+.tl{margin-top:16px;display:flex;flex-direction:column;gap:0}
+.tl .row{display:grid;grid-template-columns:16px 1fr;gap:10px;padding-bottom:14px;position:relative}
+.tl .row .dot{width:10px;height:10px;border-radius:999px;background:var(--surface-2);border:2px solid var(--line);margin-top:2px}
+.tl .row.on .dot{background:var(--accent);border-color:var(--accent)}
+.tl .row::before{content:"";position:absolute;left:7px;top:14px;bottom:-2px;width:1.5px;background:var(--line)}
+.tl .row:last-child::before{display:none}
+.tl .row .t{font-weight:600;font-size:12.5px}
+.tl .row .s{font-size:10.5px;color:var(--ink-3);margin-top:1px}
+.fcard{border:1.5px solid transparent;border-radius:14px;padding:14px;margin-top:14px;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(135deg,color-mix(in oklab,var(--accent) 55%,transparent),transparent 62%) border-box;box-shadow:var(--sh-2)}
+.fcard .bd{display:inline-flex;font-family:var(--font-m);font-size:9px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);background:var(--chip);padding:3px 8px;border-radius:999px}
+.fcard .pr{font-family:var(--font-d);font-weight:700;font-size:30px;margin-top:8px;line-height:1}
+.fcard .pr small{font-family:var(--font-b);font-size:12px;font-weight:600;color:var(--ink-2)}
+.fcard .ln{font-size:10.5px;color:var(--ink-2);margin-top:3px}
+.fcard .cnt{font-family:var(--font-m);font-size:10px;color:var(--warn);margin-top:6px}
+.feat{display:flex;flex-direction:column;gap:7px;margin-top:11px}
+.feat .f{display:flex;gap:8px;align-items:flex-start;font-size:11.5px}
+.feat .ck{width:16px;height:16px;border-radius:999px;flex:none;display:grid;place-items:center;background:color-mix(in oklab,var(--accent-2) 18%,transparent)}
+.feat .ck svg{width:9px;height:9px;stroke:var(--accent-2);stroke-width:3.4;fill:none;stroke-linecap:round}
+.trust{font-family:var(--font-m);font-size:9.5px;color:var(--ink-3);text-align:center;margin-top:10px;line-height:1.5}
+
+/* login */
+.scr.login{align-items:stretch;justify-content:center;text-align:center}
+.scr.login .m2{width:40px;height:40px;border-radius:11px;background:var(--accent);display:grid;place-items:center;margin:0 auto 14px}
+.scr.login .btn{margin-top:10px}
+.scr.login .legal{font-size:10px;color:var(--ink-3);margin-top:16px;line-height:1.5}
+.pie{max-width:1180px;margin:36px auto 0;font-size:11.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px;line-height:1.7}
+@media(max-width:640px){.phone{width:270px}}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <h1>Primeros minutos — probar → planes → entrar</h1>
+  <p>El contratista prueba EA Fiber Track <b>con su propio plano y sin crear cuenta</b>: sube el plano, marca un tramo, y ve “La Prueba de Campo” armada. Solo cuando ya vio que funciona aparece el precio, y recién al final se registra. Es un flujo corto: el valor se entiende en menos de un minuto.</p>
+</header>
+
+<div class="flow">
+
+  <!-- 1 -->
+  <div class="step">
+    <p class="lab">Paso <b>1 · Probar</b> — /probar</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">✕</span></div>
+      <div class="prog"><i style="width:33%"></i></div>
+      <h2>Prueba con tu plano. Sin crear cuenta.</h2>
+      <p class="lede">Sube el plano del tramo que ya construiste — PDF o foto. En 3 pasos ves tu primera prueba lista para mandar.</p>
+      <div class="drop">
+        <svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+        <div class="t">Subir plano</div><div class="s">PDF o foto, hasta 20 MB</div>
+      </div>
+      <div class="orb">o</div>
+      <a class="btn ghost" href="#">Usar un plano de ejemplo</a>
+      <p class="skip mt">Louisville, KY · el 811 de Kentucky</p>
+    </div></div>
+    <p class="cap">Sube su plano o usa uno de ejemplo. Nada de formularios de registro.</p>
+  </div>
+
+  <!-- 2 -->
+  <div class="step">
+    <p class="lab">Paso <b>2 · Probar</b> — /probar</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">✕</span></div>
+      <div class="prog"><i style="width:66%"></i></div>
+      <h2>Toca el tramo que construiste.</h2>
+      <p class="lede">Un toque en el inicio, otro en el final. Sobre el plano.</p>
+      <div class="canvas">
+        <svg viewBox="0 0 264 150" xmlns="http://www.w3.org/2000/svg">
+          <rect width="264" height="150" fill="#fff"/>
+          <g stroke="#ece4d7" stroke-width="1"><path d="M0 44H264M0 88H264M0 118H264M66 0V150M150 0V150M210 0V150"/></g>
+          <text x="14" y="20" font-family="monospace" font-size="8" fill="#8d8271">SHEET C-3 · E COLFAX AVE</text>
+          <path d="M18 74H246" stroke="#cbb9a3" stroke-width="2" stroke-dasharray="6 4"/>
+          <path d="M18 74H150" stroke="#e8590c" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="18" cy="74" r="5" fill="#e8590c"/><circle cx="150" cy="74" r="5" fill="#e8590c"/>
+          <rect x="128" y="66" width="16" height="16" fill="none" stroke="#6e6152" stroke-width="2"/>
+          <text x="18" y="64" font-family="monospace" font-size="8.5" fill="#e8590c">STA 12+00 → 30+50</text>
+          <text x="128" y="98" font-family="monospace" font-size="7" fill="#6b6252" text-anchor="middle">HH-12</text>
+        </svg>
+      </div>
+      <div class="hint"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Tramo marcado · toca “Continuar”</div>
+      <a class="btn mt" href="#">Continuar</a>
+    </div></div>
+    <p class="cap">Marca el tramo tocando el plano — igual que lo haría en el camión.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="step">
+    <p class="lab">Paso <b>3 · Probar</b> — /probar</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">✕</span></div>
+      <div class="prog"><i style="width:100%"></i></div>
+      <h2>¿Qué se hizo en ese tramo?</h2>
+      <div class="field"><label>Actividad</label>
+        <div class="seg"><span class="on">HDD Bore</span><span>Zanja</span><span>Tendido fibra</span></div>
+      </div>
+      <div class="field"><label>Pies construidos</label><div class="inp mono"><span class="v">1 850</span><span style="color:var(--ink-3)">ft</span></div></div>
+      <div class="field"><label>Ticket 811 (opcional)</label><div class="inp mono"><span class="v" style="color:var(--warn)">2024-2210455</span><span style="color:var(--ink-3)">vence 3 d</span></div></div>
+      <div class="addph"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h3l1.5-2h7L18 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg>Añadir foto con GPS</div>
+      <a class="btn mt" href="#">Armar mi Prueba de Campo</a>
+    </div></div>
+    <p class="cap">Actividad, pies y (si quiere) foto + ticket 811. Tres toques, no un formulario.</p>
+  </div>
+
+  <!-- 4 -->
+  <div class="step">
+    <p class="lab">Paso <b>4 · Probar</b> — primera victoria</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span></div>
+      <div class="win"><span class="badge"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Tu primera Prueba de Campo</span></div>
+      <div class="proof">
+        <div class="pe"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>La Prueba de Campo · Hoy 9:41</div>
+        <div class="pl"><svg viewBox="0 0 240 62" xmlns="http://www.w3.org/2000/svg"><rect width="240" height="62" fill="#fff"/><g stroke="#ece4d7" stroke-width="1"><path d="M0 22H240M0 44H240M60 0V62M140 0V62"/></g><path d="M16 32H224" stroke="#cbb9a3" stroke-width="2" stroke-dasharray="6 4"/><path d="M16 32H132" stroke="#e8590c" stroke-width="4.5" stroke-linecap="round"/><circle cx="16" cy="32" r="4" fill="#e8590c"/><circle cx="132" cy="32" r="4" fill="#e8590c"/><text x="16" y="22" font-family="monospace" font-size="8" fill="#e8590c">STA 12+00 → 30+50</text></svg></div>
+        <div class="prow"><span class="im"></span><div><div class="ft">1 850 <small>pies · HDD Bore</small></div><div class="who">Cuadrilla A · Hoy</div></div></div>
+        <div class="tags"><span class="tag">38.2542, −85.7585</span><span class="tag w">811 #2024-2210455 · vence 3 d</span><span class="tag k">Foto GPS</span></div>
+      </div>
+      <p class="lede" style="text-align:center">Esto es lo que mandas al cliente o a la utility — en 30 segundos.</p>
+      <a class="btn mt" href="#">Guardar y ver mi obra completa</a>
+    </div></div>
+    <p class="cap"><b>El “ajá”.</b> Ve la tarjeta-prueba armada con su tramo. Aquí decide seguir.</p>
+  </div>
+
+  <!-- 5 -->
+  <div class="step">
+    <p class="lab">Paso <b>5 · Planes</b> — /planes (1 de 3)</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">←</span></div>
+      <h2>Guarda esta prueba. Suma toda tu obra.</h2>
+      <p class="lede">Ya armaste una. En EA Fiber Track cada tramo, cada cuadrilla y cada ticket 811 quedan juntos — en un toque.</p>
+      <div class="recap">Tu primera Prueba de Campo: <b>1 850 ft · HDD Bore</b> · STA 12+00→30+50 · 811 #2024-2210455</div>
+      <div class="feat">
+        <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Planos, fotos GPS, 811 y cuadrillas — sin límite de personas</div>
+        <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>El día de hoy: pies por cuadrilla, sin llamar a nadie</div>
+        <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Alertas antes de que venza un ticket 811</div>
+      </div>
+      <a class="btn mt" href="#">Ver mi prueba gratis</a>
+      <p class="skip">Ahora no</p>
+    </div></div>
+    <p class="cap"><b>Paywall, página 1:</b> recap de lo que acaba de hacer + qué desbloquea (las 3 cosas, no una lista larga).</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="step">
+    <p class="lab">Paso <b>6 · Planes</b> — /planes (2 de 3)</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">←</span></div>
+      <h2>14 días gratis. Sin sorpresas.</h2>
+      <p class="lede">Pruébalo un contrato entero. Te avisamos antes de cualquier cobro.</p>
+      <div class="tl">
+        <div class="row on"><span class="dot"></span><div><div class="t">Hoy — empiezas gratis</div><div class="s">Acceso completo. Sin cargo.</div></div></div>
+        <div class="row"><span class="dot"></span><div><div class="t">Día 12 — te escribimos</div><div class="s">“Tu prueba termina en 2 días.”</div></div></div>
+        <div class="row"><span class="dot"></span><div><div class="t">Día 14 — se cobra el plan</div><div class="s">Solo si no cancelaste. Un correo lo cancela.</div></div></div>
+      </div>
+      <a class="btn mt" href="#">Ver los planes</a>
+      <p class="skip">Ahora no</p>
+    </div></div>
+    <p class="cap"><b>Paywall, página 2:</b> el calendario de la prueba. Responde “¿cuándo me cobran?” antes de mostrar el precio.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="step">
+    <p class="lab">Paso <b>7 · Planes</b> — /planes (3 de 3)</p>
+    <div class="phone"><div class="notch"></div><div class="scr">
+      <div class="sb"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="top"><span class="b"><span class="m"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></span>EA Fiber Track</span><span class="x">←</span></div>
+      <h2>Entra como fundador.</h2>
+      <div class="fcard">
+        <span class="bd">Primeras 20 empresas</span>
+        <div class="pr">$99<small> /mes</small></div>
+        <p class="ln">Bloqueado de por vida. Después: $129 / $249 / $449 según cuadrillas.</p>
+        <p class="cnt">● Quedan 17 de 20</p>
+        <div class="feat">
+          <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Todo EA Fiber Track · personas ilimitadas</div>
+          <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Guía de arranque para tu cuadrilla, en español</div>
+          <div class="f"><span class="ck"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Plantilla de as-built para entregar al cliente</div>
+        </div>
+      </div>
+      <a class="btn mt" href="#">Empezar mis 14 días gratis</a>
+      <p class="trust">No se cobra hoy · cancela con un correo · pago por Stripe</p>
+      <p class="skip">Ahora no — seguir mirando</p>
+    </div></div>
+    <p class="cap"><b>Paywall, página 3:</b> el precio. Oferta de fundador obvia + garantía + salida limpia (“Ahora no”, sin culpa).</p>
+  </div>
+
+  <!-- 8 -->
+  <div class="step">
+    <p class="lab">Paso <b>8 · Entrar</b> — /entrar</p>
+    <div class="phone"><div class="notch"></div><div class="scr login">
+      <div class="sb" style="position:absolute;left:13px;right:13px;top:24px"><span>9:41</span><span>·· ᯤ 100</span></div>
+      <div class="m2"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 20V10l8-6 8 6v10"/><path d="M4 20h16"/></svg></div>
+      <h2>Entra para guardar tu prueba.</h2>
+      <p class="lede">Tu Prueba de Campo te está esperando. Elige cómo entrar.</p>
+      <a class="btn g" href="#" style="margin-top:18px"><svg width="15" height="15" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2 3.2v2.6h3.3c2-1.8 3.1-4.5 3.1-7.6z"/><path fill="#34A853" d="M12 23c2.7 0 5-.9 6.6-2.4l-3.3-2.6c-.9.6-2 1-3.3 1-2.6 0-4.7-1.7-5.5-4H3.1v2.7A10 10 0 0 0 12 23z"/><path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 5.4c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5l3.4 2.7C7.3 7.1 9.4 5.4 12 5.4z"/></svg>Continuar con Google</a>
+      <a class="btn ghost" href="#" style="margin-top:10px">Enviarme un enlace al correo</a>
+      <p class="legal">Al entrar aceptas los Términos y la Política de Privacidad.</p>
+    </div></div>
+    <p class="cap"><b>Registro al final</b>, cuando ya decidió. Google o enlace por correo — sin contraseñas que recordar.</p>
+  </div>
+
+</div>
+
+<p class="pie">
+  Flujo del modelo onboarding-first (02C): landing → <b>/probar</b> (sin cuenta, primera victoria) → <b>/planes</b> (paywall de 3 páginas, +37% vs 1 página) → <b>/entrar</b> (registro al final) → /app.
+  Tipo “utilidad / valor obvio” (02B): 3 pasos, valor en &lt;60 s. Cero prueba social inventada (no hay clientes): la demo ES la prueba.
+  Estas son pantallas de aprobación — la versión real se construye en código en el bloque de conexión.
+</p>
+</body>
+</html>
