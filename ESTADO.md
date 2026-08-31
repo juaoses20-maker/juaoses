@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Dirección de arte ELEGIDA y APROBADA (combinación A+B+C "Cuaderno de obra"). FICHA-ARTE.md creada. / Siguiente acción exacta: presentar B5 Plan Maestro (8 sesiones) al usuario → obtener OK → ejecutar Sesión 1 (FICHA-AVATAR.md + FICHA-MERCADO.md + monetización 02C + arquitectura/datos/auth)
+⏸️ CHECKPOINT — Última acción completada: Sesión 1 (Bloque 1) — FICHA-AVATAR.md + FICHA-MERCADO.md creadas; monetización, precio y arquitectura decididos. Usuario confirmó: NO tiene clientes aún. / Siguiente acción exacta: presentar resumen de Bloque 1 al usuario + cerrar sesión → Bloque 2 (página de ventas) tras su OK
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -56,49 +56,66 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Personalidad: Robusto · Directo · Respetuoso. Motion firme (cubic-bezier .32,.72,0,1), 200ms base, 1 spring reservado a "prueba compartida".
 - REGISTRO ANTI-REPETICIÓN (veto para el próximo proyecto SO): modo claro primario + acento naranja cálido `#e8590c` + par Fraunces + IBM Plex Sans/Mono + dispositivos esquina recortada / regla de dato.
 
-## Avatar y venta (Sesión 1 — NO cambiar sin validar)
-- FICHA-AVATAR.md: NO (pendiente — el usuario ya aportó un brief rico con dolores/deseos/objeciones/citas en sesión previa; se formaliza en FICHA-AVATAR.md en Sesión 1)
-- Resumen provisional: owner / operations manager / project manager de empresa de fiber/HDD/underground utilities en EE. UU., 2–10 crews, presupuesto para software operacional. Dolor #1: no poder demostrar qué se construyó/dónde/quién/bajo qué ticket 811 sin buscar entre mensajes y fotos. Deseo #1: abrir un mapa/plano y ver al instante producción + evidencia. Nivel de consciencia: alto (conoce CompanyCam/Fieldwire/811 software). Sofisticación de mercado: alta.
+## Avatar y venta (Sesión 1 — COSA JUZGADA)
+- FICHA-AVATAR.md: SÍ, creada 2026-08-31. Estado **APROBADA (base)** con marca bilingüe (VoC en inglés — revalidar vocabulario español con primeros clientes). Ver `FICHA-AVATAR.md`.
+- FICHA-MERCADO.md: SÍ, creada 2026-08-31. Ver `FICHA-MERCADO.md`.
+- Avatar: owner/ops/PM de sub-contratista de fibra subterránea/HDD en EE. UU., 2–10 cuadrillas, cuadrilla hispanohablante, salió del campo. Dolor #1: lo culpan de daños que no hizo y no puede probar lo contrario (AGC survey: ~2/3 recibieron un claim por daño que no causaron). Deseo #1: "La Prueba de Campo" — tocar el tramo en el plano y ver pies+cuadrilla+811+foto+GPS listo para mandar. Consciencia: nivel 3–4. Sofisticación: etapa 3–4 (global/inglés) → hero por MECANISMO + IDENTIFICACIÓN.
+- Inventario de prueba día-1: SIN testimonios (no hay clientes). Landing usa demo real + datos de industria con fuente + oferta Founding Customer. PROHIBIDO prueba social inventada.
 
-## Estrategia de monetización (Sesión 1 — NO cambiar sin validar)
-- Modelo: PENDIENTE — decidir con matriz A-F del 02C (frecuencia de uso: diaria/varias veces al día → probablemente preview→paywall o hard paywall B2B; NO freemium de hábito de consumo).
-- Pricing propuesto (ajustable con /precios): por empresa/capacidad de crews, no por asiento. Referencia inicial del brief del usuario: Starter ~$99, Operations ~$199, Multi-Crew ~$349, anual con ~2 meses gratis, trial 14 días, "Founding Customer" primeros 20 a ~$99. A confirmar contra 02C + gate del 40 en Sesión 1.
+## Estrategia de monetización (Sesión 1 — COSA JUZGADA)
+- **Modelo: onboarding-first anónimo** (landing → preview donde sube un plano + marca un tramo + ve "La Prueba de Campo" SIN cuenta → paywall → registro/login). Justificación: el "aha" se demuestra en <2 min sin datos ni cuenta; herramienta B2B de "resultado" (no hábito de consumo → freemium/gamificación descartado); con checkout web la fricción baja si el valor ya se vio (02C).
+- **Pasarela: Stripe** (tarjeta + ACH), NO Hotmart — comprador = empresa de EE. UU. que compra software; Hotmart es infoproductos LATAM.
+- **Precio PROPUESTO (ajustable con /precios):** Cuadrilla $129/mo (1 cuadrilla, personas ilimitadas) · **Contratista $249/mo** (hasta ~5 cuadrillas — plan objetivo/señuelo) · Multi-cuadrilla $449/mo (hasta ~12) · Empresa: cotización. Anual = 2 meses gratis. **Founding Customer: primeras 20 empresas a $99/mo bloqueado.**
+- **Cuña:** cobro por EMPRESA, no por asiento (FiberField ≈ $376/mo por 1 cuadrilla de 4; nosotros ~$50/cuadrilla en el plan Contratista). Objeción #4 del avatar resuelta por diseño.
+- **Trial: 14 días** · **Garantía: 30 días desde el primer cobro** (30 > 14 ✓, regla dura del 18).
 
 ## Secuencia maestra de construcción (NO saltar)
-- Estado de la secuencia: NADA construido en este proyecto SO todavía (el prototipo HTML de la sesión previa NO forma parte de este proyecto — es solo referencia de alcance)
-- Ruta aprobada: `/` → `/onboarding` → `/paywall` → `/login` → `/app`
-- Todas las etapas: pendientes
+- Estado de la secuencia: NADA de código construido todavía. Identidad + fichas listas.
+- Ruta aprobada: `/` (landing) → `/probar` (preview anónimo: sube plano → marca tramo → ve "La Prueba de Campo") → `/planes` (paywall) → `/entrar` (login/registro) → `/app`
+- Landing: pendiente (Bloque 2) · Preview/onboarding: pendiente (Bloque 3) · Paywall: pendiente (Bloque 3) · Login: pendiente (Bloque 3) · App interna: pendiente (Bloque 4) · Servicios externos (Supabase/Stripe/Vercel/dominio): pendiente (Bloque 5)
 
-## Decisiones técnicas (NO re-discutir sin pedirlo el usuario)
-- Framework: PENDIENTE — probable Next.js App Router (landing + SEO + API routes + webhook Hotmart). Se fija en Sesión 1/2.
-- Stack base SO: React + TS + Tailwind v4 + shadcn/ui + Lucide + Motion + Supabase + Vercel (51-STACK-PINEADO).
-- Features del MVP (B3 aprobada, en orden): 1) Planos PDF/foto + marcado de producción encima, 2) Fotos GPS, 3) Tickets 811 (Kentucky) conectados a producción, 4) Cuadrillas.
-- Render de planos PDF: necesita pdf.js (pdfjs-dist) para rasterizar la página a canvas y marcar encima; planos-foto van directo como imagen. Decisión técnica interna — confirmar en Sesión 2/5.
-- Idioma UI: español primero (es-US / español neutro de campo). Multi-idioma (añadir inglés) = posible V2, decidir en Sesión 1.
-- IA: reportes/as-builts generados (texto). Sin IA de imagen/audio en MVP. Confirmar en Sesión 1.
+## Decisiones técnicas (implementación pura — decididas 2026-08-31, NO se presentan al usuario)
+- **Framework:** Next.js App Router (landing + SEO + API routes + webhook Stripe + app interna) sobre el scaffold pineado del 51.
+- Stack: React + TS + Tailwind v4 + shadcn/ui + Lucide + Motion + Supabase (Postgres + Auth + Storage) + Vercel.
+- **Auth (26):** Supabase Auth — magic-link por email + Google OAuth. Titulares de cuenta = owner/PM/foreman. Los trabajadores de cuadrilla son NOMBRES en `crew_members`, no usuarios, en v1.
+- **Modelo de datos (25) — RLS por pertenencia a empresa:** `companies` · `memberships`(user,company,role) · `projects` · `crews` · `crew_members` · `plans`(archivo en Storage + w/h + raster de página) · `plan_marks`(kind seg/pt, geometría 0..1, activity, qty, unit, crew_id, prod_id) · `photos`(Storage, lat/lng/taken_at, crew_id, activity, ticket_id) · `production_entries`(project,crew,activity,qty,unit,sta_from/to,ticket,plan_mark_id,at,date) · `tickets811`(number,location,dig_start,expiration,life_days,status_manual,project) · `ticket_attachments`. RLS en TODA tabla: `company_id IN (select company_id from memberships where user_id = (select auth.uid()))`, columna `company_id` indexada.
+- **Storage:** buckets `plans` (PDF/img, ≤2MB) y `photos` (comprimidas en el dispositivo ≤1600px/~200KB antes de subir). URLs firmadas. Es el principal driver de costo → compresión cliente obligatoria.
+- **Planos PDF:** pdfjs-dist en el cliente rasteriza la página a canvas; se marca encima con overlay SVG (coords normalizadas 0..1). Planos-foto van directos como imagen.
+- **IA (30):** solo texto — genera resumen de as-built / close-out y "resumen del día". Modelo en env `AI_MODEL`, `max_tokens` acotado, cache de resultados idénticos, circuit-breaker de costo. NO es la primera victoria (esa es la tarjeta manual) → V1 opcional / V1.1.
+- **Offline:** captura de foto/marca encola en IndexedDB y sincroniza al volver la señal (best-effort en v1; offline completo = V2).
+- **Idioma UI:** español (es-US) mono-idioma en v1; scaffold i18n listo para añadir inglés en V2.
+- Features del MVP (B3, en orden): 1) Planos PDF/foto + marcado de producción, 2) Fotos GPS, 3) Tickets 811 (Kentucky primero) conectados a producción, 4) Cuadrillas.
 
 ## Sesiones completadas ✅
-- (ninguna)
+- Idea + Validación (B1-B2) — 2026-08-31 — mercado confirmado, competencia mapeada
+- Constitución del Producto (B3) — 2026-08-31 — nombre EA Fiber Track, 4 funciones, primera victoria "La Prueba de Campo", regla nunca
+- Identidad visual (Bloque "identidad") — 2026-08-31 — dirección "Cuaderno de obra" (combinación A+B+C) aprobada · FICHA-ARTE.md
+- Bloque 1 — Cliente y dinero — 2026-08-31 — FICHA-AVATAR.md + FICHA-MERCADO.md · monetización onboarding-first + Stripe · precio propuesto · arquitectura/datos/auth decididos
 
 ## Sesión en progreso 🔧
-- Sesión 1 — Validación hecha (B2). Falta: B3 Constitución del Producto, FICHA-AVATAR.md, decisión de monetización (02C), arquitectura + modelo de datos + auth, y Plan Maestro (B5).
+- (ninguna — esperando OK del usuario para Bloque 2)
 
 ## Próximas sesiones 📋
-- Sesión 2: Identidad visual (investigar sistema visual de FiberField como patrón) + 3 opciones A/B/C + FICHA-ARTE.md + tokens
-- Sesión 3: Página de ventas (estructura canónica 10 secciones)
-- Sesión 4: Onboarding + paywall + login
-- Sesión 5: App interna (3-5 secciones)
-- Sesión 6: Servicios externos + seguridad
-- Sesión 7: Testing + pulido + rigor de entrega
-- Sesión 8: Adquisición + lanzamiento + backoffice
+- **Bloque 2 — Página de ventas:** landing con la estructura canónica de 10 secciones del 19, copy 100% derivado de FICHA-AVATAR.md, kit de landing del SO (`plantillas-codigo/landing/`), tokens de FICHA-ARTE. Carrusel de "la app por dentro" con placeholders hasta que exista.
+- Bloque 3 — Preview anónimo + paywall + login
+- Bloque 4 — App interna (Planos/Fotos/811/Cuadrillas)
+- Bloque 5 — Supabase + Stripe + Vercel + dominio + Resend (aquí entran los pendientes del usuario)
+- Bloque 6 — Testing + pulido + rigor de entrega
+- Bloque 7 — Lanzamiento + adquisición + backoffice
 
 ## Problemas conocidos ⚠️
-- (ninguno)
+- FICHA-AVATAR marcada "VoC sin validar en español" — el vocabulario de campo en español se revalida con los primeros clientes (regla bilingüe del 57).
 
-## Pendientes del usuario (acciones que el usuario debe hacer)
-- [ ] Más adelante: crear cuentas (Supabase, Vercel, Hotmart), comprar dominio, pegar un par de claves. Se avisa y se guía cuando toque (Sesión 6).
+## Pendientes del usuario (acciones que el usuario debe hacer — se avisa y se guía en el Bloque 5)
+- [ ] Crear cuenta Supabase (base de datos)
+- [ ] Crear cuenta Vercel (publicación)
+- [ ] Crear cuenta Stripe (cobro) — requiere datos de la empresa
+- [ ] Crear cuenta Resend (correos)
+- [ ] Comprar el dominio (~$12/año)
+- [ ] Pegar 3–4 claves directamente en los paneles (guiado clic por clic)
 
 ## Notas para la próxima sesión
-- El usuario ya trabajó un brief detallado de esta misma idea ("FiberTrack") en una sesión previa fuera del SO, con dolores/deseos/objeciones y citas de reseñas, y un prototipo HTML de alcance. Ese material se reutiliza como insumo de FICHA-AVATAR.md, pero NO es código del proyecto SO.
-- "FiberField" fue nombrada por el usuario como referencia → protocolo APP NOMBRADA del 16 (replicar su sistema de patrones, no clonar assets/marca).
-- Nombre "FiberTrack" es provisional — verificar disponibilidad y proponer alternativas antes de la landing.
+- El usuario NO tiene clientes aún (confirmado 2026-08-31) → landing sin testimonios, con oferta Founding Customer (20 empresas a $99/mo).
+- "FiberField" NO se replica visualmente (es oscuro+cian = look de IA); su valor fue de PATRONES de función, ya absorbidos.
+- Nombre EA Fiber Track confirmado por el usuario. Verificar dominio disponible antes de la landing (eafibertrack.com / .app / getea…).
+- Existe un prototipo HTML de alcance de una sesión previa (fuera del SO) — solo referencia visual/funcional, NO es código de este proyecto.
