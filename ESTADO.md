@@ -127,13 +127,13 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 ## Problemas conocidos ⚠️
 - FICHA-AVATAR marcada "VoC sin validar en español" — el vocabulario de campo en español se revalida con los primeros clientes (regla bilingüe del 57).
 
-## Pendientes del usuario (acciones que el usuario debe hacer — se avisa y se guía en el Bloque 5)
-- [ ] Crear cuenta Supabase (base de datos)
-- [ ] Crear cuenta Vercel (publicación)
-- [ ] Crear cuenta Stripe (cobro) — requiere datos de la empresa
-- [ ] Crear cuenta Resend (correos)
-- [ ] Comprar el dominio (~$12/año)
-- [ ] Pegar 3–4 claves directamente en los paneles (guiado clic por clic)
+## Servicios externos — progreso
+- [x] **GitHub** — repo `https://github.com/juaoses20-maker/juaoses` (privado). Remote `origin` configurado, `main` = HEAD local. Credenciales cacheadas en esta máquina → el agente puede `git push` directo (el usuario NO necesita GitHub Desktop). Identidad de commits: `EA Fiber Track <dev@eafibertrack.com>`. ⚠️ El usuario NO debe usar "Add file" en la web de GitHub (creó un archivo basura que ya se quitó).
+- [ ] **Supabase** (base de datos + cuentas) — EN CURSO: el usuario crea el proyecto
+- [ ] **Stripe** (cobro) — requiere datos de la empresa
+- [ ] **Vercel** (publicación) — conecta el repo de GitHub
+- [ ] **Resend** (correos)
+- [ ] **Dominio** (~$12/año)
 
 ## Notas para la próxima sesión
 - El usuario NO tiene clientes aún (confirmado 2026-08-31) → landing sin testimonios, con oferta Founding Customer (20 empresas a $99/mo).
