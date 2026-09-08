@@ -1,14 +1,17 @@
-import { Flame, BarChart3 } from "lucide-react";
+import Link from "next/link";
+import { BarChart3, Camera, MapPin, PencilRuler } from "lucide-react";
 import {
-  CREWS,
-  TODAY_ACTIVITY,
-  FT_TODAY,
-  TICKETS_AT_RISK,
-  STREAK_DAYS,
-} from "@/lib/seed";
-import { getActiveProject } from "@/lib/data/queries";
+  getActiveProject,
+  listCrews,
+  listPhotos,
+  listPlans,
+  listRecentMarks,
+  listTickets,
+} from "@/lib/data/queries";
+import { ticketStatus } from "@/lib/data/types";
 import NoProject from "@/components/app/NoProject";
-import DemoBadge from "@/components/app/DemoBadge";
+
+const nf = new Intl.NumberFormat("en-US");
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -22,21 +25,31 @@ export default async function HoyPage() {
   const project = await getActiveProject();
   if (!project) return <NoProject what="registros" />;
 
-  const activeCrews = CREWS.filter((c) => c.ftToday > 0 || c.extraToday).length;
-  const nf = new Intl.NumberFormat("en-US");
+  const [crews, tickets, plans, marks, photos] = await Promise.all([
+    listCrews(project.id),
+    listTickets(project.id),
+    listPlans(project.id),
+    listRecentMarks(project.id, 6),
+    listPhotos(project.id),
+  ]);
+
+  const atRisk = tickets.filter((t) => {
+    const s = ticketStatus(t).status;
+    return s === "por-vencer" || s === "vencido";
+  }).length;
+  const ftMarked = plans.reduce((s, p) => s + p.ft_marked, 0);
+  const nothingYet = plans.length === 0 && tickets.length === 0 && crews.length === 0;
 
   return (
     <div>
-      <div className="mt-2 flex flex-col">
-        <h1 className="text-[22px] font-semibold">El día de hoy</h1>
-        <DemoBadge />
-      </div>
+      <h1 className="mt-2 text-[22px] font-semibold">El día de hoy</h1>
+      <p className="text-[10px] text-ink-3">{project.name}</p>
 
-      <div className="mt-2 grid grid-cols-3 gap-1.5">
+      <div className="mt-3 grid grid-cols-3 gap-1.5">
         {[
-          { k: nf.format(FT_TODAY), l: "pies hoy", cls: "text-accent" },
-          { k: String(TICKETS_AT_RISK), l: "811 x vencer", cls: "text-warn" },
-          { k: `${activeCrews}/${CREWS.length}`, l: "cuadrillas", cls: "" },
+          { k: nf.format(ftMarked), l: "ft marcados", cls: "text-accent" },
+          { k: String(atRisk), l: "811 x vencer", cls: atRisk > 0 ? "text-warn" : "" },
+          { k: String(crews.length), l: crews.length === 1 ? "cuadrilla" : "cuadrillas", cls: "" },
         ].map((t) => (
           <div key={t.l} className="rounded-[12px] border bg-surface p-2 shadow-[var(--shadow-1)]">
             <div className={"font-display text-[19px] font-bold leading-none tnum " + t.cls}>{t.k}</div>
@@ -45,65 +58,88 @@ export default async function HoyPage() {
         ))}
       </div>
 
-      {/* site map */}
-      <div className="mt-2 overflow-hidden rounded-[12px] border bg-surface">
-        <svg viewBox="0 0 272 116" className="block w-full">
-          <rect width="272" height="116" fill="var(--surface)" />
-          <g stroke="var(--line)" strokeWidth="1">
-            <path d="M0 39H272M0 78H272M68 0V116M150 0V116M214 0V116" />
-          </g>
-          <path d="M20 52H180" stroke="#e8590c" strokeWidth="4" strokeLinecap="round" />
-          <text x="20" y="44" fontFamily="monospace" fontSize="8" fill="#e8590c">1 850 ft</text>
-          <path d="M40 92H230" stroke="#3c6a89" strokeWidth="4" strokeLinecap="round" />
-          <text x="40" y="86" fontFamily="monospace" fontSize="8" fill="#3c6a89">2 400 ft</text>
-          <circle cx="120" cy="30" r="4.5" fill="#e8590c" stroke="#fff" strokeWidth="1.5" />
-          <text x="128" y="33" fontFamily="var(--font-fraunces),serif" fontSize="8" fill="var(--ink)">A</text>
-          <circle cx="200" cy="70" r="4.5" fill="#3c6a89" stroke="#fff" strokeWidth="1.5" />
-          <text x="208" y="73" fontFamily="var(--font-fraunces),serif" fontSize="8" fill="var(--ink)">B</text>
-          <rect x="60" y="24" width="10" height="10" rx="1.5" fill="none" stroke="#b26a00" strokeWidth="1.6" strokeDasharray="2 1.5" />
-        </svg>
-        <div className="flex gap-2.5 border-t px-2.5 py-1.5 text-[9px] text-ink-2">
-          <span className="flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-accent" />Cuadrilla</span>
-          <span className="flex items-center gap-1"><i className="h-2 w-2 rounded-full bg-accent-2" />Tramo probado</span>
-          <span className="flex items-center gap-1"><i className="h-2 w-2 rounded-[2px] bg-warn" />811</span>
+      {nothingYet && (
+        <div className="mt-4 rounded-[12px] border border-dashed bg-surface p-4 text-center">
+          <PencilRuler className="mx-auto h-8 w-8 text-ink-3" strokeWidth={1.5} />
+          <div className="mt-2 font-display text-[14px] font-semibold">Empieza tu obra</div>
+          <p className="mx-auto mt-1 max-w-[30ch] text-[11.5px] text-ink-2">
+            Sube un plano y marca el primer tramo construido. Ahí aparece tu avance.
+          </p>
+          <Link
+            href="/app/planos"
+            className="mt-3 inline-flex h-[36px] items-center rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink"
+          >
+            Ir a Planos
+          </Link>
         </div>
-      </div>
+      )}
 
-      {/* streak */}
-      <div className="mt-2 flex items-center gap-2.5 rounded-[12px] border bg-surface px-3 py-2.5 shadow-[var(--shadow-1)]">
-        <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-[9px] bg-[color-mix(in_oklab,var(--accent-2)_16%,transparent)]">
-          <Flame className="h-[15px] w-[15px] text-accent-2" strokeWidth={2} />
-        </span>
-        <div>
-          <div className="text-[12px] font-semibold">{STREAK_DAYS} días con parte cerrado</div>
-          <div className="text-[10px] text-ink-2">La cuadrilla no ha fallado un día</div>
-        </div>
-        <div className="ml-auto flex gap-[3px]">
-          {Array.from({ length: 7 }).map((_, i) => (
-            <span key={i} className={"h-[7px] w-[7px] rounded-full " + (i < STREAK_DAYS ? "bg-accent-2" : "bg-line")} />
-          ))}
-        </div>
-      </div>
-
-      <Eyebrow>Actividad de hoy</Eyebrow>
-      <div className="overflow-hidden rounded-[12px] border bg-surface shadow-[var(--shadow-1)]">
-        {TODAY_ACTIVITY.map((a) => (
-          <div key={a.crew} className="flex items-center gap-2.5 border-b px-3 py-2.5 last:border-b-0">
-            <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-[9px] border bg-surface-2">
-              <BarChart3 className="h-[15px] w-[15px] text-accent" strokeWidth={2} />
-            </span>
-            <div>
-              <div className="text-[12.5px] font-semibold">
-                {a.activity} · {a.crew}
-              </div>
-              <div className="mt-0.5 text-[10px] text-ink-2">
-                {a.sta} · {a.at}
-              </div>
-            </div>
-            <span className="ml-auto font-mono text-[13px] font-semibold tnum">{nf.format(a.ft)}</span>
+      {marks.length > 0 && (
+        <>
+          <Eyebrow>Marcas recientes</Eyebrow>
+          <div className="overflow-hidden rounded-[12px] border bg-surface shadow-[var(--shadow-1)]">
+            {marks.map((m) => (
+              <Link
+                key={m.id}
+                href={`/app/planos/${m.plan_id}`}
+                className="flex items-center gap-2.5 border-b px-3 py-2.5 last:border-b-0"
+              >
+                <span className="grid h-[30px] w-[30px] flex-none place-items-center rounded-[9px] border bg-surface-2">
+                  {m.kind === "seg" ? (
+                    <BarChart3 className="h-[15px] w-[15px] text-accent" strokeWidth={2} />
+                  ) : (
+                    <MapPin className="h-[15px] w-[15px] text-accent" strokeWidth={2} />
+                  )}
+                </span>
+                <div className="min-w-0">
+                  <div className="truncate text-[12.5px] font-semibold">
+                    {m.kind === "seg" ? `${nf.format(m.qty)} ft · ${m.activity}` : m.activity}
+                  </div>
+                  <div className="mt-0.5 truncate text-[10px] text-ink-2">{m.plan_name}</div>
+                </div>
+                <span className="ml-auto text-ink-3">›</span>
+              </Link>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
+
+      {photos.length > 0 && (
+        <>
+          <Eyebrow>Fotos recientes</Eyebrow>
+          <div className="grid grid-cols-4 gap-[5px]">
+            {photos.slice(0, 8).map((p) =>
+              p.url ? (
+                <Link
+                  key={p.id}
+                  href="/app/fotos"
+                  className="relative aspect-square overflow-hidden rounded-[8px] border bg-surface-2"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.url} alt="" className="h-full w-full object-cover" loading="lazy" />
+                </Link>
+              ) : null,
+            )}
+          </div>
+        </>
+      )}
+
+      {!nothingYet && marks.length === 0 && photos.length === 0 && (
+        <div className="mt-4 flex flex-col gap-2">
+          <Link
+            href="/app/planos"
+            className="flex items-center gap-2 rounded-[12px] border bg-surface px-3 py-3 text-[12.5px] font-semibold shadow-[var(--shadow-1)]"
+          >
+            <PencilRuler className="h-4 w-4 text-accent" strokeWidth={2} /> Marca un tramo en un plano
+          </Link>
+          <Link
+            href="/app/fotos"
+            className="flex items-center gap-2 rounded-[12px] border bg-surface px-3 py-3 text-[12.5px] font-semibold shadow-[var(--shadow-1)]"
+          >
+            <Camera className="h-4 w-4 text-accent" strokeWidth={2} /> Toma una foto con GPS
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

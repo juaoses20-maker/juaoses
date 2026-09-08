@@ -137,6 +137,40 @@ export async function getPlan(
   };
 }
 
+export type RecentMark = {
+  id: string;
+  kind: "seg" | "pt";
+  activity: string;
+  qty: number;
+  plan_id: string;
+  plan_name: string;
+  at: string;
+};
+
+export async function listRecentMarks(projectId: string, limit = 6): Promise<RecentMark[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("plan_marks")
+    .select("id, kind, activity, qty, plan_id, at, plans!inner(name, project_id)")
+    .eq("plans.project_id", projectId)
+    .order("at", { ascending: false })
+    .limit(limit);
+
+  return (data ?? []).map((m) => {
+    const rel = m.plans as unknown as { name: string } | { name: string }[];
+    const plan_name = Array.isArray(rel) ? (rel[0]?.name ?? "Plano") : rel.name;
+    return {
+      id: m.id as string,
+      kind: (m.kind as "seg" | "pt") ?? "seg",
+      activity: m.activity as string,
+      qty: Number(m.qty) || 0,
+      plan_id: m.plan_id as string,
+      plan_name,
+      at: m.at as string,
+    };
+  });
+}
+
 export async function listPhotos(projectId: string): Promise<Photo[]> {
   const supabase = await createClient();
   const { data } = await supabase
