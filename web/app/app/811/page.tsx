@@ -1,5 +1,8 @@
 import { TriangleAlert, Plus } from "lucide-react";
 import { TICKETS, TICKETS_AT_RISK, type Ticket } from "@/lib/seed";
+import { getActiveProject } from "@/lib/data/queries";
+import NoProject from "@/components/app/NoProject";
+import DemoBadge from "@/components/app/DemoBadge";
 
 const STRIPE: Record<Ticket["status"], string> = {
   activo: "border-l-accent-2",
@@ -13,11 +16,17 @@ const PILL: Record<string, string> = {
   Cerrado: "bg-surface-2 text-ink-3",
 };
 
-export default function TicketsPage() {
+export default async function TicketsPage() {
+  const project = await getActiveProject();
+  if (!project) return <NoProject what="tickets 811" />;
+
   return (
     <div className="relative">
-      <h1 className="mt-2 font-display text-[16px] font-semibold">Tickets 811</h1>
-      <p className="text-[10px] text-ink-3">{TICKETS.length} tickets · Kentucky 811</p>
+      <div className="mt-2 flex flex-col">
+        <h1 className="font-display text-[16px] font-semibold">Tickets 811</h1>
+        <p className="text-[10px] text-ink-3">{TICKETS.length} tickets · Kentucky 811</p>
+        <DemoBadge />
+      </div>
 
       {TICKETS_AT_RISK > 0 && (
         <div className="my-2 flex items-start gap-2 rounded-[12px] bg-[color-mix(in_oklab,var(--warn)_14%,transparent)] px-2.5 py-2.5 text-[11px] text-warn">

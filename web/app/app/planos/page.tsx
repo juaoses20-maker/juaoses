@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { PencilRuler, BarChart3, Plus } from "lucide-react";
 import { PLANS, PLAN_MARKS } from "@/lib/seed";
+import { getActiveProject } from "@/lib/data/queries";
+import NoProject from "@/components/app/NoProject";
+import DemoBadge from "@/components/app/DemoBadge";
 
 function EmptyPlanos() {
   return (
@@ -22,17 +25,20 @@ function EmptyPlanos() {
   );
 }
 
-export default function PlanosPage() {
+export default async function PlanosPage() {
+  const project = await getActiveProject();
+  if (!project) return <NoProject what="planos" />;
   if (PLANS.length === 0) return <EmptyPlanos />;
   const plan = PLANS[0];
 
   return (
     <div className="relative">
-      <div className="mt-2">
+      <div className="mt-2 flex flex-col">
         <h1 className="font-display text-[16px] font-semibold">{plan.name}</h1>
         <p className="text-[10px] text-ink-3">
           {plan.marks} marcas · {new Intl.NumberFormat("en-US").format(plan.ftMarked)} ft marcados
         </p>
+        <DemoBadge />
       </div>
 
       <div className="mt-2.5 flex gap-1.5">

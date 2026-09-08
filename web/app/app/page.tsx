@@ -6,6 +6,9 @@ import {
   TICKETS_AT_RISK,
   STREAK_DAYS,
 } from "@/lib/seed";
+import { getActiveProject } from "@/lib/data/queries";
+import NoProject from "@/components/app/NoProject";
+import DemoBadge from "@/components/app/DemoBadge";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -15,13 +18,19 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function HoyPage() {
+export default async function HoyPage() {
+  const project = await getActiveProject();
+  if (!project) return <NoProject what="registros" />;
+
   const activeCrews = CREWS.filter((c) => c.ftToday > 0 || c.extraToday).length;
   const nf = new Intl.NumberFormat("en-US");
 
   return (
     <div>
-      <h1 className="mt-2 text-[22px] font-semibold">El día de hoy</h1>
+      <div className="mt-2 flex flex-col">
+        <h1 className="text-[22px] font-semibold">El día de hoy</h1>
+        <DemoBadge />
+      </div>
 
       <div className="mt-2 grid grid-cols-3 gap-1.5">
         {[
