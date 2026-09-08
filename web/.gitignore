@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# helper local para claves — nunca se sube
+_guardar-clave.bat
+_guardar-clave.ps1
