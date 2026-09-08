@@ -76,9 +76,23 @@ Lo que la app **nunca** hace: reemplazar la llamada al 811, publicar o enviar al
 
 ---
 
+### 8 · Todo en código (Bloque 5 — hecho)
+El sitio y la app ya existen como software de verdad, en la carpeta `web/` (Next.js). Verificado: compila, construye y arranca sin errores; todas las páginas responden.
+- **Página de ventas** (`/`) — las 10 secciones.
+- **Primeros minutos** — `/probar` (marca el tramo tocando el plano de verdad → primera prueba), `/planes` (paywall de 3 pantallas), `/entrar` (Google / enlace por correo).
+- **La app por dentro** — `/app` (Hoy), `/app/planos`, `/app/fotos`, `/app/811`, `/app/cuadrillas` — con datos de ejemplo de Louisville, KY.
+- **Legales** — páginas provisionales (se redactan antes de vender).
+Todavía nada “entra” de verdad (Google, correo, cobro) — eso se conecta en el siguiente bloque.
+
 ## Qué falta
 
-**Siguiente:** Bloque 5 — convertir todo lo diseñado (página de ventas + primeros minutos + app) en un sitio web y una app de verdad, en código, y conectar el cobro. **Aquí el usuario tiene que crear cuentas** (Supabase = base de datos, Vercel = publicación, Stripe = cobro, Resend = correos), comprar el dominio (~$12/año) y pegar 3–4 claves. Se avisa y se guía clic por clic.
+**Siguiente:** **Servicios externos** — conectar la base de datos y el cobro para que el sitio funcione de verdad y esté publicado. **Aquí el usuario crea cuentas gratis** — en este orden, una a la vez, con guía:
+1. GitHub (guardar el código en la nube)
+2. Supabase (base de datos + cuentas de usuario)
+3. Stripe (cobro)
+4. Vercel (publicar el sitio)
+5. Resend (correos automáticos)
+6. Dominio (~$12/año)
 
 **Después:**
 - Bloque 6 — pruebas, pulido y revisión de calidad.

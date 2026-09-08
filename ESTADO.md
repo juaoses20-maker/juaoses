@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 5 en curso — en código y verificado (tsc/build/eslint/dev, rutas 200, flujo E2E sin errores): landing (`/`), funnel (`/probar` wizard interactivo con marcado real sobre SVG + primera victoria "La Prueba de Campo"; `/planes` paywall de 3 páginas; `/entrar` Google + magic-link visual), `/legal/[slug]` stubs. Todo en `web/`. / Siguiente acción exacta: presentar el funnel al usuario → construir `/app` (Hoy/Planos/Fotos/811/Cuadrillas) en código con datos semilla → luego servicios externos (cuentas del usuario)
+⏸️ CHECKPOINT — Última acción completada: Bloque 5 — TODAS las 5 etapas de producto construidas en código y verificadas (tsc ✓ build ✓ eslint ✓ dev ✓, todas las rutas 200, flujos sin errores de consola): landing `/` · funnel `/probar` `/planes` `/entrar` · app interna `/app` `/app/planos` `/app/fotos` `/app/811` `/app/cuadrillas` (shell con nav abajo + `lib/seed.ts` datos Louisville KY). / Siguiente acción exacta: **SERVICIOS EXTERNOS** — empieza pidiendo al usuario crear cuenta Supabase (guiado clic por clic, protocolo del 62). Orden: Git/GitHub → Supabase (datos+RLS+auth) → Stripe → Vercel → Resend → dominio.
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -99,8 +99,11 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Bloque 2 — Página de ventas — 2026-08-31 — `docs/copy/landing.md` + `docs/revisiones/landing.html` (10 secciones canónicas) · APROBADA por el usuario sin cambios · título "Todo tu avance de obra de fibra, en un toque"
 - Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · APROBADO
 - Bloque 4 — App interna (diseño) — 2026-08-31 — `docs/revisiones/app.html` · APROBADO por el usuario
-- Bloque 5 (en curso) — Código — 2026-09-08 — `web/` (Next 16 scaffold + tokens + fuentes). Construido y verificado: landing `/` · funnel `/probar` (wizard 3 pasos + primera victoria, marcado interactivo sobre SVG) · `/planes` (paywall 3 páginas con estado) · `/entrar` (Google + magic-link, UI; auth se cablea en servicios) · `/legal/[slug]` (stubs — se redactan con archivo 47). Rutas 200, flujo E2E manejado sin errores de consola.
-- Componentes: `web/components/site/Landing.tsx`, `web/components/site/ui.tsx` (Btn/Progress/TopBar). Reveal de la landing = CSS+IO (no motion).
+- Bloque 5 — Código (5 etapas de producto COMPLETAS) — 2026-09-08 — `web/` (Next 16 scaffold + tokens + fuentes). Verificado tsc/build/eslint/dev, rutas 200:
+  - landing `/` (`components/site/Landing.tsx` — reveal CSS+IO, no motion)
+  - funnel: `/probar` (wizard 3 pasos + primera victoria, marcado interactivo sobre SVG) · `/planes` (paywall 3 páginas con estado) · `/entrar` (Google + magic-link, UI) · `/legal/[slug]` (stubs — se redactan con 47)
+  - app interna: `/app` (Hoy — tiles+mapa+racha+actividad) · `/app/planos` (plano con marcas + estado vacío `EmptyPlanos` en código) · `/app/fotos` (grilla+filtros) · `/app/811` (tickets por color + renovar) · `/app/cuadrillas`. Shell en `app/app/layout.tsx` + `components/app/BottomNav.tsx` (usePathname). Datos: `lib/seed.ts` (proyecto Louisville KY).
+- Componentes compartidos: `components/site/ui.tsx` (Btn/Progress/TopBar).
 
 ## Decisiones técnicas del código (web/)
 - App en subcarpeta `web/` del repo (los docs del SO quedan en la raíz). Next 16.3.4, React 19.2.8, Tailwind v4 CSS-first (tokens en `web/app/globals.css`, `@theme inline`).
