@@ -1,8 +1,17 @@
+import { redirect } from "next/navigation";
 import BottomNav from "@/components/app/BottomNav";
 import { PROJECT } from "@/lib/seed";
-import { ChevronDown } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { ChevronDown, LogOut } from "lucide-react";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/entrar");
+
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-[460px] flex-col bg-bg text-ink">
       <header className="flex items-center gap-2.5 px-4 pb-2.5 pt-[max(12px,env(safe-area-inset-top))]">
@@ -19,6 +28,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         <ChevronDown className="h-4 w-4 flex-none text-ink-3" strokeWidth={2} />
+        <form action="/auth/signout" method="post" className="flex-none">
+          <button
+            type="submit"
+            aria-label="Salir"
+            className="grid h-8 w-8 place-items-center rounded-[8px] text-ink-3 transition-colors hover:text-ink"
+          >
+            <LogOut className="h-4 w-4" strokeWidth={2} />
+          </button>
+        </form>
       </header>
 
       <main className="flex-1 overflow-x-hidden px-4 pb-4">{children}</main>

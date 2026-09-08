@@ -1,5 +1,5 @@
 # ESTADO — EA Fiber Track
-Última actualización: 2026-08-31 | Sesión actual: 1
+Última actualización: 2026-09-08 | Sesión actual: 2
 
 ⏸️ CHECKPOINT — Última acción completada: Bloque 5 — TODAS las 5 etapas de producto construidas en código y verificadas (tsc ✓ build ✓ eslint ✓ dev ✓, todas las rutas 200, flujos sin errores de consola): landing `/` · funnel `/probar` `/planes` `/entrar` · app interna `/app` `/app/planos` `/app/fotos` `/app/811` `/app/cuadrillas` (shell con nav abajo + `lib/seed.ts` datos Louisville KY). / Siguiente acción exacta: **SERVICIOS EXTERNOS** — empieza pidiendo al usuario crear cuenta Supabase (guiado clic por clic, protocolo del 62). Orden: Git/GitHub → Supabase (datos+RLS+auth) → Stripe → Vercel → Resend → dominio.
 
@@ -133,7 +133,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
       ⚠️ `SUPABASE_SECRET_KEY` PENDIENTE — el usuario tuvo mucha fricción de copiar/pegar (3 secret keys se filtraron al chat y hay que rotarlas). Decisión: NO bloquear en esto — la secret solo hace falta para el webhook de Stripe y scripts admin. Se retoma en el bloque de Stripe con un método mejor. `lib/env.ts` ya la trata como opcional (`serverEnv()` solo lanza si se usa).
       ⚠️ ROTAR en Supabase cuando se retome: `sb_secret_Nhzpo…`, `sb_secret_bc1kQ…` (y la publishable `sb_publishable_URqG…` opcionalmente — es pública por diseño).
       Helper local para guardar la secret sin chat: `web/_guardar-clave-script.ps1` (lee de `Escritorio\clave.txt` → escribe `.env.local`).
-- Falta: esquema de BD + RLS (migración SQL) · cablear login real (magic-link + Google) en `/entrar`.
+- [x] **Esquema BD + RLS** — `web/supabase/migrations/0001_init.sql` ejecutado en el SQL Editor de Supabase 2026-09-08 ("Success. No rows returned"). 10 tablas + `memberships` con RLS por pertenencia a empresa (`company_id in (select company_id from memberships where user_id = (select auth.uid()))`), columnas de política indexadas, triggers `updated_at`, RPC `create_company()` (SECURITY DEFINER, evita el huevo-y-gallina del INSERT), buckets Storage privados `plans`/`photos` con RLS por primer segmento del path = company_id.
+- Falta: cablear login real (magic-link + Google) en `/entrar` · conectar pantallas `web/app/app/*` a datos reales (hoy usan `lib/seed.ts`).
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)
