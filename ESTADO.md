@@ -134,7 +134,10 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
       ⚠️ ROTAR en Supabase cuando se retome: `sb_secret_Nhzpo…`, `sb_secret_bc1kQ…` (y la publishable `sb_publishable_URqG…` opcionalmente — es pública por diseño).
       Helper local para guardar la secret sin chat: `web/_guardar-clave-script.ps1` (lee de `Escritorio\clave.txt` → escribe `.env.local`).
 - [x] **Esquema BD + RLS** — `web/supabase/migrations/0001_init.sql` ejecutado en el SQL Editor de Supabase 2026-09-08 ("Success. No rows returned"). 10 tablas + `memberships` con RLS por pertenencia a empresa (`company_id in (select company_id from memberships where user_id = (select auth.uid()))`), columnas de política indexadas, triggers `updated_at`, RPC `create_company()` (SECURITY DEFINER, evita el huevo-y-gallina del INSERT), buckets Storage privados `plans`/`photos` con RLS por primer segmento del path = company_id.
-- Falta: cablear login real (magic-link + Google) en `/entrar` · conectar pantallas `web/app/app/*` a datos reales (hoy usan `lib/seed.ts`).
+- [x] **Login real (magic-link)** — 2026-09-08. `/entrar` usa `signInWithOtp` (enlace por correo) → `/auth/callback` canjea el `code` por sesión → `/app`. `/auth/signout` cierra sesión (botón en el header de la app). `/app/*` gateado en `app/app/layout.tsx` (sin sesión → `/entrar`). Botón Google llama `signInWithOAuth` best-effort (muestra "se activa pronto" si el proveedor no está configurado en Supabase).
+      ⚠️ Correo del magic link: SMTP por defecto de Supabase (rate-limit ~2/hora, solo para probar). Al desplegar hay que: (a) añadir el dominio real en Supabase → Authentication → URL Configuration (Site URL + Redirect URLs con `/auth/callback`), (b) SMTP propio vía Resend.
+      ⚠️ Google OAuth: pendiente configurar el proveedor en Supabase (necesita cuenta Google Cloud → OAuth client). Se hace junto con el bloque de dominio.
+- Falta: primer login → crear `company` + `membership` (onboarding de empresa) · conectar pantallas `web/app/app/*` a datos reales de Supabase (hoy usan `lib/seed.ts`).
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)
