@@ -4,6 +4,10 @@ node_modules
 !.env.example
 dist
 .next
+out
 .DS_Store
 _instalador/
+web/.next/
+web/node_modules/
+web/tsconfig.tsbuildinfo
 docs/revisiones/node_modules/
