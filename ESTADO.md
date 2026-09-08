@@ -129,7 +129,11 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 
 ## Servicios externos — progreso
 - [x] **GitHub** — repo `https://github.com/juaoses20-maker/juaoses` (privado). Remote `origin` configurado, `main` = HEAD local. Credenciales cacheadas en esta máquina → el agente puede `git push` directo (el usuario NO necesita GitHub Desktop). Identidad de commits: `EA Fiber Track <dev@eafibertrack.com>`. ⚠️ El usuario NO debe usar "Add file" en la web de GitHub (creó un archivo basura que ya se quitó).
-- [ ] **Supabase** (base de datos + cuentas) — EN CURSO: el usuario crea el proyecto
+- [~] **Supabase** — proyecto creado (`nzgynojypmnhuwtaplym`, región East US). `web/.env.local` con URL + PUBLISHABLE key configuradas y CONEXIÓN VERIFICADA (auth health 200, la app puede autenticar y leer/escribir con RLS).
+      ⚠️ `SUPABASE_SECRET_KEY` PENDIENTE — el usuario tuvo mucha fricción de copiar/pegar (3 secret keys se filtraron al chat y hay que rotarlas). Decisión: NO bloquear en esto — la secret solo hace falta para el webhook de Stripe y scripts admin. Se retoma en el bloque de Stripe con un método mejor. `lib/env.ts` ya la trata como opcional (`serverEnv()` solo lanza si se usa).
+      ⚠️ ROTAR en Supabase cuando se retome: `sb_secret_Nhzpo…`, `sb_secret_bc1kQ…` (y la publishable `sb_publishable_URqG…` opcionalmente — es pública por diseño).
+      Helper local para guardar la secret sin chat: `web/_guardar-clave-script.ps1` (lee de `Escritorio\clave.txt` → escribe `.env.local`).
+- Falta: esquema de BD + RLS (migración SQL) · cablear login real (magic-link + Google) en `/entrar`.
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)

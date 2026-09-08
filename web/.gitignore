@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # helper local para claves — nunca se sube
-_guardar-clave.bat
-_guardar-clave.ps1
+GUARDAR-CLAVE.bat
+_guardar-clave-script.ps1
