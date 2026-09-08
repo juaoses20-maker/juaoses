@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 5 en curso — proyecto Next.js scaffold en `web/` (Next 16.3.4 / React 19 / Tailwind v4 / tokens "Cuaderno de obra" en globals.css / fuentes Fraunces+IBM Plex vía next/font). Landing construida en código: `web/components/site/Landing.tsx` + `web/app/page.tsx`. Verificado: tsc ✓ build ✓ dev ✓ eslint ✓ · render 375px → `docs/revisiones/landing-code-375.png` (10 secciones, fiel al mock aprobado). Bloque 4 (app.html) APROBADO por el usuario. / Siguiente acción exacta: presentar Puerta de Etapa de la landing → construir en código el funnel (/probar → /planes → /entrar) → luego /app → luego servicios externos
+⏸️ CHECKPOINT — Última acción completada: Bloque 5 en curso — en código y verificado (tsc/build/eslint/dev, rutas 200, flujo E2E sin errores): landing (`/`), funnel (`/probar` wizard interactivo con marcado real sobre SVG + primera victoria "La Prueba de Campo"; `/planes` paywall de 3 páginas; `/entrar` Google + magic-link visual), `/legal/[slug]` stubs. Todo en `web/`. / Siguiente acción exacta: presentar el funnel al usuario → construir `/app` (Hoy/Planos/Fotos/811/Cuadrillas) en código con datos semilla → luego servicios externos (cuentas del usuario)
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -99,7 +99,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Bloque 2 — Página de ventas — 2026-08-31 — `docs/copy/landing.md` + `docs/revisiones/landing.html` (10 secciones canónicas) · APROBADA por el usuario sin cambios · título "Todo tu avance de obra de fibra, en un toque"
 - Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · APROBADO
 - Bloque 4 — App interna (diseño) — 2026-08-31 — `docs/revisiones/app.html` · APROBADO por el usuario
-- Bloque 5 (en curso) — Código — 2026-09-08 — proyecto `web/` (Next.js 16 scaffold + tokens + fuentes) · landing en código verificada (tsc/build/dev/eslint/render 375px)
+- Bloque 5 (en curso) — Código — 2026-09-08 — `web/` (Next 16 scaffold + tokens + fuentes). Construido y verificado: landing `/` · funnel `/probar` (wizard 3 pasos + primera victoria, marcado interactivo sobre SVG) · `/planes` (paywall 3 páginas con estado) · `/entrar` (Google + magic-link, UI; auth se cablea en servicios) · `/legal/[slug]` (stubs — se redactan con archivo 47). Rutas 200, flujo E2E manejado sin errores de consola.
+- Componentes: `web/components/site/Landing.tsx`, `web/components/site/ui.tsx` (Btn/Progress/TopBar). Reveal de la landing = CSS+IO (no motion).
 
 ## Decisiones técnicas del código (web/)
 - App en subcarpeta `web/` del repo (los docs del SO quedan en la raíz). Next 16.3.4, React 19.2.8, Tailwind v4 CSS-first (tokens en `web/app/globals.css`, `@theme inline`).
