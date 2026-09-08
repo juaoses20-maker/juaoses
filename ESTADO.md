@@ -1,7 +1,7 @@
 # ESTADO — EA Fiber Track
 Última actualización: 2026-08-31 | Sesión actual: 1
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 4 — `docs/revisiones/app.html` (5 pantallas: Hoy · Planos · Fotos · 811 · Cuadrillas + estado vacío). Bloque 3 (funnel) APROBADO por el usuario. BITACORA.md creada (registro completo). / Siguiente acción exacta: recoger feedback de la app → cerrar Bloque 4 → **Bloque 5** (construir todo en código Next.js real + conectar Supabase/Stripe/Vercel/dominio — AQUÍ el usuario crea cuentas y pega claves)
+⏸️ CHECKPOINT — Última acción completada: Bloque 5 en curso — proyecto Next.js scaffold en `web/` (Next 16.3.4 / React 19 / Tailwind v4 / tokens "Cuaderno de obra" en globals.css / fuentes Fraunces+IBM Plex vía next/font). Landing construida en código: `web/components/site/Landing.tsx` + `web/app/page.tsx`. Verificado: tsc ✓ build ✓ dev ✓ eslint ✓ · render 375px → `docs/revisiones/landing-code-375.png` (10 secciones, fiel al mock aprobado). Bloque 4 (app.html) APROBADO por el usuario. / Siguiente acción exacta: presentar Puerta de Etapa de la landing → construir en código el funnel (/probar → /planes → /entrar) → luego /app → luego servicios externos
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -98,7 +98,15 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Bloque 1 — Cliente y dinero — 2026-08-31 — FICHA-AVATAR.md + FICHA-MERCADO.md · monetización onboarding-first + Stripe · precio propuesto · arquitectura/datos/auth decididos
 - Bloque 2 — Página de ventas — 2026-08-31 — `docs/copy/landing.md` + `docs/revisiones/landing.html` (10 secciones canónicas) · APROBADA por el usuario sin cambios · título "Todo tu avance de obra de fibra, en un toque"
 - Bloque 3 — Primeros minutos — 2026-08-31 — `docs/revisiones/funnel.html` (/probar → /planes → /entrar) · APROBADO
-- Bloque 4 — App interna — 2026-08-31 — `docs/revisiones/app.html` (Hoy/Planos/Fotos/811/Cuadrillas + estado vacío) · pendiente de OK del usuario
+- Bloque 4 — App interna (diseño) — 2026-08-31 — `docs/revisiones/app.html` · APROBADO por el usuario
+- Bloque 5 (en curso) — Código — 2026-09-08 — proyecto `web/` (Next.js 16 scaffold + tokens + fuentes) · landing en código verificada (tsc/build/dev/eslint/render 375px)
+
+## Decisiones técnicas del código (web/)
+- App en subcarpeta `web/` del repo (los docs del SO quedan en la raíz). Next 16.3.4, React 19.2.8, Tailwind v4 CSS-first (tokens en `web/app/globals.css`, `@theme inline`).
+- Deps instaladas: @supabase/ssr 0.5.2 · @supabase/supabase-js 2.116 · zod 3.25 · motion 11.18 · lucide-react 0.454. (motion se dejó de usar en la landing por hydration mismatch con Next 16 → reveal por CSS + IntersectionObserver, patrón `.js-reveal [data-rv].rv-in` en globals.css; motion queda disponible para la app.)
+- Layout raíz: `lang="es"`, `min-h-dvh`, fuentes `Fraunces` + `IBM_Plex_Sans` + `IBM_Plex_Mono` vía next/font (variables `--font-fraunces` etc.).
+- `LayoutProps<"/">` (tipo generado de Next 16) reemplazado por tipo explícito para que `tsc` standalone pase.
+- ⚠️ Pendientes de la landing en código: (1) rutas `/probar` y `/entrar` no existen aún → los CTA apuntan ahí (Next dev marca "1 Issue" por link interno roto — se resuelve al construir esas rutas y cambiar a `next/link`); (2) 4 páginas legales (`/legal/*`) con el archivo 47; (3) veredicto revisor-visual /40·/20·/20 (pantalla del dinero); (4) contador de fundador real; (5) instrumentar `landing_vista`.
 - Loop de retención (Regla 6) DEFINIDO: gatillo = aviso 6 p.m. "cierra el parte" / 811 por vencer → acción = foreman marca la producción sobre el plano + cierra el parte → recompensa = "El día de hoy" se actualiza (el owner ve el avance sin llamar) + racha de días con parte → inversión = cada tramo se acumula en el plano + crece el historial de pruebas. Test "borrar historial": la app de mañana NO es idéntica ✓.
 
 ## Sesión en progreso 🔧
