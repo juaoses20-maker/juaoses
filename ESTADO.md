@@ -137,7 +137,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - [x] **Login real (magic-link)** — 2026-09-08. `/entrar` usa `signInWithOtp` (enlace por correo) → `/auth/callback` canjea el `code` por sesión → `/app`. `/auth/signout` cierra sesión (botón en el header de la app). `/app/*` gateado en `app/app/layout.tsx` (sin sesión → `/entrar`). Botón Google llama `signInWithOAuth` best-effort (muestra "se activa pronto" si el proveedor no está configurado en Supabase).
       ⚠️ Correo del magic link: SMTP por defecto de Supabase (rate-limit ~2/hora, solo para probar). Al desplegar hay que: (a) añadir el dominio real en Supabase → Authentication → URL Configuration (Site URL + Redirect URLs con `/auth/callback`), (b) SMTP propio vía Resend.
       ⚠️ Google OAuth: pendiente configurar el proveedor en Supabase (necesita cuenta Google Cloud → OAuth client). Se hace junto con el bloque de dominio.
-- Falta: primer login → crear `company` + `membership` (onboarding de empresa) · conectar pantallas `web/app/app/*` a datos reales de Supabase (hoy usan `lib/seed.ts`).
+- [x] **Onboarding de empresa** — 2026-09-08. `lib/supabase/context.ts` `getUserContext()` → `user + companyId + role`. `/bienvenido` (form nombre + zona) llama RPC `create_company` → owner + `/app`. `/app` redirige a `/bienvenido` si el usuario no tiene membresía. Header de `/app` muestra el nombre real de la empresa. Form pre-rellenado con "Advanced Solutions" (primera empresa del usuario, editable).
+- Falta (pasos 2-3): CRUD real de proyectos + cuadrillas · conectar pantallas `web/app/app/*` (Hoy/Planos/Fotos/811/Cuadrillas) a Supabase con estados vacíos (hoy usan `lib/seed.ts`).
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)
