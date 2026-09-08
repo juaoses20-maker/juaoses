@@ -1,11 +1,11 @@
-/** Datos de ejemplo — proyecto real de OSP en Louisville, KY.
+/** Datos de ejemplo — proyecto de OSP en Owensboro, KY.
  *  (32 · "LA APP NUNCA SE ENSEÑA VACÍA"). Se reemplazan por datos de Supabase
  *  en la fase de servicios externos. */
 
 export const PROJECT = {
-  name: "Fibra Louisville — Fase 2",
-  client: "LG&E / KU",
-  location: "Louisville, KY",
+  name: "Fibra Owensboro — Fase 2",
+  client: "Owensboro Municipal Utilities",
+  location: "Owensboro, KY",
 };
 
 export type Crew = {
@@ -74,7 +74,7 @@ export type Ticket = {
 export const TICKETS: Ticket[] = [
   {
     number: "2024-2208891",
-    location: "Havana St, 100–400 blk",
+    location: "Frederica St, 1800–2100 blk",
     status: "vencido",
     detail: "Vencido",
     meta: ["Excavó 18 ago", "Venció ayer"],
@@ -82,7 +82,7 @@ export const TICKETS: Ticket[] = [
   },
   {
     number: "2024-2210455",
-    location: "E Colfax Ave & Peoria St",
+    location: "Parrish Ave & Triplett St",
     status: "por-vencer",
     detail: "Por vencer",
     meta: ["Vence 3 sep", "📎 2 fotos"],
@@ -90,7 +90,7 @@ export const TICKETS: Ticket[] = [
   },
   {
     number: "2024-2214788",
-    location: "Chambers Rd & 13th Ave",
+    location: "Southtown Blvd & Carter Rd",
     status: "activo",
     detail: "Activo",
     meta: ["Vence 12 sep", "5 días"],
@@ -98,7 +98,7 @@ export const TICKETS: Ticket[] = [
   },
   {
     number: "2024-2215002",
-    location: "Montview Blvd & Moline St",
+    location: "Booth Ave & Bellevue St",
     status: "activo",
     detail: "Activo",
     meta: ["Vence 18 sep", "18 días"],
@@ -106,7 +106,7 @@ export const TICKETS: Ticket[] = [
   },
   {
     number: "2024-2216110",
-    location: "Fitzsimons Pkwy & Ursula",
+    location: "Old Hartford Rd & Tamarack Rd",
     status: "activo",
     detail: "Activo",
     meta: ["Vence 23 sep", "23 días"],
@@ -114,7 +114,7 @@ export const TICKETS: Ticket[] = [
   },
   {
     number: "2024-2201773",
-    location: "Sable Blvd & 6th Ave",
+    location: "Byers Ave & E 4th St",
     status: "activo",
     detail: "Cerrado",
     meta: ["Trabajo completo"],
@@ -133,16 +133,16 @@ export const PLAN_MARKS = [
 ];
 
 export const PLANS = [
-  { id: "c3", name: "Sheet C-3 — Colfax / Peoria", marks: PLAN_MARKS.length, ftMarked: 3050 },
+  { id: "c3", name: "Sheet C-3 — Frederica / Parrish", marks: PLAN_MARKS.length, ftMarked: 3050 },
 ];
 
 export const PHOTOS = [
-  { at: "9:41", gps: "38.254,−85.758", tint: "#b45a1e" },
-  { at: "9:12", gps: "38.253,−85.760", tint: "#3c6a89" },
-  { at: "8:47", gps: "38.255,−85.755", tint: "#7a5a1f" },
-  { at: "8:20", gps: "38.251,−85.762", tint: "#2f7d3a" },
-  { at: "7:58", gps: "38.256,−85.751", tint: "#8a4f22" },
-  { at: "7:30", gps: "38.252,−85.759", tint: "#5a6b7a" },
+  { at: "9:41", gps: "37.774,−87.113", tint: "#b45a1e" },
+  { at: "9:12", gps: "37.772,−87.115", tint: "#3c6a89" },
+  { at: "8:47", gps: "37.776,−87.110", tint: "#7a5a1f" },
+  { at: "8:20", gps: "37.771,−87.117", tint: "#2f7d3a" },
+  { at: "7:58", gps: "37.777,−87.106", tint: "#8a4f22" },
+  { at: "7:30", gps: "37.773,−87.114", tint: "#5a6b7a" },
 ];
 
 export const PHOTOS_YESTERDAY = [
