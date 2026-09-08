@@ -1,6 +1,11 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { ACTIVE_PROJECT_COOKIE, type Crew, type Project } from "@/lib/data/types";
+import {
+  ACTIVE_PROJECT_COOKIE,
+  type Crew,
+  type Project,
+  type Ticket811,
+} from "@/lib/data/types";
 
 export async function listProjects(): Promise<Project[]> {
   const supabase = await createClient();
@@ -27,4 +32,14 @@ export async function listCrews(projectId: string): Promise<Crew[]> {
     .eq("project_id", projectId)
     .order("created_at", { ascending: true });
   return (data ?? []) as Crew[];
+}
+
+export async function listTickets(projectId: string): Promise<Ticket811[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("tickets811")
+    .select("id, number, location, dig_start, expiration, life_days, status_manual, notes")
+    .eq("project_id", projectId)
+    .order("expiration", { ascending: true, nullsFirst: false });
+  return (data ?? []) as Ticket811[];
 }

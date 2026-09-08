@@ -8,8 +8,10 @@ import { getUserContext } from "@/lib/supabase/context";
 import {
   ACTIVE_PROJECT_COOKIE,
   CREW_COLORS,
+  isoPlusDays,
   type CrewFormState,
   type ProjectFormState,
+  type TicketFormState,
 } from "@/lib/data/types";
 
 const YEAR = 60 * 60 * 24 * 365;
@@ -150,4 +152,105 @@ export async function deleteCrew(formData: FormData): Promise<void> {
   const supabase = await createClient();
   await supabase.from("crews").delete().eq("id", id);
   revalidatePath("/app/cuadrillas");
+}
+
+// ───────────────────────── tickets 811 ─────────────────────────
+
+const LIFE_DAYS = 21; // Kentucky 811: ticket válido 21 días calendario
+
+export async function createTicket(
+  _prev: TicketFormState,
+  formData: FormData,
+): Promise<TicketFormState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const projectId = eq(formData.get("projectId"));
+  const number = eq(formData.get("number"));
+  const location = eq(formData.get("location"));
+  const digStart = eq(formData.get("dig_start")) || isoPlusDays(0);
+  if (!projectId) return { error: "Elige un proyecto primero." };
+  if (number.length < 4) return { error: "Escribe el número del ticket 811." };
+
+  const expiration = isoPlusDaysFrom(digStart, LIFE_DAYS);
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("tickets811").insert({
+    company_id: ctx.companyId,
+    project_id: projectId,
+    number,
+    location: location || null,
+    dig_start: digStart,
+    expiration,
+    life_days: LIFE_DAYS,
+  });
+
+  if (error) return { error: "No pudimos guardar el ticket. Inténtalo de nuevo." };
+  revalidatePath("/app/811");
+  revalidatePath("/app");
+  return { error: null, ok: true };
+}
+
+export async function updateTicket(
+  _prev: TicketFormState,
+  formData: FormData,
+): Promise<TicketFormState> {
+  const id = eq(formData.get("id"));
+  const number = eq(formData.get("number"));
+  const location = eq(formData.get("location"));
+  const digStart = eq(formData.get("dig_start"));
+  const closed = eq(formData.get("closed")) === "on";
+  if (!id) return { error: "Ticket no encontrado." };
+  if (number.length < 4) return { error: "Escribe el número del ticket 811." };
+
+  const patch: Record<string, unknown> = {
+    number,
+    location: location || null,
+    status_manual: closed ? "cerrado" : null,
+  };
+  if (digStart) {
+    patch.dig_start = digStart;
+    patch.expiration = isoPlusDaysFrom(digStart, LIFE_DAYS);
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("tickets811").update(patch).eq("id", id);
+
+  if (error) return { error: "No pudimos guardar los cambios." };
+  revalidatePath("/app/811");
+  revalidatePath("/app");
+  return { error: null, ok: true };
+}
+
+export async function renewTicket(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  if (!id) return;
+  const digStart = isoPlusDays(0);
+  const supabase = await createClient();
+  await supabase
+    .from("tickets811")
+    .update({
+      dig_start: digStart,
+      expiration: isoPlusDaysFrom(digStart, LIFE_DAYS),
+      status_manual: null,
+    })
+    .eq("id", id);
+  revalidatePath("/app/811");
+  revalidatePath("/app");
+}
+
+export async function deleteTicket(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("tickets811").delete().eq("id", id);
+  revalidatePath("/app/811");
+  revalidatePath("/app");
+}
+
+/** yyyy-mm-dd = base + n días. */
+function isoPlusDaysFrom(baseIso: string, days: number): string {
+  const d = new Date(baseIso + "T00:00:00");
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
 }
