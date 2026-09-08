@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   ArrowRight,
   Search,
@@ -69,19 +70,23 @@ function Cta({
   href?: string;
   className?: string;
 }) {
+  const cls =
+    "flex h-12 w-full items-center justify-center gap-2 rounded-btn px-5 font-body text-[15px] font-bold text-accent-ink " +
+    "bg-[linear-gradient(180deg,color-mix(in_oklab,#fff_20%,var(--accent)),var(--accent))] " +
+    "shadow-[0_8px_22px_color-mix(in_oklab,var(--accent)_34%,transparent),inset_0_1px_0_rgb(255_255_255/0.3)] " +
+    "transition-transform active:scale-[0.98] " +
+    className;
+  if (href.startsWith("#")) {
+    return (
+      <a href={href} className={cls}>
+        {children}
+      </a>
+    );
+  }
   return (
-    <a
-      href={href}
-      className={
-        "flex h-12 w-full items-center justify-center gap-2 rounded-btn px-5 font-body text-[15px] font-bold text-accent-ink " +
-        "bg-[linear-gradient(180deg,color-mix(in_oklab,#fff_20%,var(--accent)),var(--accent))] " +
-        "shadow-[0_8px_22px_color-mix(in_oklab,var(--accent)_34%,transparent),inset_0_1px_0_rgb(255_255_255/0.3)] " +
-        "transition-transform active:scale-[0.98] " +
-        className
-      }
-    >
+    <Link href={href} className={cls}>
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -247,9 +252,9 @@ export default function Landing() {
             </span>
             EA Fiber Track
           </span>
-          <a href="/entrar" className="ml-auto text-[13px] font-medium text-ink-2">
+          <Link href="/entrar" className="ml-auto text-[13px] font-medium text-ink-2">
             Entrar
-          </a>
+          </Link>
         </div>
       </header>
 
@@ -595,9 +600,9 @@ export default function Landing() {
             EA Fiber Track
           </span>
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-3 text-[12.5px] text-ink-2 [&_a]:underline [&_a]:underline-offset-2">
-            <a href="/legal/terminos">Términos y Condiciones</a>
-            <a href="/legal/privacidad">Política de Privacidad</a>
-            <a href="/legal/reembolso">Política de Reembolso</a>
+            <Link href="/legal/terminos">Términos y Condiciones</Link>
+            <Link href="/legal/privacidad">Política de Privacidad</Link>
+            <Link href="/legal/reembolso">Política de Reembolso</Link>
             <a href="mailto:hola@eafibertrack.com">Contacto</a>
           </div>
           <p className="mt-4 rounded-[10px] border border-dashed bg-surface px-3 py-2.5 text-[11px] leading-relaxed text-ink-3">
