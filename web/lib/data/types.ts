@@ -70,6 +70,35 @@ export type Photo = {
 };
 
 export const PHOTOS_BUCKET = "photos";
+export const PLANS_BUCKET = "plans";
+
+export type Plan = {
+  id: string;
+  name: string;
+  storage_path: string;
+  url: string | null;
+  width: number | null;
+  height: number | null;
+  is_pdf: boolean;
+  mark_count: number;
+  ft_marked: number;
+};
+
+/** geom normalizado 0..1 sobre el plano. */
+export type MarkGeom = { a: [number, number]; b: [number, number] } | { p: [number, number] };
+
+export type PlanMark = {
+  id: string;
+  kind: "seg" | "pt";
+  geom: MarkGeom;
+  activity: string;
+  qty: number;
+  unit: string;
+  note: string | null;
+  crew_id: string | null;
+};
+
+export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole"] as const;
 
 export type ProjectFormState = { error: string | null };
 export type CrewFormState = { error: string | null; ok?: boolean };

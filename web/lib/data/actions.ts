@@ -10,6 +10,7 @@ import {
   CREW_COLORS,
   isoPlusDays,
   PHOTOS_BUCKET,
+  PLANS_BUCKET,
   type CrewFormState,
   type ProjectFormState,
   type TicketFormState,
@@ -302,4 +303,113 @@ export async function deletePhoto(formData: FormData): Promise<void> {
   await supabase.from("photos").delete().eq("id", id);
   if (path) await supabase.storage.from(PHOTOS_BUCKET).remove([path]);
   revalidatePath("/app/fotos");
+}
+
+// ───────────────────────── planos + marcas ─────────────────────────
+
+export type PlanSaveState = { error: string | null; ok?: boolean; planId?: string };
+
+/** Registra el plano. El archivo ya se subió a Storage desde el navegador. */
+export async function savePlan(
+  _prev: PlanSaveState,
+  formData: FormData,
+): Promise<PlanSaveState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const projectId = eq(formData.get("projectId"));
+  const storagePath = eq(formData.get("storagePath"));
+  const name = eq(formData.get("name"));
+  const width = Number(eq(formData.get("width"))) || null;
+  const height = Number(eq(formData.get("height"))) || null;
+  if (!projectId || !storagePath) return { error: "Falta el archivo o el proyecto." };
+  if (!storagePath.startsWith(ctx.companyId + "/")) return { error: "Ruta de archivo inválida." };
+  if (name.length < 2) return { error: "Ponle un nombre al plano." };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("plans")
+    .insert({
+      company_id: ctx.companyId,
+      project_id: projectId,
+      name,
+      storage_path: storagePath,
+      width,
+      height,
+    })
+    .select("id")
+    .single();
+
+  if (error || !data) {
+    await supabase.storage.from(PLANS_BUCKET).remove([storagePath]);
+    return { error: "No pudimos guardar el plano. Inténtalo de nuevo." };
+  }
+  revalidatePath("/app/planos");
+  return { error: null, ok: true, planId: data.id };
+}
+
+export async function deletePlan(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  const path = eq(formData.get("storagePath"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("plans").delete().eq("id", id);
+  if (path) await supabase.storage.from(PLANS_BUCKET).remove([path]);
+  revalidatePath("/app/planos");
+  redirect("/app/planos");
+}
+
+export type MarkSaveState = { error: string | null; ok?: boolean; nonce?: string };
+
+export async function addPlanMark(
+  _prev: MarkSaveState,
+  formData: FormData,
+): Promise<MarkSaveState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const planId = eq(formData.get("planId"));
+  const kind = eq(formData.get("kind")) === "pt" ? "pt" : "seg";
+  const activity = eq(formData.get("activity"));
+  const qty = Number(eq(formData.get("qty"))) || 0;
+  const crewId = eq(formData.get("crewId"));
+  const note = eq(formData.get("note"));
+  const geomRaw = eq(formData.get("geom"));
+  if (!planId || !geomRaw) return { error: "Marca incompleta." };
+  if (!activity) return { error: "Elige la actividad." };
+
+  let geom: unknown;
+  try {
+    geom = JSON.parse(geomRaw);
+  } catch {
+    return { error: "Marca inválida." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("plan_marks").insert({
+    company_id: ctx.companyId,
+    plan_id: planId,
+    kind,
+    geom,
+    activity,
+    qty,
+    unit: "ft",
+    crew_id: crewId || null,
+    note: note || null,
+  });
+
+  if (error) return { error: "No pudimos guardar la marca. Inténtalo de nuevo." };
+  revalidatePath(`/app/planos/${planId}`);
+  revalidatePath("/app/planos");
+  return { error: null, ok: true, nonce: crypto.randomUUID() };
+}
+
+export async function deletePlanMark(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  const planId = eq(formData.get("planId"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("plan_marks").delete().eq("id", id);
+  revalidatePath(`/app/planos/${planId}`);
+  revalidatePath("/app/planos");
 }
