@@ -59,6 +59,18 @@ export function isoPlusDays(days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+export type Photo = {
+  id: string;
+  storage_path: string;
+  url: string | null;
+  lat: number | null;
+  lng: number | null;
+  taken_at: string;
+  activity: string | null;
+};
+
+export const PHOTOS_BUCKET = "photos";
+
 export type ProjectFormState = { error: string | null };
 export type CrewFormState = { error: string | null; ok?: boolean };
 export type TicketFormState = { error: string | null; ok?: boolean };

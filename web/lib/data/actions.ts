@@ -9,6 +9,7 @@ import {
   ACTIVE_PROJECT_COOKIE,
   CREW_COLORS,
   isoPlusDays,
+  PHOTOS_BUCKET,
   type CrewFormState,
   type ProjectFormState,
   type TicketFormState,
@@ -253,4 +254,52 @@ function isoPlusDaysFrom(baseIso: string, days: number): string {
   const d = new Date(baseIso + "T00:00:00");
   d.setDate(d.getDate() + days);
   return d.toISOString().slice(0, 10);
+}
+
+// ───────────────────────── fotos GPS ─────────────────────────
+
+export type PhotoSaveState = { error: string | null; ok?: boolean };
+
+/** Guarda la fila de la foto. El archivo ya se subió a Storage desde el navegador. */
+export async function savePhoto(
+  _prev: PhotoSaveState,
+  formData: FormData,
+): Promise<PhotoSaveState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const projectId = eq(formData.get("projectId"));
+  const storagePath = eq(formData.get("storagePath"));
+  const latRaw = eq(formData.get("lat"));
+  const lngRaw = eq(formData.get("lng"));
+  const activity = eq(formData.get("activity"));
+  if (!projectId || !storagePath) return { error: "Falta la foto o el proyecto." };
+  if (!storagePath.startsWith(ctx.companyId + "/")) return { error: "Ruta de archivo inválida." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("photos").insert({
+    company_id: ctx.companyId,
+    project_id: projectId,
+    storage_path: storagePath,
+    lat: latRaw ? Number(latRaw) : null,
+    lng: lngRaw ? Number(lngRaw) : null,
+    activity: activity || null,
+  });
+
+  if (error) {
+    await supabase.storage.from(PHOTOS_BUCKET).remove([storagePath]);
+    return { error: "No pudimos guardar la foto. Inténtalo de nuevo." };
+  }
+  revalidatePath("/app/fotos");
+  return { error: null, ok: true };
+}
+
+export async function deletePhoto(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  const path = eq(formData.get("storagePath"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("photos").delete().eq("id", id);
+  if (path) await supabase.storage.from(PHOTOS_BUCKET).remove([path]);
+  revalidatePath("/app/fotos");
 }
