@@ -138,8 +138,15 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
       ⚠️ Correo del magic link: SMTP por defecto de Supabase (rate-limit ~2/hora, solo para probar). Al desplegar hay que: (a) añadir el dominio real en Supabase → Authentication → URL Configuration (Site URL + Redirect URLs con `/auth/callback`), (b) SMTP propio vía Resend.
       ⚠️ Google OAuth: pendiente configurar el proveedor en Supabase (necesita cuenta Google Cloud → OAuth client). Se hace junto con el bloque de dominio.
 - [x] **Onboarding de empresa** — 2026-09-08. `lib/supabase/context.ts` `getUserContext()` → `user + companyId + role`. `/bienvenido` (form nombre + zona) llama RPC `create_company` → owner + `/app`. `/app` redirige a `/bienvenido` si el usuario no tiene membresía. Header de `/app` muestra el nombre real de la empresa. Form pre-rellenado con "Advanced Solutions" (primera empresa del usuario, editable).
-- [x] **Proyectos + Cuadrillas reales** — 2026-09-08. `lib/data/`: `types.ts` (compartido), `queries.ts` (server-only: `listProjects`/`getActiveProject`/`listCrews`), `actions.ts` (Server Actions). `/app/proyectos` crea/renombra/elige proyecto activo (cookie `eaft_project`). `/app/cuadrillas` alta/edición/borrado real por proyecto + estado vacío. Header de `/app` muestra el proyecto activo y enlaza a `/app/proyectos`. Hoy/Planos/Fotos/811: guard `<NoProject>` si no hay proyecto + `<DemoBadge>` "datos de ejemplo" (siguen con `lib/seed.ts`).
-- Falta (paso 3): Planos (subida PDF/foto a Storage + marcado), Fotos GPS (captura + Storage), Tickets 811 (CRUD) — conectar a Supabase y quitar `<DemoBadge>` de cada una. Luego: parte diario / producción que alimente "El día de hoy" + racha.
+- [x] **App interna conectada a datos reales** — 2026-09-08. `lib/data/`: `types.ts` (compartido), `queries.ts` (server-only), `actions.ts` (Server Actions). `lib/plan-upload.ts` + `lib/photo-upload.ts` (subida cliente con compresión + geolocalización).
+  - **Proyectos** `/app/proyectos`: crear/renombrar/elegir activo (cookie `eaft_project`). Header de `/app` muestra el proyecto activo.
+  - **Cuadrillas** `/app/cuadrillas`: alta/edición/borrado por proyecto.
+  - **Tickets 811** `/app/811`: alta/edición/borrado + renovar +21d + cerrar; estado activo/por-vencer/vencido derivado de la fecha (`ticketStatus()`), banner de riesgo.
+  - **Fotos GPS** `/app/fotos`: cámara → Storage privado `photos/<company>/<project>/<uuid>.jpg` (comprimida 1600px) + lat/lng; agrupadas por día; URLs firmadas 1h.
+  - **Planos** `/app/planos` + `/app/planos/[id]`: subir PDF o foto a `plans/…`; sobre foto marcar tramo (2 toques) o punto → `plan_marks` (geom 0..1 + actividad + pies + cuadrilla). PDF: se guarda y se abre; marcado encima pendiente (necesita pdfjs).
+  - **Hoy** `/app`: ft marcados + 811 por vencer + cuadrillas reales + marcas/fotos recientes; estados vacíos.
+  - `lib/seed.ts` y `DemoBadge` eliminados — cero datos de ejemplo en la app.
+- Falta: (1) marcado sobre PDF (rasterizar con pdfjs-dist); (2) parte diario / `production_entries` que alimente "El día de hoy" + racha (loop de retención de la Regla 6); (3) `crew_members` (nombres de trabajadores); (4) Google OAuth (proveedor en Supabase); (5) revisor-visual de las pantallas nuevas.
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)
