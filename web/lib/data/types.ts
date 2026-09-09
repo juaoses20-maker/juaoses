@@ -84,8 +84,17 @@ export type Plan = {
   ft_marked: number;
 };
 
-/** geom normalizado 0..1 sobre el plano. */
-export type MarkGeom = { a: [number, number]; b: [number, number] } | { p: [number, number] };
+/** Todas las coordenadas van normalizadas 0..1 sobre el plano. */
+export type MarkGeom =
+  | { t: "path"; pts: [number, number][]; color: string }
+  | { t: "seg"; a: [number, number]; b: [number, number]; color?: string }
+  | { t: "pt"; p: [number, number]; label?: string; color?: string }
+  | { t: "text"; p: [number, number]; text: string }
+  // filas antiguas sin discriminador
+  | { a: [number, number]; b: [number, number] }
+  | { p: [number, number] };
+
+export const MARK_COLORS = ["#2e8b45", "#e8590c", "#2f6f9f", "#c0392b"] as const;
 
 export type PlanMark = {
   id: string;
@@ -98,7 +107,7 @@ export type PlanMark = {
   crew_id: string | null;
 };
 
-export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole"] as const;
+export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole", "Empalme"] as const;
 
 export type ProjectFormState = { error: string | null };
 export type CrewFormState = { error: string | null; ok?: boolean };

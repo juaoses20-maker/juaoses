@@ -378,11 +378,16 @@ export async function addPlanMark(
   if (!planId || !geomRaw) return { error: "Marca incompleta." };
   if (!activity) return { error: "Elige la actividad." };
 
-  let geom: unknown;
+  let geom: Record<string, unknown>;
   try {
     geom = JSON.parse(geomRaw);
   } catch {
     return { error: "Marca inválida." };
+  }
+  // Limita el tamaño del trazo a mano alzada.
+  if (geom && geom.t === "path" && Array.isArray(geom.pts)) {
+    if (geom.pts.length < 2) return { error: "El trazo quedó muy corto." };
+    geom.pts = (geom.pts as [number, number][]).slice(0, 600);
   }
 
   const supabase = await createClient();
