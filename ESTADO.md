@@ -143,10 +143,12 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
   - **Cuadrillas** `/app/cuadrillas`: alta/edición/borrado por proyecto.
   - **Tickets 811** `/app/811`: alta/edición/borrado + renovar +21d + cerrar; estado activo/por-vencer/vencido derivado de la fecha (`ticketStatus()`), banner de riesgo.
   - **Fotos GPS** `/app/fotos`: cámara → Storage privado `photos/<company>/<project>/<uuid>.jpg` (comprimida 1600px) + lat/lng; agrupadas por día; URLs firmadas 1h.
-  - **Planos** `/app/planos` + `/app/planos/[id]`: subir PDF o foto a `plans/…`; sobre foto marcar tramo (2 toques) o punto → `plan_marks` (geom 0..1 + actividad + pies + cuadrilla). PDF: se guarda y se abre; marcado encima pendiente (necesita pdfjs).
+  - **Planos** `/app/planos` + `/app/planos/[id]`: subir PDF o foto a `plans/…`. Editor estilo FiberField (ref del usuario 2026-09-09): **pincel a mano alzada** siguiendo la ruta (4 colores `MARK_COLORS`), **zoom +/−/ajustar**, **pan**, **marcadores con etiqueta** (M/L/T), **notas de texto** sobre el plano. `geom` enriquecida `{t:path|seg|pt|text}` compatible con filas viejas; `addPlanMark` limita trazo a 600 pts. Cada trazo guarda pies + actividad + cuadrilla. PDF: se guarda y se abre; dibujo encima requiere subirlo como foto.
   - **Hoy** `/app`: ft marcados + 811 por vencer + cuadrillas reales + marcas/fotos recientes; estados vacíos.
   - `lib/seed.ts` y `DemoBadge` eliminados — cero datos de ejemplo en la app.
-- Falta: (1) marcado sobre PDF (rasterizar con pdfjs-dist); (2) parte diario / `production_entries` que alimente "El día de hoy" + racha (loop de retención de la Regla 6); (3) `crew_members` (nombres de trabajadores); (4) Google OAuth (proveedor en Supabase); (5) revisor-visual de las pantallas nuevas.
+- [x] **Vercel** — 2026-09-08/09. Repo importado, Root Directory `web`, env `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Producción: **https://juaoses.vercel.app** (auto-deploy en cada push a `main`). URL de despliegue con hash está detrás de Vercel SSO — usar siempre el dominio estable.
+- [x] **Supabase Auth URL** — el usuario configuró Site URL `https://juaoses.vercel.app` + Redirect `…/**` (2026-09-09) → magic link funciona en producción.
+- Falta: (1) **PDF**: rasterizar páginas con pdfjs-dist + navegación `< 1/N >` + rotar (el editor actual dibuja sobre foto); (2) parte diario / `production_entries` que alimente "El día de hoy" + racha (loop Regla 6); (3) `crew_members`; (4) Google OAuth (proveedor en Supabase); (5) revisor-visual de las pantallas nuevas; (6) verificar en Supabase → Storage que existan los buckets `plans` y `photos` (los crea la migración; si fallaron, subir planos/fotos dará error).
 - [ ] **Stripe** (cobro) — requiere datos de la empresa
 - [ ] **Vercel** (publicación) — conecta el repo de GitHub
 - [ ] **Resend** (correos)
