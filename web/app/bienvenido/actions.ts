@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 export type CrearEmpresaState = { error: string | null };
@@ -21,16 +22,22 @@ export async function crearEmpresa(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) redirect("/entrar");
+  if (!user) {
+    return { error: "Tu sesión se cerró. Cierra esta página, vuelve a entrar con tu correo y prueba de nuevo." };
+  }
 
-  const { error } = await supabase.rpc("create_company", {
+  const { data: companyId, error } = await supabase.rpc("create_company", {
     p_name: name,
     p_location: location || null,
   });
 
   if (error) {
-    return { error: "No pudimos crear la empresa. Inténtalo de nuevo." };
+    return { error: `No se pudo crear la empresa (${error.code ?? "?"}): ${error.message}` };
+  }
+  if (!companyId) {
+    return { error: "No se pudo crear la empresa: la base de datos no devolvió un identificador." };
   }
 
+  revalidatePath("/app", "layout");
   redirect("/app");
 }
