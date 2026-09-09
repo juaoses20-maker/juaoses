@@ -20,12 +20,17 @@ export async function getUserContext(): Promise<UserContext | null> {
   } = await supabase.auth.getSession();
   if (!session?.user) return null;
 
-  const { data: membership } = await supabase
+  const { data: membership, error } = await supabase
     .from("memberships")
     .select("company_id, role")
     .order("created_at", { ascending: true })
     .limit(1)
     .maybeSingle();
+
+  if (error) {
+    // No silenciar: si RLS falla, esto evita un bucle mudo de redirecciones.
+    console.error("getUserContext: no se pudo leer memberships:", error.message);
+  }
 
   return {
     user: session.user,
