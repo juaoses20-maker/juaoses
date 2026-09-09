@@ -384,10 +384,19 @@ export async function addPlanMark(
   } catch {
     return { error: "Marca inválida." };
   }
-  // Limita el tamaño del trazo a mano alzada.
+  // Limita el tamaño de los trazos a mano alzada.
   if (geom && geom.t === "path" && Array.isArray(geom.pts)) {
     if (geom.pts.length < 2) return { error: "El trazo quedó muy corto." };
-    geom.pts = (geom.pts as [number, number][]).slice(0, 600);
+    geom.pts = (geom.pts as [number, number][]).slice(0, 800);
+  }
+  if (geom && geom.t === "strokes" && Array.isArray(geom.paths)) {
+    const paths = geom.paths as { pts: [number, number][]; color: string }[];
+    if (paths.length === 0 || !paths.some((p) => p.pts?.length >= 2))
+      return { error: "La ruta quedó vacía." };
+    geom.paths = paths.slice(0, 40).map((p) => ({
+      color: p.color,
+      pts: (p.pts ?? []).slice(0, 800),
+    }));
   }
 
   const supabase = await createClient();

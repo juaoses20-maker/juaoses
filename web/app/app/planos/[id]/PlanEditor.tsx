@@ -17,6 +17,7 @@ import {
   Maximize2,
   Spline,
   Trash2,
+  Undo2,
   Type as TypeIcon,
   ZoomIn,
   ZoomOut,
@@ -29,6 +30,7 @@ import {
   type MarkGeom,
   type Plan,
   type PlanMark,
+  type Stroke,
 } from "@/lib/data/types";
 
 const initial: MarkSaveState = { error: null };
@@ -40,14 +42,16 @@ type Tool = "draw" | "marker" | "note" | "pan";
 type View = { zoom: number; tx: number; ty: number };
 
 type NormMark =
-  | { shape: "path"; pts: XY[]; color: string }
+  | { shape: "strokes"; paths: Stroke[] }
   | { shape: "seg"; a: XY; b: XY; color: string }
   | { shape: "pt"; p: XY; label: string; color: string }
   | { shape: "text"; p: XY; text: string };
 
 function norm(g: MarkGeom, fallbackColor: string): NormMark {
   if ("t" in g) {
-    if (g.t === "path") return { shape: "path", pts: g.pts, color: g.color || fallbackColor };
+    if (g.t === "strokes") return { shape: "strokes", paths: g.paths };
+    if (g.t === "path")
+      return { shape: "strokes", paths: [{ pts: g.pts, color: g.color || fallbackColor }] };
     if (g.t === "seg") return { shape: "seg", a: g.a, b: g.b, color: g.color || fallbackColor };
     if (g.t === "pt")
       return { shape: "pt", p: g.p, label: g.label ?? "", color: g.color || fallbackColor };
@@ -55,6 +59,10 @@ function norm(g: MarkGeom, fallbackColor: string): NormMark {
   }
   if ("a" in g) return { shape: "seg", a: g.a, b: g.b, color: fallbackColor };
   return { shape: "pt", p: g.p, label: "", color: fallbackColor };
+}
+
+function polyPoints(pts: XY[]) {
+  return pts.map((p) => `${p[0]},${p[1]}`).join(" ");
 }
 
 const TOOLS: { id: Tool; label: string; Icon: typeof Spline }[] = [
@@ -82,8 +90,10 @@ export default function PlanEditor({
   const [ar, setAr] = useState<number>(
     plan.width && plan.height ? plan.width / plan.height : 4 / 3,
   );
+
   const [drawing, setDrawing] = useState<XY[] | null>(null);
-  const [pendingPath, setPendingPath] = useState<XY[] | null>(null);
+  const [strokes, setStrokes] = useState<Stroke[]>([]); // trazos sin guardar de la ruta actual
+  const [savingRoute, setSavingRoute] = useState(false);
   const [pendingPoint, setPendingPoint] = useState<{ p: XY; kind: "marker" | "note" } | null>(null);
 
   const [activity, setActivity] = useState<string>(PLAN_ACTIVITIES[0]);
@@ -108,7 +118,8 @@ export default function PlanEditor({
 
   if (state.nonce && state.nonce !== seenNonce) {
     setSeenNonce(state.nonce);
-    setPendingPath(null);
+    setStrokes([]);
+    setSavingRoute(false);
     setPendingPoint(null);
     setDrawing(null);
     setFeet("");
@@ -116,7 +127,7 @@ export default function PlanEditor({
     setNoteText("");
   }
 
-  const formOpen = pendingPath !== null || pendingPoint !== null;
+  const formOpen = savingRoute || pendingPoint !== null;
 
   function ptFromEvent(e: RPointerEvent): XY {
     const r = imgRef.current?.getBoundingClientRect();
@@ -129,7 +140,7 @@ export default function PlanEditor({
 
   function onPointerDown(e: RPointerEvent) {
     if (formOpen || plan.is_pdf) return;
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
     if (tool === "pan") {
       panRef.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty };
       return;
@@ -162,7 +173,7 @@ export default function PlanEditor({
   function onPointerUp() {
     panRef.current = null;
     if (tool === "draw" && drawing) {
-      if (drawing.length >= 2) setPendingPath(drawing);
+      if (drawing.length >= 2) setStrokes((s) => [...s, { pts: drawing, color }]);
       setDrawing(null);
     }
   }
@@ -170,15 +181,12 @@ export default function PlanEditor({
   function zoomBy(factor: number) {
     setView((v) => {
       const zoom = clamp(v.zoom * factor, 1, 8);
-      // origen de la transformación = centro: al alejar del todo, recentra.
       return zoom === 1 ? { zoom, tx: 0, ty: 0 } : { ...v, zoom };
     });
   }
   const resetView = () => setView({ zoom: 1, tx: 0, ty: 0 });
 
-  const pathGeom = pendingPath
-    ? JSON.stringify({ t: "path", pts: pendingPath, color })
-    : "";
+  const routeGeom = JSON.stringify({ t: "strokes", paths: strokes });
   const pointGeom = pendingPoint
     ? pendingPoint.kind === "marker"
       ? JSON.stringify({ t: "pt", p: pendingPoint.p, label: label.trim() || "•", color })
@@ -218,7 +226,6 @@ export default function PlanEditor({
         </div>
       ) : (
         <>
-          {/* barra de herramientas */}
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
             {TOOLS.map(({ id, label: l, Icon }) => (
               <button
@@ -252,16 +259,13 @@ export default function PlanEditor({
                   key={c}
                   onClick={() => setColor(c)}
                   aria-label={`Color ${c}`}
-                  className={
-                    "h-6 w-6 rounded-full border-2 " + (color === c ? "border-ink" : "border-white")
-                  }
+                  className={"h-6 w-6 rounded-full border-2 " + (color === c ? "border-ink" : "border-white")}
                   style={{ background: c }}
                 />
               ))}
             </div>
           )}
 
-          {/* lienzo */}
           <div
             className="relative mt-2 grid place-items-center overflow-hidden rounded-[12px] border bg-white"
             style={{ height: "min(68vh, 560px)", touchAction: "none", overscrollBehavior: "contain" }}
@@ -299,57 +303,62 @@ export default function PlanEditor({
                 viewBox="0 0 1 1"
                 preserveAspectRatio="none"
               >
-                {normed.map(({ m, n }) =>
-                  n.shape === "path" ? (
-                    <polyline
-                      key={m.id}
-                      points={n.pts.map((p) => `${p[0]},${p[1]}`).join(" ")}
-                      fill="none"
-                      stroke={n.color}
-                      strokeWidth={0.013}
-                      strokeOpacity={0.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  ) : n.shape === "seg" ? (
-                    <line
-                      key={m.id}
-                      x1={n.a[0]}
-                      y1={n.a[1]}
-                      x2={n.b[0]}
-                      y2={n.b[1]}
-                      stroke={n.color}
-                      strokeWidth={0.013}
-                      strokeOpacity={0.6}
-                      strokeLinecap="round"
-                    />
-                  ) : null,
-                )}
-                {drawing && drawing.length > 1 && (
+                {normed.map(({ m, n }) => {
+                  if (n.shape === "strokes")
+                    return n.paths.map((pp, i) => (
+                      <polyline
+                        key={`${m.id}-${i}`}
+                        points={polyPoints(pp.pts)}
+                        fill="none"
+                        stroke={pp.color}
+                        strokeWidth={0.013}
+                        strokeOpacity={0.5}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    ));
+                  if (n.shape === "seg")
+                    return (
+                      <line
+                        key={m.id}
+                        x1={n.a[0]}
+                        y1={n.a[1]}
+                        x2={n.b[0]}
+                        y2={n.b[1]}
+                        stroke={n.color}
+                        strokeWidth={0.013}
+                        strokeOpacity={0.6}
+                        strokeLinecap="round"
+                      />
+                    );
+                  return null;
+                })}
+                {/* trazos sin guardar de la ruta en curso */}
+                {strokes.map((s, i) => (
                   <polyline
-                    points={drawing.map((p) => `${p[0]},${p[1]}`).join(" ")}
+                    key={`u-${i}`}
+                    points={polyPoints(s.pts)}
                     fill="none"
-                    stroke={color}
+                    stroke={s.color}
                     strokeWidth={0.013}
-                    strokeOpacity={0.7}
+                    strokeOpacity={0.85}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                )}
-                {pendingPath && (
+                ))}
+                {drawing && drawing.length > 1 && (
                   <polyline
-                    points={pendingPath.map((p) => `${p[0]},${p[1]}`).join(" ")}
+                    points={polyPoints(drawing)}
                     fill="none"
                     stroke={color}
                     strokeWidth={0.013}
-                    strokeOpacity={0.85}
+                    strokeOpacity={0.9}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 )}
               </svg>
 
-              {/* marcadores y notas (contra-escalados para tamaño constante) */}
               {normed.map(({ m, n }) => {
                 if (n.shape !== "pt" && n.shape !== "text") return null;
                 return (
@@ -397,10 +406,11 @@ export default function PlanEditor({
             )}
           </div>
 
-          {!formOpen && (
+          {/* pista */}
+          {!formOpen && strokes.length === 0 && (
             <div className="mt-2 flex items-center gap-2 rounded-[8px] bg-[var(--chip)] px-2.5 py-2 text-[11.5px] font-semibold text-accent">
               {tool === "draw"
-                ? "Traza la ruta con el dedo, siguiendo la calle"
+                ? "Traza la ruta con el dedo. Puedes hacer varios trazos."
                 : tool === "marker"
                   ? "Toca donde va el hub o handhole"
                   : tool === "note"
@@ -409,17 +419,46 @@ export default function PlanEditor({
             </div>
           )}
 
-          {/* formulario: trazo terminado */}
-          {pendingPath && (
+          {/* barra de la ruta en curso */}
+          {tool === "draw" && strokes.length > 0 && !savingRoute && (
+            <div className="mt-2 flex flex-wrap items-center gap-2 rounded-[12px] border bg-surface p-2.5 shadow-[var(--shadow-1)]">
+              <span className="text-[12px] font-semibold">
+                {strokes.length} {strokes.length === 1 ? "trazo" : "trazos"} sin guardar
+              </span>
+              <button
+                onClick={() => setStrokes((s) => s.slice(0, -1))}
+                className="inline-flex h-8 items-center gap-1 rounded-full border px-2.5 text-[11px] font-semibold text-ink-2"
+              >
+                <Undo2 className="h-3.5 w-3.5" strokeWidth={2} /> Deshacer
+              </button>
+              <button
+                onClick={() => setStrokes([])}
+                className="h-8 px-2 text-[11px] font-semibold text-ink-3"
+              >
+                Descartar
+              </button>
+              <button
+                onClick={() => setSavingRoute(true)}
+                className="ml-auto h-9 rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink"
+              >
+                Guardar ruta
+              </button>
+            </div>
+          )}
+
+          {/* formulario: guardar la ruta */}
+          {savingRoute && (
             <form action={formAction} className="mt-2 space-y-2 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
               <input type="hidden" name="planId" value={plan.id} />
               <input type="hidden" name="kind" value="seg" />
-              <input type="hidden" name="geom" value={pathGeom} />
+              <input type="hidden" name="geom" value={routeGeom} />
               <input type="hidden" name="activity" value={activity} />
               <input type="hidden" name="crewId" value={crewId} />
               <input type="hidden" name="qty" value={feet.replace(/[^\d.]/g, "") || "0"} />
 
-              <div className="font-display text-[13px] font-semibold">¿Qué se construyó en esa ruta?</div>
+              <div className="font-display text-[13px] font-semibold">
+                ¿Qué se construyó en esa ruta? ({strokes.length} {strokes.length === 1 ? "trazo" : "trazos"})
+              </div>
               <div className="flex flex-wrap gap-1.5">
                 {PLAN_ACTIVITIES.map((a) => (
                   <button
@@ -436,7 +475,7 @@ export default function PlanEditor({
                 ))}
               </div>
               <label className="block">
-                <span className="text-[11px] font-semibold text-ink-2">Pies construidos</span>
+                <span className="text-[11px] font-semibold text-ink-2">Pies construidos (total de la ruta)</span>
                 <input
                   inputMode="numeric"
                   value={feet}
@@ -467,10 +506,10 @@ export default function PlanEditor({
                 </button>
                 <button
                   type="button"
-                  onClick={() => setPendingPath(null)}
+                  onClick={() => setSavingRoute(false)}
                   className="h-9 px-3 text-[12px] font-semibold text-ink-3"
                 >
-                  Borrar y repetir
+                  Seguir dibujando
                 </button>
               </div>
             </form>
@@ -531,11 +570,7 @@ export default function PlanEditor({
                 <button type="submit" className="h-9 rounded-btn bg-accent px-3 text-[12px] font-bold text-accent-ink">
                   Guardar marcador
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setPendingPoint(null)}
-                  className="h-9 px-3 text-[12px] font-semibold text-ink-3"
-                >
+                <button type="button" onClick={() => setPendingPoint(null)} className="h-9 px-3 text-[12px] font-semibold text-ink-3">
                   Cancelar
                 </button>
               </div>
@@ -567,11 +602,7 @@ export default function PlanEditor({
                 >
                   Guardar nota
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setPendingPoint(null)}
-                  className="h-9 px-3 text-[12px] font-semibold text-ink-3"
-                >
+                <button type="button" onClick={() => setPendingPoint(null)} className="h-9 px-3 text-[12px] font-semibold text-ink-3">
                   Cancelar
                 </button>
               </div>
@@ -588,6 +619,8 @@ export default function PlanEditor({
           <div className="overflow-hidden rounded-[12px] border bg-surface shadow-[var(--shadow-1)]">
             {normed.map(({ m, n }) => {
               const crew = crews.find((c) => c.id === m.crew_id);
+              const dot =
+                n.shape === "strokes" ? (n.paths[0]?.color ?? "var(--ink-3)") : "color" in n ? n.color : "var(--ink-3)";
               const title =
                 n.shape === "text"
                   ? `Nota: ${n.text}`
@@ -596,10 +629,7 @@ export default function PlanEditor({
                     : `${nf.format(m.qty)} ft · ${m.activity}`;
               return (
                 <div key={m.id} className="flex items-center gap-2.5 border-b px-3 py-2.5 text-[11.5px] last:border-b-0">
-                  <span
-                    className="h-2.5 w-2.5 flex-none rounded-[3px]"
-                    style={{ background: "color" in n ? n.color : "var(--ink-3)" }}
-                  />
+                  <span className="h-2.5 w-2.5 flex-none rounded-[3px]" style={{ background: dot }} />
                   <div className="min-w-0">
                     <div className="truncate font-semibold">{title}</div>
                     <div className="text-[10px] text-ink-2">{crew ? crew.name : "Sin cuadrilla"}</div>

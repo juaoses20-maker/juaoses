@@ -85,7 +85,10 @@ export type Plan = {
 };
 
 /** Todas las coordenadas van normalizadas 0..1 sobre el plano. */
+export type Stroke = { pts: [number, number][]; color: string };
+
 export type MarkGeom =
+  | { t: "strokes"; paths: Stroke[] }
   | { t: "path"; pts: [number, number][]; color: string }
   | { t: "seg"; a: [number, number]; b: [number, number]; color?: string }
   | { t: "pt"; p: [number, number]; label?: string; color?: string }
