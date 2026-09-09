@@ -1,10 +1,9 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
-export type CrearEmpresaState = { error: string | null };
+export type CrearEmpresaState = { error: string | null; ok?: boolean };
 
 /** Crea la empresa del usuario y lo deja como owner (RPC create_company). */
 export async function crearEmpresa(
@@ -20,10 +19,12 @@ export async function crearEmpresa(
 
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
-    return { error: "Tu sesión se cerró. Cierra esta página, vuelve a entrar con tu correo y prueba de nuevo." };
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    return {
+      error: "Tu sesión no está activa. Cierra esta página, vuelve a entrar con tu correo e inténtalo otra vez.",
+    };
   }
 
   const { data: companyId, error } = await supabase.rpc("create_company", {
@@ -39,5 +40,5 @@ export async function crearEmpresa(
   }
 
   revalidatePath("/app", "layout");
-  redirect("/app");
+  return { error: null, ok: true };
 }

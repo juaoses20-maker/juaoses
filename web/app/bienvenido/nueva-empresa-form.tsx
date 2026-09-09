@@ -1,13 +1,22 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Btn } from "@/components/site/ui";
 import { crearEmpresa, type CrearEmpresaState } from "./actions";
 
 const initial: CrearEmpresaState = { error: null };
 
 export default function NuevaEmpresaForm() {
+  const router = useRouter();
   const [state, formAction, pending] = useActionState(crearEmpresa, initial);
+
+  useEffect(() => {
+    if (state.ok) {
+      router.replace("/app");
+      router.refresh();
+    }
+  }, [state.ok, router]);
 
   return (
     <form action={formAction} className="mt-6 space-y-3 text-left">
@@ -41,8 +50,8 @@ export default function NuevaEmpresaForm() {
       )}
 
       <div className="pt-1">
-        <Btn type="submit" disabled={pending}>
-          {pending ? "Creando…" : "Crear mi empresa"}
+        <Btn type="submit" disabled={pending || state.ok}>
+          {state.ok ? "Entrando…" : pending ? "Creando…" : "Crear mi empresa"}
         </Btn>
       </div>
     </form>

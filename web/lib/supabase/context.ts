@@ -9,15 +9,16 @@ export type UserContext = {
 };
 
 /**
- * Sesión + empresa del usuario para Server Components y Route Handlers.
- * Devuelve `null` si no hay sesión.
+ * Sesión + empresa del usuario para Server Components / Route Handlers / Server Actions.
+ * Usa la sesión de la cookie (sin refrescar: eso lo hace `proxy.ts` en cada request).
+ * La seguridad real de los datos la impone RLS con `auth.uid()`.
  */
 export async function getUserContext(): Promise<UserContext | null> {
   const supabase = await createClient();
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) return null;
 
   const { data: membership } = await supabase
     .from("memberships")
@@ -27,7 +28,7 @@ export async function getUserContext(): Promise<UserContext | null> {
     .maybeSingle();
 
   return {
-    user,
+    user: session.user,
     companyId: membership?.company_id ?? null,
     role: (membership?.role as UserContext["role"]) ?? null,
   };
