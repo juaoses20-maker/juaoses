@@ -96,11 +96,12 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - **IA (30):** solo texto — genera resumen de as-built / close-out y "resumen del día". Modelo en env `AI_MODEL`, `max_tokens` acotado, cache de resultados idénticos, circuit-breaker de costo. NO es la primera victoria (esa es la tarjeta manual) → V1 opcional / V1.1.
 - **Offline:** captura de foto/marca encola en IndexedDB y sincroniza al volver la señal (best-effort en v1; offline completo = V2).
 - **Idioma UI:** BILINGÜE es/en (usuario 2026-09-10). `next-intl` v4 SIN rutas por idioma: locale desde cookie `eaft_lang` (fallback `Accept-Language`, default `es`). `i18n/request.ts` + `createNextIntlPlugin` en `next.config.ts`. `<NextIntlClientProvider>` en `app/layout.tsx` (`<html lang>` dinámico). `components/LanguageSwitcher.tsx` (chip ES/EN) + `lib/i18n-actions.ts` `setLanguage` (cookie + `user_metadata.lang` si hay sesión). Textos en `web/messages/{es,en}.json`.
-  - ETAPA 1 (hecha 2026-09-10): motor + selector en header de `/app` + traducidos marco de `/app` (`app/app/layout.tsx`, `BottomNav`), pantalla "Hoy" (`app/app/page.tsx`), `NoProject`.
-  - ETAPA 2 (pendiente): `/app/planos` `/app/fotos` `/app/811` `/app/cuadrillas` `/app/proyectos` `/bienvenido` + `components/site/ui.tsx`.
-  - ETAPA 3 (pendiente): funnel `/probar` `/planes` `/entrar` `/legal`.
-  - ETAPA 4 (pendiente): `components/site/Landing.tsx` + metadata OG locale + volver a estático lo que se pueda.
-  - ⚠️ Al leer cookie en `getRequestConfig`, TODAS las rutas pasaron a dinámicas (`/ /entrar /planes /probar` ya no son estáticas). Revisar en etapa 4 si conviene locale por cliente en la landing para recuperar SSG.
+  - ETAPA 1 ✅ 2026-09-10: motor + selector en header de `/app` + marco de `/app`, "Hoy", `NoProject`.
+  - ETAPA 2 ✅ 2026-09-10: `/app/planos` `/app/planos/[id]` `/app/fotos` `/app/811` `/app/cuadrillas` `/app/proyectos` `/bienvenido`. `ticketStatus` se traduce en la UI (`t('status.'+status)`), no en el helper. Fechas de Fotos con `intlLocale`.
+  - ETAPA 3-4 ✅ 2026-09-10: `components/site/Landing.tsx` (con `t.rich` + `RICH` tags accent/b), selector ES/EN en el header de la portada, `/probar` `/entrar` `/legal/[slug]` `components/site/ui.tsx` (TopBar). Namespaces `landing/probar/entrar/legal/ui`. Verificado a 375px ES y EN, toggle persiste (`docs/revisiones/landing-{es,en}-375.png`).
+  - PENDIENTE menor: `app/layout.tsx` `metadata` (title/description/OG) sigue hardcoded en español — traducir con `generateMetadata` + `getTranslations` si importa el SEO en inglés.
+  - ⚠️ Al leer cookie en `getRequestConfig`, TODAS las rutas son dinámicas (`/ /entrar /planes /probar` ya no estáticas). Si el LCP de la landing sufre, evaluar locale por cliente solo en la landing para recuperar SSG.
+  - `messages/es.json` es la fuente; `en.json` debe mantener las MISMAS claves. `CONTACT_MSG` (prefill de WhatsApp en Landing) quedó en español a propósito.
   - ⚠️ Sync entre dispositivos: la cookie manda; si un usuario entra en otro teléfono, `user_metadata.lang` no re-aplica solo (hay que tocar el selector una vez). Mejora futura: leer metadata en `proxy.ts` y setear cookie.
 - Features del MVP (B3, en orden): 1) Planos PDF/foto + marcado de producción, 2) Fotos GPS, 3) Tickets 811 (Kentucky primero) conectados a producción, 4) Cuadrillas.
 
