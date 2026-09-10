@@ -39,6 +39,16 @@ Nota al pie: *Fuente: encuesta de contratistas de excavación, Associated Genera
 - `Planos — marca la producción encima`
 Sin cards de testimonios (0 clientes reales — jerarquía día-1 del 19).
 
+## 4B. QUÉ HACE POR TI  (sección nueva — usuario 2026-09-10)
+- Label: `Qué hace por ti` · H2: `Lo que resuelve.`
+- Card 1 (ícono PencilRuler): `Marcación de planos y tickets 811` — "Marcas la producción del día sobre el plano —PDF o foto— y llevas los tickets 811 conectados a cada tramo, con aviso antes de que venzan."
+- Card 2 (ícono ShieldAlert): `Respuesta a reclamos por daños, con evidencia` — "Cuando llega un claim, sacas la Prueba de Campo del tramo: plano marcado, foto con GPS, fecha, cuadrilla y número de 811. En segundos, listo para responder."
+- Bloque `Solicitar más información` — "Te contestamos personalmente. Sin llamadas de venta." con 3 botones:
+  - WhatsApp → `https://wa.me/16185142665?text=...` (número del usuario, público en la página)
+  - SMS → `sms:+16185142665?body=...`
+  - Correo → `mailto:eafibertrack@gmail.com?subject=...&body=...` (+ el correo visible debajo)
+- Sin backend: son enlaces directos. Cuando se conecte Resend/Twilio se puede cambiar a formulario.
+
 ## 6. OFERTA
 - Encabezado: `Un precio. Sin letra chica.`
 - Precio único (por ahora): `[acento]$30/mes[/acento] para toda la empresa — cuadrillas y personas ilimitadas. Cancela cuando quieras.`

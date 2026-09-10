@@ -14,7 +14,14 @@ import {
   Hexagon,
   Map as MapIcon,
   PencilRuler,
+  MessageCircle,
+  Smartphone,
+  Mail,
 } from "lucide-react";
+
+const WA_NUMBER = "16185142665";
+const CONTACT_EMAIL = "eafibertrack@gmail.com";
+const CONTACT_MSG = "Hola, quiero más información de EA Fiber Track.";
 
 /* ---------- primitives ---------- */
 
@@ -396,6 +403,79 @@ export default function Landing() {
         </Reveal>
       </section>
 
+      {/* 4B · QUÉ HACE POR TI */}
+      <section id="servicios" className="border-t bg-bg">
+        <div className="mx-auto max-w-[460px] px-5 py-11">
+          <Reveal>
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+              Qué hace por ti
+            </p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="mt-2 text-[24px] font-semibold">Lo que resuelve.</h2>
+          </Reveal>
+
+          <div className="mt-5 flex flex-col gap-3">
+            {[
+              {
+                Icon: PencilRuler,
+                t: "Marcación de planos y tickets 811",
+                d: "Marcas la producción del día sobre el plano —PDF o foto— y llevas los tickets 811 conectados a cada tramo, con aviso antes de que venzan.",
+              },
+              {
+                Icon: ShieldAlert,
+                t: "Respuesta a reclamos por daños, con evidencia",
+                d: "Cuando llega un claim, sacas la Prueba de Campo del tramo: plano marcado, foto con GPS, fecha, cuadrilla y número de 811. En segundos, listo para responder.",
+              },
+            ].map(({ Icon, t, d }, i) => (
+              <Reveal key={i}>
+                <div className="flex items-start gap-3.5 rounded-card border bg-surface p-4 shadow-[var(--shadow-1)]">
+                  <IconChip>
+                    <Icon className="h-[20px] w-[20px]" strokeWidth={2} />
+                  </IconChip>
+                  <div>
+                    <h3 className="text-[15px] font-semibold">{t}</h3>
+                    <p className="mt-1 text-[13px] leading-relaxed text-ink-2">{d}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal>
+            <div className="mt-4 rounded-card border bg-surface p-4 shadow-[var(--shadow-1)]">
+              <h3 className="text-[15px] font-semibold">Solicitar más información</h3>
+              <p className="mt-1 text-[13px] text-ink-2">
+                Te contestamos personalmente. Sin llamadas de venta.
+              </p>
+              <div className="mt-3 flex flex-col gap-2.5">
+                <a
+                  href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(CONTACT_MSG)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-btn bg-accent px-4 text-[14px] font-bold text-accent-ink transition-transform active:scale-[0.98]"
+                >
+                  <MessageCircle className="h-4 w-4" strokeWidth={2.4} /> Escribir por WhatsApp
+                </a>
+                <a
+                  href={`sms:+${WA_NUMBER}?body=${encodeURIComponent(CONTACT_MSG)}`}
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-btn border [border-color:color-mix(in_oklab,var(--accent)_30%,transparent)] px-4 text-[14px] font-semibold text-accent transition-transform active:scale-[0.98]"
+                >
+                  <Smartphone className="h-4 w-4" strokeWidth={2.4} /> Enviar un mensaje de texto
+                </a>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent("Más información de EA Fiber Track")}&body=${encodeURIComponent(CONTACT_MSG)}`}
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-btn border [border-color:color-mix(in_oklab,var(--accent)_30%,transparent)] px-4 text-[14px] font-semibold text-accent transition-transform active:scale-[0.98]"
+                >
+                  <Mail className="h-4 w-4" strokeWidth={2.4} /> Escribir un correo
+                </a>
+              </div>
+              <p className="mt-2.5 font-mono text-[10.5px] text-ink-3">{CONTACT_EMAIL}</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* 5 · LA APP POR DENTRO */}
       <section className="border-y bg-surface">
         <div className="mx-auto max-w-[460px] px-5 py-11">
@@ -577,7 +657,7 @@ export default function Landing() {
             <Link href="/legal/terminos">Términos y Condiciones</Link>
             <Link href="/legal/privacidad">Política de Privacidad</Link>
             <Link href="/legal/reembolso">Política de Reembolso</Link>
-            <a href="mailto:hola@eafibertrack.com">Contacto</a>
+            <a href={`mailto:${CONTACT_EMAIL}`}>Contacto</a>
           </div>
           <p className="mt-4 rounded-[10px] border border-dashed bg-surface px-3 py-2.5 text-[11px] leading-relaxed text-ink-3">
             EA Fiber Track no reemplaza la llamada al 811 ni confirma el estado oficial de un locate. Verifica siempre con el centro 811 de tu estado antes de excavar.
