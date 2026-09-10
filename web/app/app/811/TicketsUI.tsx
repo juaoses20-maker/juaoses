@@ -1,9 +1,9 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { Hexagon, Pencil, Plus, RotateCw, Trash2, TriangleAlert } from "lucide-react";
+import { ExternalLink, Hexagon, Pencil, Plus, Trash2, TriangleAlert } from "lucide-react";
 import { Btn } from "@/components/site/ui";
-import { createTicket, updateTicket, renewTicket, deleteTicket } from "@/lib/data/actions";
+import { createTicket, updateTicket, deleteTicket } from "@/lib/data/actions";
 import { isoPlusDays, ticketStatus, type Ticket811, type TicketFormState, type TicketStatus } from "@/lib/data/types";
 
 const initial: TicketFormState = { error: null };
@@ -214,15 +214,14 @@ export default function TicketsUI({
                 )}
               </div>
               {s.status !== "cerrado" && (
-                <form action={renewTicket} className="mt-1">
-                  <input type="hidden" name="id" value={t.id} />
-                  <button
-                    type="submit"
-                    className="inline-flex items-center gap-1 self-start rounded-full border [border-color:color-mix(in_oklab,var(--accent)_30%,transparent)] px-2.5 py-1 text-[10px] font-semibold text-accent"
-                  >
-                    <RotateCw className="h-3 w-3" strokeWidth={2.4} /> Renovar +21 d
-                  </button>
-                </form>
+                <a
+                  href="https://ky.itic.occinc.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-1 self-start rounded-full border [border-color:color-mix(in_oklab,var(--accent)_30%,transparent)] px-2.5 py-1 text-[10px] font-semibold text-accent"
+                >
+                  <ExternalLink className="h-3 w-3" strokeWidth={2.4} /> Renovar en Kentucky 811
+                </a>
               )}
             </div>
           ),
