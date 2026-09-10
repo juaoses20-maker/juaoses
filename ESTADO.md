@@ -5,7 +5,7 @@
   1. Planos: marcado con LÍNEAS RECTAS (arrastre) en vez de trazo libre.
   2. Tickets 811: campos número · ubicación · fecha de inicio · fecha de expiración EDITABLE (default inicio+21) · página del plano (`plan_page`, migración 0004). Botón "Renovar" abre el portal `https://ky.itic.occinc.com/`.
   3. Fotos: se pide LUGAR de texto tras tomar la foto (`photos.location`, migración 0005) + miniatura estampa nombre de empresa + fecha completa + hora.
-  4. Landing + paywall: precio ÚNICO $30/mes (fundador/planes por cuadrilla archivados). Sección nueva "Qué hace por ti" + bloque de contacto (WhatsApp +16185142665 / SMS / correo eafibertrack@gmail.com).
+  4. Landing + paywall: precio ÚNICO $30/mes (fundador/planes por cuadrilla archivados). Sección de servicios "Los servicios" — 2 servicios en tipografía display grande (27px, regla de acento): "Marcación de planos" y "Solicitud de tickets 811" + "Todo incluido en el plan de $30/mes" + bloque de contacto (WhatsApp +16185142665 / SMS / correo eafibertrack@gmail.com).
   Migraciones 0004 y 0005 ya ejecutadas por el usuario en Supabase.
 / Siguiente acción sugerida: **parte diario** (`production_entries`) que alimente "El día de hoy" + racha (loop Regla 6). Luego servicios externos que faltan: Stripe → Resend → dominio → Google OAuth.
 
