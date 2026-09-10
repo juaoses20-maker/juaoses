@@ -15,7 +15,7 @@ import {
   Hand,
   MapPin,
   Maximize2,
-  Spline,
+  Minus,
   Trash2,
   Undo2,
   Type as TypeIcon,
@@ -41,6 +41,8 @@ type XY = [number, number];
 type Tool = "draw" | "marker" | "note" | "pan";
 type View = { zoom: number; tx: number; ty: number };
 
+type Segment = { a: XY; b: XY };
+
 type NormMark =
   | { shape: "strokes"; paths: Stroke[] }
   | { shape: "seg"; a: XY; b: XY; color: string }
@@ -65,8 +67,8 @@ function polyPoints(pts: XY[]) {
   return pts.map((p) => `${p[0]},${p[1]}`).join(" ");
 }
 
-const TOOLS: { id: Tool; label: string; Icon: typeof Spline }[] = [
-  { id: "draw", label: "Pincel", Icon: Spline },
+const TOOLS: { id: Tool; label: string; Icon: typeof Minus }[] = [
+  { id: "draw", label: "Línea", Icon: Minus },
   { id: "marker", label: "Marcador", Icon: MapPin },
   { id: "note", label: "Nota", Icon: TypeIcon },
   { id: "pan", label: "Mover", Icon: Hand },
@@ -91,8 +93,8 @@ export default function PlanEditor({
     plan.width && plan.height ? plan.width / plan.height : 4 / 3,
   );
 
-  const [drawing, setDrawing] = useState<XY[] | null>(null);
-  const [strokes, setStrokes] = useState<Stroke[]>([]); // trazos sin guardar de la ruta actual
+  const [drawing, setDrawing] = useState<Segment | null>(null);
+  const [strokes, setStrokes] = useState<Stroke[]>([]); // líneas rectas sin guardar de la ruta actual
   const [savingRoute, setSavingRoute] = useState(false);
   const [pendingPoint, setPendingPoint] = useState<{ p: XY; kind: "marker" | "note" } | null>(null);
 
@@ -146,7 +148,7 @@ export default function PlanEditor({
       return;
     }
     const p = ptFromEvent(e);
-    if (tool === "draw") setDrawing([p]);
+    if (tool === "draw") setDrawing({ a: p, b: p });
     else if (tool === "marker") {
       setLabel(String.fromCharCode(65 + (ptCount % 26)));
       setActivity("Handhole");
@@ -164,16 +166,17 @@ export default function PlanEditor({
       return;
     }
     if (tool === "draw" && drawing) {
-      const p = ptFromEvent(e);
-      const last = drawing[drawing.length - 1];
-      if (Math.hypot(p[0] - last[0], p[1] - last[1]) > 0.004) setDrawing([...drawing, p]);
+      setDrawing({ a: drawing.a, b: ptFromEvent(e) });
     }
   }
 
   function onPointerUp() {
     panRef.current = null;
     if (tool === "draw" && drawing) {
-      if (drawing.length >= 2) setStrokes((s) => [...s, { pts: drawing, color }]);
+      const { a, b } = drawing;
+      if (Math.hypot(b[0] - a[0], b[1] - a[1]) > 0.01) {
+        setStrokes((s) => [...s, { pts: [a, b], color }]);
+      }
       setDrawing(null);
     }
   }
@@ -346,15 +349,16 @@ export default function PlanEditor({
                     strokeLinejoin="round"
                   />
                 ))}
-                {drawing && drawing.length > 1 && (
-                  <polyline
-                    points={polyPoints(drawing)}
-                    fill="none"
+                {drawing && (
+                  <line
+                    x1={drawing.a[0]}
+                    y1={drawing.a[1]}
+                    x2={drawing.b[0]}
+                    y2={drawing.b[1]}
                     stroke={color}
                     strokeWidth={0.013}
                     strokeOpacity={0.9}
                     strokeLinecap="round"
-                    strokeLinejoin="round"
                   />
                 )}
               </svg>
@@ -410,7 +414,7 @@ export default function PlanEditor({
           {!formOpen && strokes.length === 0 && (
             <div className="mt-2 flex items-center gap-2 rounded-[8px] bg-[var(--chip)] px-2.5 py-2 text-[11.5px] font-semibold text-accent">
               {tool === "draw"
-                ? "Traza la ruta con el dedo. Puedes hacer varios trazos."
+                ? "Toca un extremo y arrastra al otro: queda una línea recta. Encadena las que necesites (zoom + para precisión)."
                 : tool === "marker"
                   ? "Toca donde va el hub o handhole"
                   : tool === "note"
@@ -423,7 +427,7 @@ export default function PlanEditor({
           {tool === "draw" && strokes.length > 0 && !savingRoute && (
             <div className="mt-2 flex flex-wrap items-center gap-2 rounded-[12px] border bg-surface p-2.5 shadow-[var(--shadow-1)]">
               <span className="text-[12px] font-semibold">
-                {strokes.length} {strokes.length === 1 ? "trazo" : "trazos"} sin guardar
+                {strokes.length} {strokes.length === 1 ? "línea" : "líneas"} sin guardar
               </span>
               <button
                 onClick={() => setStrokes((s) => s.slice(0, -1))}
@@ -457,7 +461,7 @@ export default function PlanEditor({
               <input type="hidden" name="qty" value={feet.replace(/[^\d.]/g, "") || "0"} />
 
               <div className="font-display text-[13px] font-semibold">
-                ¿Qué se construyó en esa ruta? ({strokes.length} {strokes.length === 1 ? "trazo" : "trazos"})
+                ¿Qué se construyó en esa ruta? ({strokes.length} {strokes.length === 1 ? "línea" : "líneas"})
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {PLAN_ACTIVITIES.map((a) => (
