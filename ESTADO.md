@@ -95,7 +95,13 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - **Planos PDF:** pdfjs-dist en el cliente rasteriza la página a canvas; se marca encima con overlay SVG (coords normalizadas 0..1). Planos-foto van directos como imagen.
 - **IA (30):** solo texto — genera resumen de as-built / close-out y "resumen del día". Modelo en env `AI_MODEL`, `max_tokens` acotado, cache de resultados idénticos, circuit-breaker de costo. NO es la primera victoria (esa es la tarjeta manual) → V1 opcional / V1.1.
 - **Offline:** captura de foto/marca encola en IndexedDB y sincroniza al volver la señal (best-effort en v1; offline completo = V2).
-- **Idioma UI:** español (es-US) mono-idioma en v1; scaffold i18n listo para añadir inglés en V2.
+- **Idioma UI:** BILINGÜE es/en (usuario 2026-09-10). `next-intl` v4 SIN rutas por idioma: locale desde cookie `eaft_lang` (fallback `Accept-Language`, default `es`). `i18n/request.ts` + `createNextIntlPlugin` en `next.config.ts`. `<NextIntlClientProvider>` en `app/layout.tsx` (`<html lang>` dinámico). `components/LanguageSwitcher.tsx` (chip ES/EN) + `lib/i18n-actions.ts` `setLanguage` (cookie + `user_metadata.lang` si hay sesión). Textos en `web/messages/{es,en}.json`.
+  - ETAPA 1 (hecha 2026-09-10): motor + selector en header de `/app` + traducidos marco de `/app` (`app/app/layout.tsx`, `BottomNav`), pantalla "Hoy" (`app/app/page.tsx`), `NoProject`.
+  - ETAPA 2 (pendiente): `/app/planos` `/app/fotos` `/app/811` `/app/cuadrillas` `/app/proyectos` `/bienvenido` + `components/site/ui.tsx`.
+  - ETAPA 3 (pendiente): funnel `/probar` `/planes` `/entrar` `/legal`.
+  - ETAPA 4 (pendiente): `components/site/Landing.tsx` + metadata OG locale + volver a estático lo que se pueda.
+  - ⚠️ Al leer cookie en `getRequestConfig`, TODAS las rutas pasaron a dinámicas (`/ /entrar /planes /probar` ya no son estáticas). Revisar en etapa 4 si conviene locale por cliente en la landing para recuperar SSG.
+  - ⚠️ Sync entre dispositivos: la cookie manda; si un usuario entra en otro teléfono, `user_metadata.lang` no re-aplica solo (hay que tocar el selector una vez). Mejora futura: leer metadata en `proxy.ts` y setear cookie.
 - Features del MVP (B3, en orden): 1) Planos PDF/foto + marcado de producción, 2) Fotos GPS, 3) Tickets 811 (Kentucky primero) conectados a producción, 4) Cuadrillas.
 
 ## Sesiones completadas ✅
