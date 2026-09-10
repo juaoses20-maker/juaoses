@@ -295,12 +295,12 @@
       "afterVal": "30 seconds and sent"
     },
     "services": {
-      "eyebrow": "What it does for you",
-      "title": "What it solves.",
-      "s1Title": "Plan markup and 811 tickets",
-      "s1Body": "Mark the day's production on the plan —PDF or photo— and keep the 811 tickets tied to each segment, with a warning before they expire.",
-      "s2Title": "Answer damage claims, with evidence",
-      "s2Body": "When a claim comes in, pull the segment's Field Proof: marked plan, GPS photo, date, crew and 811 number. In seconds, ready to respond.",
+      "eyebrow": "The services",
+      "s1Name": "Plan markup",
+      "s1Desc": "Mark the day's production on the plan —PDF or photo—, segment by segment, with feet and crew.",
+      "s2Name": "811 ticket requests",
+      "s2Desc": "Request and renew your 811s and keep them tied to each segment, with a warning before they expire.",
+      "included": "All included in the $30/mo plan.",
       "contactTitle": "Request more information",
       "contactBody": "We answer you personally. No sales calls.",
       "whatsapp": "Message on WhatsApp",

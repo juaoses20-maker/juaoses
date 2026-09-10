@@ -384,28 +384,23 @@ export default function Landing() {
               {t("services.eyebrow")}
             </p>
           </Reveal>
-          <Reveal delay={0.05}>
-            <h2 className="mt-2 text-[24px] font-semibold">{t("services.title")}</h2>
-          </Reveal>
 
-          <div className="mt-5 flex flex-col gap-3">
+          <div className="mt-6 flex flex-col gap-7">
             {[
-              { Icon: PencilRuler, tk: "services.s1Title", dk: "services.s1Body" },
-              { Icon: ShieldAlert, tk: "services.s2Title", dk: "services.s2Body" },
-            ].map(({ Icon, tk, dk }) => (
-              <Reveal key={tk}>
-                <div className="flex items-start gap-3.5 rounded-card border bg-surface p-4 shadow-[var(--shadow-1)]">
-                  <IconChip>
-                    <Icon className="h-[20px] w-[20px]" strokeWidth={2} />
-                  </IconChip>
-                  <div>
-                    <h3 className="text-[15px] font-semibold">{t(tk)}</h3>
-                    <p className="mt-1 text-[13px] leading-relaxed text-ink-2">{t(dk)}</p>
-                  </div>
+              { nk: "services.s1Name", dk: "services.s1Desc" },
+              { nk: "services.s2Name", dk: "services.s2Desc" },
+            ].map(({ nk, dk }) => (
+              <Reveal key={nk}>
+                <div className="border-l-2 border-accent pl-4">
+                  <h3 className="font-display text-[27px] font-bold leading-[1.08]">{t(nk)}</h3>
+                  <p className="mt-2 max-w-[36ch] text-[14px] leading-relaxed text-ink-2">{t(dk)}</p>
                 </div>
               </Reveal>
             ))}
           </div>
+          <Reveal>
+            <p className="mt-6 font-mono text-[11px] font-semibold text-ink-3">{t("services.included")}</p>
+          </Reveal>
 
           <Reveal>
             <div className="mt-4 rounded-card border bg-surface p-4 shadow-[var(--shadow-1)]">

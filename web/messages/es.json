@@ -295,12 +295,12 @@
       "afterVal": "30 segundos y enviado"
     },
     "services": {
-      "eyebrow": "Qué hace por ti",
-      "title": "Lo que resuelve.",
-      "s1Title": "Marcación de planos y tickets 811",
-      "s1Body": "Marcas la producción del día sobre el plano —PDF o foto— y llevas los tickets 811 conectados a cada tramo, con aviso antes de que venzan.",
-      "s2Title": "Respuesta a reclamos por daños, con evidencia",
-      "s2Body": "Cuando llega un claim, sacas la Prueba de Campo del tramo: plano marcado, foto con GPS, fecha, cuadrilla y número de 811. En segundos, listo para responder.",
+      "eyebrow": "Los servicios",
+      "s1Name": "Marcación de planos",
+      "s1Desc": "Marca la producción del día sobre el plano —PDF o foto—, tramo por tramo, con pies y cuadrilla.",
+      "s2Name": "Solicitud de tickets 811",
+      "s2Desc": "Pide y renueva tus 811 y tenlos conectados a cada tramo, con aviso antes de que venzan.",
+      "included": "Todo incluido en el plan de $30/mes.",
       "contactTitle": "Solicitar más información",
       "contactBody": "Te contestamos personalmente. Sin llamadas de venta.",
       "whatsapp": "Escribir por WhatsApp",
