@@ -246,5 +246,193 @@
     "zonePlaceholder": "e.g. Owensboro, KY",
     "submit": "Create my company",
     "entering": "Entering…"
+  },
+  "ui": {
+    "signIn": "Sign in",
+    "close": "Close",
+    "back": "Back"
+  },
+  "landing": {
+    "cta": "Try it free with my plan",
+    "hero": {
+      "eyebrow": "For underground fiber contractors with a Spanish-speaking crew",
+      "title": "Your whole fiber job progress, <accent>in one tap</accent>.",
+      "sub": "Today's footage, every crew and the 811s about to expire — <b>without calling anyone</b>.",
+      "ctaNote": "See it working right below · 14 days free, no card"
+    },
+    "phone": {
+      "project": "Louisville Fiber — Phase 2 · Today",
+      "today": "Today",
+      "proofTag": "Field Proof · 9:41",
+      "feetUnit": "feet · HDD Bore",
+      "crew": "Crew A — Miguel Santos",
+      "ticketChip": "811 #2024-2210455 · expires 3 d",
+      "photoChip": "GPS Photo",
+      "footer": "Feet today · 3 crews"
+    },
+    "problem": {
+      "eyebrow": "If this sounds familiar…",
+      "q1": "Digging for a segment photo across WhatsApp and three phones?",
+      "q2": "End the day without knowing how many feet each crew ran?",
+      "q3": "Getting a damage claim for a line your people never touched?",
+      "q4": "Your crew won't fill out the app because it's in English?",
+      "meanwhile": "And meanwhile…",
+      "l1": "Every week you lose hours <b>rebuilding what you already did</b> — and sometimes the invoice still doesn't go through.",
+      "l2": "<b>Two out of three contractors</b> have already gotten a claim for damage they didn't cause.",
+      "l3": "Six months of this and you're in the same spot — with <b>six months less proof</b> saved.",
+      "source": "Source: excavation contractor survey, Associated General Contractors of America."
+    },
+    "solution": {
+      "eyebrow": "The solution",
+      "title": "It's not that you work badly. The proof of your job lives in five places at once.",
+      "sub": "<accent>Field Proof</accent> pulls it into one.",
+      "s1": "Upload the plan as PDF or photo and tap the segment you built.",
+      "s2": "Add the GPS photo and the 811 ticket number.",
+      "s3": "You get proof ready to send: feet, crew, date, location.",
+      "before": "Before",
+      "beforeVal": "Half an hour searching WhatsApp",
+      "after": "After",
+      "afterVal": "30 seconds and sent"
+    },
+    "services": {
+      "eyebrow": "What it does for you",
+      "title": "What it solves.",
+      "s1Title": "Plan markup and 811 tickets",
+      "s1Body": "Mark the day's production on the plan —PDF or photo— and keep the 811 tickets tied to each segment, with a warning before they expire.",
+      "s2Title": "Answer damage claims, with evidence",
+      "s2Body": "When a claim comes in, pull the segment's Field Proof: marked plan, GPS photo, date, crew and 811 number. In seconds, ready to respond.",
+      "contactTitle": "Request more information",
+      "contactBody": "We answer you personally. No sales calls.",
+      "whatsapp": "Message on WhatsApp",
+      "sms": "Send a text message",
+      "email": "Send an email",
+      "emailSubject": "More information about EA Fiber Track"
+    },
+    "inside": {
+      "eyebrow": "Inside the app",
+      "title": "Four screens, one job each.",
+      "c1Title": "Field Proof",
+      "c1Cap": "The segment, proven",
+      "c2Title": "Today",
+      "c2Cap": "Feet per crew, no calls",
+      "c3Title": "811 Tickets",
+      "c3Cap": "Which expire this week",
+      "c4Title": "Plans",
+      "c4Cap": "Mark production on top",
+      "note": "Reference frames — real screenshots go in once the app is ready."
+    },
+    "offer": {
+      "eyebrow": "The offer",
+      "title": "One price. <accent>No fine print.</accent>",
+      "badge": "The whole company",
+      "priceUnit": "/mo",
+      "priceNote": "One plan. <b>Unlimited crews and people.</b> Cancel anytime.",
+      "f1": "Full EA Fiber Track — plans, GPS photos, 811 and crews, <b>unlimited people</b>",
+      "f2": "No charge per worker or per crew",
+      "f3": "811 expiration alerts by email and in the app",
+      "f4": "Your record follows you from one project to the next",
+      "trialNote": "14 days free · no card to try · payment by Stripe"
+    },
+    "guarantee": {
+      "title": "The First Proof Guarantee",
+      "body": "If within 14 days you haven't built your first Field Proof with your own plan, you send an email and we refund everything. No form, no questions.",
+      "floor": "Plus 30 days to get your money back from the first charge."
+    },
+    "faq": {
+      "eyebrow": "Frequently asked questions",
+      "q1": "We already do it with Excel and WhatsApp.",
+      "a1": "That's not a system — it's a treasure hunt when the claim arrives. Time what it takes you today against 30 seconds.",
+      "q2": "My people won't fill out another app.",
+      "a2": "That's why it's in Spanish and it's one photo plus two taps, not a form. The foreman closes the day's report in a minute.",
+      "q3": "We already use the general contractor's platform.",
+      "a3": "That one's the GC's and they take it away when the contract ends. EA Fiber Track is your record: you take it to every project.",
+      "q4": "I don't want to pay per worker.",
+      "a4": "We don't charge per worker. It's one price per company: $30 a month, with unlimited people and crews.",
+      "q5": "In many areas I don't have good signal.",
+      "a5": "Capturing photos and marks works with no signal. It uploads on its own when the connection comes back.",
+      "q6": "Does this replace the 811 call?",
+      "a6": "No. EA Fiber Track keeps the evidence and warns you about expiration. The official locate status is always verified with your state's 811."
+    },
+    "final": {
+      "title": "Let the app tell you how the job went.",
+      "body": "It's Friday, 6 p.m. You open EA Fiber Track: feet per crew, 811s up to date, every segment proven. You put the phone away.",
+      "ps": "<b>PS:</b> EA Fiber Track shows your whole fiber job in one tap, with Field Proof behind every segment. One price: $30/mo for the whole company, 14 days free and the First Proof Guarantee."
+    },
+    "footer": {
+      "terms": "Terms & Conditions",
+      "privacy": "Privacy Policy",
+      "refund": "Refund Policy",
+      "contact": "Contact",
+      "disclaimer": "EA Fiber Track does not replace the 811 call or confirm the official status of a locate. Always check with your state's 811 center before digging.",
+      "copyright": "© 2026 EA Fiber Track · Payments by Stripe"
+    }
+  },
+  "probar": {
+    "upload": {
+      "title": "Try it with your plan. No account needed.",
+      "body": "Upload the plan for the segment you already built — PDF or photo. In 3 steps you see your first proof ready to send.",
+      "uploadBtn": "Upload plan",
+      "uploadHint": "PDF or photo, up to 20 MB",
+      "or": "or",
+      "sample": "Use a sample plan",
+      "footer": "Louisville, KY · Kentucky 811"
+    },
+    "mark": {
+      "title": "Tap the segment you built.",
+      "body": "One tap at the start, one at the end. On the plan.",
+      "hint0": "Tap the start of the built segment",
+      "hint1": "Tap the end of the segment",
+      "hint2": "Segment marked · tap “Continue”",
+      "remark": "Mark again",
+      "continue": "Continue"
+    },
+    "detail": {
+      "title": "What was done on that segment?",
+      "activity": "Activity",
+      "act1": "HDD Bore",
+      "act2": "Trench",
+      "act3": "Fiber pull",
+      "feet": "Feet built",
+      "ticket": "811 ticket (optional)",
+      "ticketPlaceholder": "2024-0000000",
+      "photoOff": "Add GPS photo",
+      "photoOn": "GPS photo added",
+      "build": "Build my Field Proof"
+    },
+    "done": {
+      "badge": "Your first Field Proof",
+      "proofTag": "Field Proof · Today",
+      "feetUnit": "feet · {activity}",
+      "crew": "Crew A · Today",
+      "ticketChip": "811 #{ticket} · expires 3 d",
+      "photoChip": "GPS Photo",
+      "caption": "This is what you send the client or the utility — in 30 seconds.",
+      "save": "Save and see my full job",
+      "markAnother": "Mark another segment"
+    }
+  },
+  "entrar": {
+    "title": "Sign in to save your proof.",
+    "body": "Your Field Proof is waiting. Choose how to sign in.",
+    "errorLink": "We couldn't send the link. Check the email and try again.",
+    "errorGoogle": "Google sign-in is coming soon. Use your email for now.",
+    "google": "Continue with Google",
+    "orEmail": "or with your email",
+    "emailPlaceholder": "you@company.com",
+    "sending": "Sending…",
+    "sendLink": "Send me a link",
+    "legal": "By signing in you accept the <terms>Terms</terms> and the <privacy>Privacy Policy</privacy>.",
+    "sentTitle": "Check your email.",
+    "sentBody": "We sent a link to <b>{email}</b>. Open it from this phone to sign in.",
+    "otherEmail": "Use another email"
+  },
+  "legal": {
+    "terminos": "Terms & Conditions",
+    "privacidad": "Privacy Policy",
+    "reembolso": "Refund Policy",
+    "backHome": "← EA Fiber Track",
+    "draft": "Document in preparation. It will be published before sales open.",
+    "contact": "In the meantime, for any question write to us at <mail></mail>.",
+    "disclaimer": "EA Fiber Track does not replace the 811 call or confirm the official status of a locate. Always check with your state's 811 center before digging."
   }
 }

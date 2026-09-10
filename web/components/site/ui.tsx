@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 
 export function Btn({
@@ -51,6 +54,7 @@ export function Progress({ pct }: { pct: number }) {
 }
 
 export function TopBar({ onClose, href }: { onClose?: () => void; href?: string }) {
+  const t = useTranslations("ui");
   return (
     <div className="flex items-center gap-2.5 pb-2.5">
       <span className="flex items-center gap-1.5 font-display text-[13px] font-bold">
@@ -63,11 +67,11 @@ export function TopBar({ onClose, href }: { onClose?: () => void; href?: string 
         EA Fiber Track
       </span>
       {href ? (
-        <Link href={href} aria-label="Cerrar" className="ml-auto text-ink-3">
+        <Link href={href} aria-label={t("close")} className="ml-auto text-ink-3">
           <span className="text-[16px]">✕</span>
         </Link>
       ) : onClose ? (
-        <button onClick={onClose} aria-label="Atrás" className="ml-auto text-ink-3">
+        <button onClick={onClose} aria-label={t("back")} className="ml-auto text-ink-3">
           <span className="text-[16px]">←</span>
         </button>
       ) : null}

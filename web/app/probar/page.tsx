@@ -1,18 +1,19 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Check, MapPin, Camera, Upload } from "lucide-react";
 import { Btn, Progress, TopBar, ArrowRight } from "@/components/site/ui";
 
 type Step = "upload" | "mark" | "detail" | "done";
 type Pt = { x: number; y: number };
 
-const ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra"] as const;
-
 export default function ProbarPage() {
+  const t = useTranslations("probar");
+  const ACTIVITIES = [t("detail.act1"), t("detail.act2"), t("detail.act3")] as const;
   const [step, setStep] = useState<Step>("upload");
   const [pts, setPts] = useState<Pt[]>([]);
-  const [activity, setActivity] = useState<(typeof ACTIVITIES)[number]>("HDD Bore");
+  const [activity, setActivity] = useState<string>(t("detail.act1"));
   const [feet, setFeet] = useState("1 850");
   const [ticket, setTicket] = useState("2024-2210455");
   const [photo, setPhoto] = useState(false);
@@ -44,18 +45,16 @@ export default function ProbarPage() {
         {/* STEP 1 — upload */}
         {step === "upload" && (
           <div className="flex flex-1 flex-col">
-            <h1 className="mt-6 text-[24px] font-semibold">Prueba con tu plano. Sin crear cuenta.</h1>
-            <p className="mt-2 text-[13px] text-ink-2">
-              Sube el plano del tramo que ya construiste — PDF o foto. En 3 pasos ves tu primera prueba lista para mandar.
-            </p>
+            <h1 className="mt-6 text-[24px] font-semibold">{t("upload.title")}</h1>
+            <p className="mt-2 text-[13px] text-ink-2">{t("upload.body")}</p>
 
             <button
               onClick={() => fileRef.current?.click()}
               className="mt-5 rounded-card border-[1.5px] border-dashed [border-color:color-mix(in_oklab,var(--accent)_40%,var(--line))] bg-surface px-4 py-7 text-center"
             >
               <Upload className="mx-auto mb-2 h-8 w-8 text-accent" strokeWidth={1.7} />
-              <div className="text-[13px] font-semibold">Subir plano</div>
-              <div className="mt-0.5 text-[11px] text-ink-3">PDF o foto, hasta 20 MB</div>
+              <div className="text-[13px] font-semibold">{t("upload.uploadBtn")}</div>
+              <div className="mt-0.5 text-[11px] text-ink-3">{t("upload.uploadHint")}</div>
             </button>
             <input
               ref={fileRef}
@@ -66,22 +65,20 @@ export default function ProbarPage() {
             />
 
             <div className="my-3 flex items-center gap-2 text-[11px] text-ink-3 before:h-px before:flex-1 before:bg-line after:h-px after:flex-1 after:bg-line">
-              o
+              {t("upload.or")}
             </div>
             <Btn variant="ghost" onClick={() => setStep("mark")}>
-              Usar un plano de ejemplo
+              {t("upload.sample")}
             </Btn>
-            <p className="mt-auto pt-6 text-center font-mono text-[11px] text-ink-3">
-              Louisville, KY · el 811 de Kentucky
-            </p>
+            <p className="mt-auto pt-6 text-center font-mono text-[11px] text-ink-3">{t("upload.footer")}</p>
           </div>
         )}
 
         {/* STEP 2 — mark */}
         {step === "mark" && (
           <div className="flex flex-1 flex-col">
-            <h1 className="mt-6 text-[24px] font-semibold">Toca el tramo que construiste.</h1>
-            <p className="mt-2 text-[13px] text-ink-2">Un toque en el inicio, otro en el final. Sobre el plano.</p>
+            <h1 className="mt-6 text-[24px] font-semibold">{t("mark.title")}</h1>
+            <p className="mt-2 text-[13px] text-ink-2">{t("mark.body")}</p>
 
             <div className="mt-4 overflow-hidden rounded-[12px] border bg-white">
               <svg
@@ -133,10 +130,10 @@ export default function ProbarPage() {
             <div className="mt-2.5 flex items-center gap-2 rounded-[8px] bg-[var(--chip)] px-2.5 py-2 text-[11.5px] font-semibold text-accent">
               <MapPin className="h-3.5 w-3.5 flex-none" strokeWidth={2.4} />
               {pts.length === 0
-                ? "Toca el inicio del tramo construido"
+                ? t("mark.hint0")
                 : pts.length === 1
-                  ? "Toca el final del tramo"
-                  : "Tramo marcado · toca “Continuar”"}
+                  ? t("mark.hint1")
+                  : t("mark.hint2")}
             </div>
 
             <div className="mt-auto flex flex-col gap-2 pt-6">
@@ -145,11 +142,11 @@ export default function ProbarPage() {
                   onClick={() => setPts([])}
                   className="self-center text-[12px] font-semibold text-ink-3 underline underline-offset-2"
                 >
-                  Volver a marcar
+                  {t("mark.remark")}
                 </button>
               )}
               <Btn onClick={() => setStep("detail")} disabled={pts.length < 2}>
-                Continuar
+                {t("mark.continue")}
               </Btn>
             </div>
           </div>
@@ -158,10 +155,10 @@ export default function ProbarPage() {
         {/* STEP 3 — detail */}
         {step === "detail" && (
           <div className="flex flex-1 flex-col">
-            <h1 className="mt-6 text-[24px] font-semibold">¿Qué se hizo en ese tramo?</h1>
+            <h1 className="mt-6 text-[24px] font-semibold">{t("detail.title")}</h1>
 
             <label className="mt-5 block font-mono text-[9.5px] font-semibold uppercase tracking-[0.05em] text-ink-3">
-              Actividad
+              {t("detail.activity")}
             </label>
             <div className="mt-1.5 flex flex-wrap gap-1.5">
               {ACTIVITIES.map((a) => (
@@ -179,7 +176,7 @@ export default function ProbarPage() {
             </div>
 
             <label className="mt-4 block font-mono text-[9.5px] font-semibold uppercase tracking-[0.05em] text-ink-3">
-              Pies construidos
+              {t("detail.feet")}
             </label>
             <div className="mt-1.5 flex items-center justify-between rounded-[10px] border bg-surface px-3 py-2.5">
               <input
@@ -192,12 +189,12 @@ export default function ProbarPage() {
             </div>
 
             <label className="mt-4 block font-mono text-[9.5px] font-semibold uppercase tracking-[0.05em] text-ink-3">
-              Ticket 811 (opcional)
+              {t("detail.ticket")}
             </label>
             <input
               value={ticket}
               onChange={(e) => setTicket(e.target.value)}
-              placeholder="2024-0000000"
+              placeholder={t("detail.ticketPlaceholder")}
               className="mt-1.5 w-full rounded-[10px] border bg-surface px-3 py-2.5 font-mono text-[13px] font-semibold text-warn outline-none placeholder:text-ink-3"
             />
 
@@ -213,11 +210,11 @@ export default function ProbarPage() {
               ) : (
                 <Camera className="h-4 w-4 flex-none text-accent" strokeWidth={2} />
               )}
-              {photo ? "Foto con GPS añadida" : "Añadir foto con GPS"}
+              {photo ? t("detail.photoOn") : t("detail.photoOff")}
             </button>
 
             <div className="mt-auto pt-6">
-              <Btn onClick={() => setStep("done")}>Armar mi Prueba de Campo</Btn>
+              <Btn onClick={() => setStep("done")}>{t("detail.build")}</Btn>
             </div>
           </div>
         )}
@@ -228,7 +225,7 @@ export default function ProbarPage() {
             <TopBar />
             <div className="mt-2 text-center">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--accent-2)_15%,transparent)] px-2.5 py-1 font-mono text-[10px] font-semibold text-accent-2">
-                <Check className="h-3 w-3" strokeWidth={3} /> Tu primera Prueba de Campo
+                <Check className="h-3 w-3" strokeWidth={3} /> {t("done.badge")}
               </span>
             </div>
 
@@ -237,7 +234,7 @@ export default function ProbarPage() {
               style={{ clipPath: "polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,0 100%)" }}
             >
               <div className="flex items-center gap-1.5 px-3 pt-3 font-mono text-[9px] font-semibold uppercase tracking-[0.06em] text-accent">
-                <Check className="h-2.5 w-2.5" strokeWidth={2.8} /> La Prueba de Campo · Hoy
+                <Check className="h-2.5 w-2.5" strokeWidth={2.8} /> {t("done.proofTag")}
               </div>
               <div className="mx-3 mt-2 overflow-hidden rounded-[10px] border bg-white">
                 <svg viewBox="0 0 280 90" className="block w-full">
@@ -263,9 +260,12 @@ export default function ProbarPage() {
                 <span className="h-11 w-11 flex-none rounded-[9px] border" style={{ background: "#b45a1e" }} />
                 <div>
                   <div className="relative pl-2 font-display text-[24px] font-bold leading-none tnum before:absolute before:left-0 before:top-0.5 before:bottom-0.5 before:w-0.5 before:rounded-sm before:bg-[linear-gradient(180deg,var(--accent),transparent)]">
-                    {feet} <span className="font-body text-[11px] font-semibold text-ink-2">pies · {activity}</span>
+                    {feet}{" "}
+                    <span className="font-body text-[11px] font-semibold text-ink-2">
+                      {t("done.feetUnit", { activity })}
+                    </span>
                   </div>
-                  <div className="mt-1 text-[10px] text-ink-2">Cuadrilla A · Hoy</div>
+                  <div className="mt-1 text-[10px] text-ink-2">{t("done.crew")}</div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1.5 px-3 pb-3 pt-1">
@@ -274,24 +274,22 @@ export default function ProbarPage() {
                 </span>
                 {ticket && (
                   <span className="rounded-full bg-[color-mix(in_oklab,var(--warn)_15%,transparent)] px-2 py-[3px] font-mono text-[9px] font-medium text-warn">
-                    811 #{ticket} · vence 3 d
+                    {t("done.ticketChip", { ticket })}
                   </span>
                 )}
                 {photo && (
                   <span className="rounded-full bg-[color-mix(in_oklab,var(--accent-2)_16%,transparent)] px-2 py-[3px] font-mono text-[9px] font-medium text-accent-2">
-                    Foto GPS
+                    {t("done.photoChip")}
                   </span>
                 )}
               </div>
             </div>
 
-            <p className="mt-3 text-center text-[13px] text-ink-2">
-              Esto es lo que mandas al cliente o a la utility — en 30 segundos.
-            </p>
+            <p className="mt-3 text-center text-[13px] text-ink-2">{t("done.caption")}</p>
 
             <div className="mt-auto pt-6">
               <Btn href="/planes">
-                Guardar y ver mi obra completa <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
+                {t("done.save")} <ArrowRight className="h-4 w-4" strokeWidth={2.4} />
               </Btn>
               <button
                 onClick={() => {
@@ -300,7 +298,7 @@ export default function ProbarPage() {
                 }}
                 className="mt-3 w-full text-center text-[12px] font-semibold text-ink-3"
               >
-                Marcar otro tramo
+                {t("done.markAnother")}
               </button>
             </div>
           </div>

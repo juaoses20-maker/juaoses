@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Btn } from "@/components/site/ui";
 import { createClient } from "@/lib/supabase/client";
 
 export default function EntrarPage() {
+  const t = useTranslations("entrar");
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -34,7 +36,7 @@ export default function EntrarPage() {
     });
     setBusy(false);
     if (error) {
-      setError("No pudimos enviar el enlace. Revisa el correo e inténtalo de nuevo.");
+      setError(t("errorLink"));
       return;
     }
     setSent(true);
@@ -51,7 +53,7 @@ export default function EntrarPage() {
     });
     if (error) {
       setBusy(false);
-      setError("El acceso con Google se activa pronto. Usa tu correo por ahora.");
+      setError(t("errorGoogle"));
     }
   }
 
@@ -67,10 +69,8 @@ export default function EntrarPage() {
 
         {!sent ? (
           <>
-            <h1 className="mt-4 text-[22px] font-semibold">Entra para guardar tu prueba.</h1>
-            <p className="mt-2 text-[13px] text-ink-2">
-              Tu Prueba de Campo te está esperando. Elige cómo entrar.
-            </p>
+            <h1 className="mt-4 text-[22px] font-semibold">{t("title")}</h1>
+            <p className="mt-2 text-[13px] text-ink-2">{t("body")}</p>
 
             {error && (
               <p className="mt-4 rounded-[10px] border border-[color:color-mix(in_oklab,var(--crit)_40%,transparent)] bg-[color:color-mix(in_oklab,var(--crit)_8%,transparent)] px-3 py-2 text-[12px] text-[var(--crit)]">
@@ -89,17 +89,17 @@ export default function EntrarPage() {
                 <path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.8V7.5H3.1a10 10 0 0 0 0 9z" />
                 <path fill="#EA4335" d="M12 5.4c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5l3.4 2.7C7.3 7.1 9.4 5.4 12 5.4z" />
               </svg>
-              Continuar con Google
+              {t("google")}
             </button>
 
             <div className="my-4 flex items-center gap-2 text-[11px] text-ink-3 before:h-px before:flex-1 before:bg-line after:h-px after:flex-1 after:bg-line">
-              o con tu correo
+              {t("orEmail")}
             </div>
 
             <input
               type="email"
               inputMode="email"
-              placeholder="tu@empresa.com"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendLink()}
@@ -107,27 +107,33 @@ export default function EntrarPage() {
             />
             <div className="mt-2.5">
               <Btn onClick={sendLink} disabled={!email.includes("@") || busy}>
-                {busy ? "Enviando…" : "Enviarme un enlace"}
+                {busy ? t("sending") : t("sendLink")}
               </Btn>
             </div>
 
             <p className="mt-4 text-[10px] text-ink-3">
-              Al entrar aceptas los{" "}
-              <Link href="/legal/terminos" className="underline underline-offset-2">
-                Términos
-              </Link>{" "}
-              y la{" "}
-              <Link href="/legal/privacidad" className="underline underline-offset-2">
-                Política de Privacidad
-              </Link>
-              .
+              {t.rich("legal", {
+                terms: (c) => (
+                  <Link href="/legal/terminos" className="underline underline-offset-2">
+                    {c}
+                  </Link>
+                ),
+                privacy: (c) => (
+                  <Link href="/legal/privacidad" className="underline underline-offset-2">
+                    {c}
+                  </Link>
+                ),
+              })}
             </p>
           </>
         ) : (
           <>
-            <h1 className="mt-4 text-[22px] font-semibold">Revisa tu correo.</h1>
+            <h1 className="mt-4 text-[22px] font-semibold">{t("sentTitle")}</h1>
             <p className="mt-2 text-[13px] text-ink-2">
-              Te enviamos un enlace a <b className="font-semibold text-ink">{email}</b>. Ábrelo desde este teléfono para entrar.
+              {t.rich("sentBody", {
+                email,
+                b: (c) => <b className="font-semibold text-ink">{c}</b>,
+              })}
             </p>
             <button
               onClick={() => {
@@ -136,7 +142,7 @@ export default function EntrarPage() {
               }}
               className="mt-5 text-[12px] font-semibold text-ink-3 underline underline-offset-2"
             >
-              Usar otro correo
+              {t("otherEmail")}
             </button>
           </>
         )}

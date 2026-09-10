@@ -246,5 +246,193 @@
     "zonePlaceholder": "Ej. Owensboro, KY",
     "submit": "Crear mi empresa",
     "entering": "Entrando…"
+  },
+  "ui": {
+    "signIn": "Entrar",
+    "close": "Cerrar",
+    "back": "Atrás"
+  },
+  "landing": {
+    "cta": "Probar gratis con mi plano",
+    "hero": {
+      "eyebrow": "Para contratistas de fibra subterránea con cuadrilla que habla español",
+      "title": "Todo tu avance de obra de fibra, <accent>en un toque</accent>.",
+      "sub": "Pies de hoy, cada cuadrilla y los 811 por vencer — <b>sin llamar a nadie</b>.",
+      "ctaNote": "Míralo funcionando aquí abajo · 14 días gratis, sin tarjeta"
+    },
+    "phone": {
+      "project": "Fibra Louisville — Fase 2 · Hoy",
+      "today": "El día de hoy",
+      "proofTag": "La Prueba de Campo · 9:41",
+      "feetUnit": "pies · Bore HDD",
+      "crew": "Cuadrilla A — Miguel Santos",
+      "ticketChip": "811 #2024-2210455 · vence 3 d",
+      "photoChip": "Foto GPS",
+      "footer": "Pies hoy · 3 cuadrillas"
+    },
+    "problem": {
+      "eyebrow": "Si esto te suena…",
+      "q1": "¿Buscas la foto de un tramo entre WhatsApp y tres celulares?",
+      "q2": "¿Terminas el día sin saber cuántos pies hizo cada cuadrilla?",
+      "q3": "¿Te reclaman un daño a una línea que tu gente no tocó?",
+      "q4": "¿Tu cuadrilla no llena la app porque está en inglés?",
+      "meanwhile": "Y mientras tanto…",
+      "l1": "Cada semana pierdes horas <b>reconstruyendo lo que ya hiciste</b> — y a veces la factura igual no entra.",
+      "l2": "<b>Dos de cada tres contratistas</b> ya recibieron un reclamo por un daño que no causaron.",
+      "l3": "Seis meses así y sigues igual — con <b>seis meses menos de pruebas</b> guardadas.",
+      "source": "Fuente: encuesta a contratistas de excavación, Associated General Contractors of America."
+    },
+    "solution": {
+      "eyebrow": "La solución",
+      "title": "No es que trabajes mal. La prueba de tu obra vive en cinco lugares a la vez.",
+      "sub": "<accent>La Prueba de Campo</accent> la junta en uno solo.",
+      "s1": "Subes el plano en PDF o foto y tocas el tramo construido.",
+      "s2": "Le sumas la foto con GPS y el número de ticket 811.",
+      "s3": "Queda una prueba lista para mandar: pies, cuadrilla, fecha, ubicación.",
+      "before": "Antes",
+      "beforeVal": "Media hora buscando en WhatsApp",
+      "after": "Después",
+      "afterVal": "30 segundos y enviado"
+    },
+    "services": {
+      "eyebrow": "Qué hace por ti",
+      "title": "Lo que resuelve.",
+      "s1Title": "Marcación de planos y tickets 811",
+      "s1Body": "Marcas la producción del día sobre el plano —PDF o foto— y llevas los tickets 811 conectados a cada tramo, con aviso antes de que venzan.",
+      "s2Title": "Respuesta a reclamos por daños, con evidencia",
+      "s2Body": "Cuando llega un claim, sacas la Prueba de Campo del tramo: plano marcado, foto con GPS, fecha, cuadrilla y número de 811. En segundos, listo para responder.",
+      "contactTitle": "Solicitar más información",
+      "contactBody": "Te contestamos personalmente. Sin llamadas de venta.",
+      "whatsapp": "Escribir por WhatsApp",
+      "sms": "Enviar un mensaje de texto",
+      "email": "Escribir un correo",
+      "emailSubject": "Más información de EA Fiber Track"
+    },
+    "inside": {
+      "eyebrow": "La app por dentro",
+      "title": "Cuatro pantallas, una misión cada una.",
+      "c1Title": "La Prueba de Campo",
+      "c1Cap": "El tramo, probado",
+      "c2Title": "El día de hoy",
+      "c2Cap": "Pies por cuadrilla, sin llamar",
+      "c3Title": "Tickets 811",
+      "c3Cap": "Cuáles vencen esta semana",
+      "c4Title": "Planos",
+      "c4Cap": "Marca la producción encima",
+      "note": "Marcos de referencia — las capturas reales se montan cuando la app esté lista."
+    },
+    "offer": {
+      "eyebrow": "La oferta",
+      "title": "Un precio. <accent>Sin letra chica.</accent>",
+      "badge": "Toda la empresa",
+      "priceUnit": "/mes",
+      "priceNote": "Un solo plan. <b>Cuadrillas y personas ilimitadas.</b> Cancela cuando quieras.",
+      "f1": "EA Fiber Track completo — planos, fotos GPS, 811 y cuadrillas, <b>personas ilimitadas</b>",
+      "f2": "Sin cobro por trabajador ni por cuadrilla",
+      "f3": "Alertas de vencimiento de 811 por correo y en la app",
+      "f4": "Tu registro te acompaña de un proyecto al siguiente",
+      "trialNote": "14 días gratis · sin tarjeta para probar · pago por Stripe"
+    },
+    "guarantee": {
+      "title": "La Garantía de la Primera Prueba",
+      "body": "Si en 14 días no armaste tu primera Prueba de Campo con tu propio plano, escribes un correo y te devolvemos todo. Sin formulario, sin preguntas.",
+      "floor": "Más 30 días de devolución desde el primer cobro."
+    },
+    "faq": {
+      "eyebrow": "Preguntas frecuentes",
+      "q1": "Ya lo hacemos con Excel y WhatsApp.",
+      "a1": "Eso no es un sistema — es una búsqueda del tesoro cuando llega el reclamo. Cronometra lo que tardas hoy contra 30 segundos.",
+      "q2": "Mi gente no va a llenar otra app.",
+      "a2": "Por eso está en español y es una foto más dos toques, no un formulario. El foreman cierra el parte del día en un minuto.",
+      "q3": "Ya usamos la plataforma del general contractor.",
+      "a3": "Esa es del GC y te la quitan al terminar el contrato. EA Fiber Track es tu registro: te lo llevas a todos tus proyectos.",
+      "q4": "No quiero pagar por cada trabajador.",
+      "a4": "No cobramos por trabajador. Es un solo precio por empresa: $30 al mes, con personas y cuadrillas ilimitadas.",
+      "q5": "En muchas zonas no tengo buena señal.",
+      "a5": "La captura de fotos y marcas funciona sin señal. Sube sola cuando vuelve la conexión.",
+      "q6": "¿Esto reemplaza la llamada al 811?",
+      "a6": "No. EA Fiber Track guarda la evidencia y te avisa del vencimiento. El estado oficial del locate se verifica siempre con el 811 de tu estado."
+    },
+    "final": {
+      "title": "Que la obra te la cuente la app.",
+      "body": "Es viernes, 6 p.m. Abres EA Fiber Track: pies por cuadrilla, los 811 al día, cada tramo probado. Cierras el teléfono.",
+      "ps": "<b>PS:</b> EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Un solo precio: $30/mes para toda la empresa, 14 días gratis y la Garantía de la Primera Prueba."
+    },
+    "footer": {
+      "terms": "Términos y Condiciones",
+      "privacy": "Política de Privacidad",
+      "refund": "Política de Reembolso",
+      "contact": "Contacto",
+      "disclaimer": "EA Fiber Track no reemplaza la llamada al 811 ni confirma el estado oficial de un locate. Verifica siempre con el centro 811 de tu estado antes de excavar.",
+      "copyright": "© 2026 EA Fiber Track · Pagos por Stripe"
+    }
+  },
+  "probar": {
+    "upload": {
+      "title": "Prueba con tu plano. Sin crear cuenta.",
+      "body": "Sube el plano del tramo que ya construiste — PDF o foto. En 3 pasos ves tu primera prueba lista para mandar.",
+      "uploadBtn": "Subir plano",
+      "uploadHint": "PDF o foto, hasta 20 MB",
+      "or": "o",
+      "sample": "Usar un plano de ejemplo",
+      "footer": "Louisville, KY · el 811 de Kentucky"
+    },
+    "mark": {
+      "title": "Toca el tramo que construiste.",
+      "body": "Un toque en el inicio, otro en el final. Sobre el plano.",
+      "hint0": "Toca el inicio del tramo construido",
+      "hint1": "Toca el final del tramo",
+      "hint2": "Tramo marcado · toca “Continuar”",
+      "remark": "Volver a marcar",
+      "continue": "Continuar"
+    },
+    "detail": {
+      "title": "¿Qué se hizo en ese tramo?",
+      "activity": "Actividad",
+      "act1": "HDD Bore",
+      "act2": "Zanja",
+      "act3": "Tendido fibra",
+      "feet": "Pies construidos",
+      "ticket": "Ticket 811 (opcional)",
+      "ticketPlaceholder": "2024-0000000",
+      "photoOff": "Añadir foto con GPS",
+      "photoOn": "Foto con GPS añadida",
+      "build": "Armar mi Prueba de Campo"
+    },
+    "done": {
+      "badge": "Tu primera Prueba de Campo",
+      "proofTag": "La Prueba de Campo · Hoy",
+      "feetUnit": "pies · {activity}",
+      "crew": "Cuadrilla A · Hoy",
+      "ticketChip": "811 #{ticket} · vence 3 d",
+      "photoChip": "Foto GPS",
+      "caption": "Esto es lo que mandas al cliente o a la utility — en 30 segundos.",
+      "save": "Guardar y ver mi obra completa",
+      "markAnother": "Marcar otro tramo"
+    }
+  },
+  "entrar": {
+    "title": "Entra para guardar tu prueba.",
+    "body": "Tu Prueba de Campo te está esperando. Elige cómo entrar.",
+    "errorLink": "No pudimos enviar el enlace. Revisa el correo e inténtalo de nuevo.",
+    "errorGoogle": "El acceso con Google se activa pronto. Usa tu correo por ahora.",
+    "google": "Continuar con Google",
+    "orEmail": "o con tu correo",
+    "emailPlaceholder": "tu@empresa.com",
+    "sending": "Enviando…",
+    "sendLink": "Enviarme un enlace",
+    "legal": "Al entrar aceptas los <terms>Términos</terms> y la <privacy>Política de Privacidad</privacy>.",
+    "sentTitle": "Revisa tu correo.",
+    "sentBody": "Te enviamos un enlace a <b>{email}</b>. Ábrelo desde este teléfono para entrar.",
+    "otherEmail": "Usar otro correo"
+  },
+  "legal": {
+    "terminos": "Términos y Condiciones",
+    "privacidad": "Política de Privacidad",
+    "reembolso": "Política de Reembolso",
+    "backHome": "← EA Fiber Track",
+    "draft": "Documento en preparación. Se publicará antes de abrir la venta.",
+    "contact": "Mientras tanto, para cualquier consulta escríbenos a <mail></mail>.",
+    "disclaimer": "EA Fiber Track no reemplaza la llamada al 811 ni confirma el estado oficial de un locate. Verifica siempre con el centro 811 de tu estado antes de excavar."
   }
 }
