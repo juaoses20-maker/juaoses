@@ -1,7 +1,13 @@
 # ESTADO — EA Fiber Track
-Última actualización: 2026-09-08 | Sesión actual: 2
+Última actualización: 2026-09-10 | Sesión actual: 3
 
-⏸️ CHECKPOINT — Última acción completada: Bloque 5 — TODAS las 5 etapas de producto construidas en código y verificadas (tsc ✓ build ✓ eslint ✓ dev ✓, todas las rutas 200, flujos sin errores de consola): landing `/` · funnel `/probar` `/planes` `/entrar` · app interna `/app` `/app/planos` `/app/fotos` `/app/811` `/app/cuadrillas` (shell con nav abajo + `lib/seed.ts` datos Louisville KY). / Siguiente acción exacta: **SERVICIOS EXTERNOS** — empieza pidiendo al usuario crear cuenta Supabase (guiado clic por clic, protocolo del 62). Orden: Git/GitHub → Supabase (datos+RLS+auth) → Stripe → Vercel → Resend → dominio.
+⏸️ CHECKPOINT — Sesión 3 (2026-09-10): ajustes pedidos por el usuario, todo verificado (tsc ✓ build ✓ eslint ✓) y desplegado a https://juaoses.vercel.app:
+  1. Planos: marcado con LÍNEAS RECTAS (arrastre) en vez de trazo libre.
+  2. Tickets 811: campos número · ubicación · fecha de inicio · fecha de expiración EDITABLE (default inicio+21) · página del plano (`plan_page`, migración 0004). Botón "Renovar" abre el portal `https://ky.itic.occinc.com/`.
+  3. Fotos: se pide LUGAR de texto tras tomar la foto (`photos.location`, migración 0005) + miniatura estampa nombre de empresa + fecha completa + hora.
+  4. Landing + paywall: precio ÚNICO $30/mes (fundador/planes por cuadrilla archivados). Sección nueva "Qué hace por ti" + bloque de contacto (WhatsApp +16185142665 / SMS / correo eafibertrack@gmail.com).
+  Migraciones 0004 y 0005 ya ejecutadas por el usuario en Supabase.
+/ Siguiente acción sugerida: **parte diario** (`production_entries`) que alimente "El día de hoy" + racha (loop Regla 6). Luego servicios externos que faltan: Stripe → Resend → dominio → Google OAuth.
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
