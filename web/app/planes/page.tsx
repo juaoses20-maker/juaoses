@@ -96,7 +96,7 @@ export default function PlanesPage() {
         {page === 3 && (
           <div className="flex flex-1 flex-col">
             <h1 className="mt-6 text-[24px] font-semibold">
-              Entra como <span className="text-accent">fundador</span>.
+              Un precio. <span className="text-accent">Sin letra chica.</span>
             </h1>
 
             <div
@@ -107,19 +107,18 @@ export default function PlanesPage() {
               }}
             >
               <span className="inline-flex rounded-full bg-[var(--chip)] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.07em] text-accent">
-                Primeras 20 empresas
+                Toda la empresa
               </span>
               <div className="mt-2 font-display text-[34px] font-bold leading-none tnum">
-                $99<span className="font-body text-[13px] font-semibold text-ink-2"> /mes</span>
+                $30<span className="font-body text-[13px] font-semibold text-ink-2"> /mes</span>
               </div>
               <p className="mt-1 text-[11.5px] text-ink-2">
-                Bloqueado de por vida. Después: $129 / $249 / $449 según cuadrillas.
+                Un solo plan. Cuadrillas y personas ilimitadas. Cancela cuando quieras.
               </p>
-              <p className="mt-1.5 font-mono text-[10px] text-warn">● Quedan 17 de 20</p>
               <div className="mt-3 flex flex-col gap-2">
                 <Feat>Todo EA Fiber Track · personas ilimitadas</Feat>
-                <Feat>Guía de arranque para tu cuadrilla, en español</Feat>
-                <Feat>Plantilla de as-built para entregar al cliente</Feat>
+                <Feat>Sin cobro por trabajador ni por cuadrilla</Feat>
+                <Feat>Alertas antes de que venza un ticket 811</Feat>
               </div>
             </div>
 

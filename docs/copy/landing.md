@@ -40,16 +40,15 @@ Nota al pie: *Fuente: encuesta de contratistas de excavación, Associated Genera
 Sin cards de testimonios (0 clientes reales — jerarquía día-1 del 19).
 
 ## 6. OFERTA
-- Encabezado: `Entra como fundador`
-- Stack de valor (cada bono mata una objeción):
+- Encabezado: `Un precio. Sin letra chica.`
+- Precio único (por ahora): `[acento]$30/mes[/acento] para toda la empresa — cuadrillas y personas ilimitadas. Cancela cuando quieras.`
+- Stack de valor:
   - `EA Fiber Track completo — planos, fotos GPS, 811 y cuadrillas, personas ilimitadas`  (núcleo)
-  - `BONO · Guía de arranque para tu cuadrilla, en español (PDF + video)` — mata objeción "mi gente no va a llenar otra app"  ($120)
-  - `BONO · Plantilla de as-built lista para entregar al cliente` — mata objeción de cobro trabado  ($200)
-  - `BONO · Alertas de vencimiento de 811 por correo y en la app`  (incluido)
-- Oferta de fundador: `Primeras 20 empresas: [acento]$99/mes[/acento] bloqueado de por vida. Contador real: quedan {N} de 20.`
-- Precio regular (después): Cuadrilla $129/mes · [b]Contratista $249/mes[/b] (hasta 5 cuadrillas, recomendado) · Multi-cuadrilla $449/mes · Empresa: cotización
-- Anual: 2 meses gratis (se muestra $/mes; el total en label chico)
-- Todos los planes: `14 días gratis` · CTA `Probar gratis con mi plano` → `/probar`
+  - `Sin cobro por trabajador ni por cuadrilla`
+  - `Alertas de vencimiento de 811 por correo y en la app`
+  - `Tu registro te acompaña de un proyecto al siguiente`
+- `14 días gratis` · sin tarjeta para probar · pago por Stripe · CTA `Probar gratis con mi plano` → `/probar`
+- NOTA: precio único de arranque decidido por el usuario 2026-09-10; los planes por cuadrillas y la oferta de fundador quedan archivados para retomar con /precios.
 
 ## 7. GARANTÍA
 - Nombre: `La Garantía de la Primera Prueba`
@@ -69,7 +68,7 @@ Sin cards de testimonios (0 clientes reales — jerarquía día-1 del 19).
 - H2 (8 pal.): `Que la obra te la cuente la app.`
 - Future pacing (23 pal.): `Es viernes, 6 p.m. Abres EA Fiber Track: pies por cuadrilla, los 811 al día, cada tramo probado. Cierras el teléfono.`
 - CTA: `Probar gratis con mi plano`
-- PS (~50 pal.): `PS: EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Hoy entras como una de las primeras 20 empresas: $99/mes para siempre, 14 días gratis y la Garantía de la Primera Prueba.`
+- PS (~50 pal.): `PS: EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Un solo precio: $30/mes para toda la empresa, 14 días gratis y la Garantía de la Primera Prueba.`
 
 ## 10. FOOTER LEGAL
 - Enlaces: Términos y Condiciones · Política de Privacidad · Política de Reembolso · Contacto (hola@eafibertrack.com)

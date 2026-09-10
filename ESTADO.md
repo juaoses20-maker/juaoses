@@ -65,7 +65,8 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 ## Estrategia de monetización (Sesión 1 — COSA JUZGADA)
 - **Modelo: onboarding-first anónimo** (landing → preview donde sube un plano + marca un tramo + ve "La Prueba de Campo" SIN cuenta → paywall → registro/login). Justificación: el "aha" se demuestra en <2 min sin datos ni cuenta; herramienta B2B de "resultado" (no hábito de consumo → freemium/gamificación descartado); con checkout web la fricción baja si el valor ya se vio (02C).
 - **Pasarela: Stripe** (tarjeta + ACH), NO Hotmart — comprador = empresa de EE. UU. que compra software; Hotmart es infoproductos LATAM.
-- **Precio PROPUESTO (ajustable con /precios):** Cuadrilla $129/mo (1 cuadrilla, personas ilimitadas) · **Contratista $249/mo** (hasta ~5 cuadrillas — plan objetivo/señuelo) · Multi-cuadrilla $449/mo (hasta ~12) · Empresa: cotización. Anual = 2 meses gratis. **Founding Customer: primeras 20 empresas a $99/mo bloqueado.**
+- **Precio VIGENTE (decidido por el usuario 2026-09-10):** **precio único de $30/mo para toda la empresa** — cuadrillas y personas ilimitadas, cancela cuando quieras. "Por ahora" (arranque). Landing (`/`) y paywall (`/planes`) ya actualizados: encabezado "Un precio. Sin letra chica.", chip "Toda la empresa", 14 días gratis, sin tarjeta para probar.
+- **ARCHIVADO para retomar con /precios:** planes por cuadrillas (Cuadrilla $129 / Contratista $249 / Multi-cuadrilla $449 / Empresa cotización), anual 2 meses gratis, y la oferta Founding Customer (20 empresas a $99/mo). El copy viejo quedó descrito en historial de `docs/copy/landing.md`.
 - **Cuña:** cobro por EMPRESA, no por asiento (FiberField ≈ $376/mo por 1 cuadrilla de 4; nosotros ~$50/cuadrilla en el plan Contratista). Objeción #4 del avatar resuelta por diseño.
 - **Trial: 14 días** · **Garantía: 30 días desde el primer cobro** (30 > 14 ✓, regla dura del 18).
 

@@ -1,0 +1,152 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: EA Fiber Track
+        - link "Entrar" [ref=e12] [cursor=pointer]:
+          - /url: /entrar
+    - generic [ref=e14]:
+      - paragraph [ref=e16]: Para contratistas de fibra subterránea con cuadrilla que habla español
+      - heading "Todo tu avance de obra de fibra, en un toque." [level=1] [ref=e18]
+      - paragraph [ref=e20]:
+        - text: Pies de hoy, cada cuadrilla y los 811 por vencer —
+        - strong [ref=e21]: sin llamar a nadie
+        - text: .
+      - generic [ref=e23]:
+        - link "Probar gratis con mi plano" [ref=e24] [cursor=pointer]:
+          - /url: "#planes"
+        - paragraph [ref=e27]: Míralo funcionando aquí abajo · 14 días gratis, sin tarjeta
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: 9:41
+          - generic [ref=e36]: ··· ᯤ 100
+        - generic [ref=e37]:
+          - paragraph [ref=e38]: Fibra Louisville — Fase 2 · Hoy
+          - heading "El día de hoy" [level=4] [ref=e39]
+        - generic [ref=e41]:
+          - generic [ref=e42]: La Prueba de Campo · 9:41
+          - img [ref=e46]:
+            - generic [ref=e52]: STA 12+00 → 30+50
+          - generic [ref=e55]:
+            - generic [ref=e56]: 1 850 pies · Bore HDD
+            - generic [ref=e57]: Cuadrilla A — Miguel Santos
+          - generic [ref=e58]:
+            - generic [ref=e59]: 38.2542, −85.7585
+            - generic [ref=e60]: "811 #2024-2210455 · vence 3 d"
+            - generic [ref=e61]: Foto GPS
+        - generic [ref=e62]:
+          - generic [ref=e63]: Pies hoy · 3 cuadrillas
+          - generic [ref=e64]: 4 250 ft
+    - generic [ref=e66]:
+      - paragraph [ref=e68]: Si esto te suena…
+      - generic [ref=e69]:
+        - paragraph [ref=e76]: ¿Buscas la foto de un tramo entre WhatsApp y tres celulares?
+        - paragraph [ref=e82]: ¿Terminas el día sin saber cuántos pies hizo cada cuadrilla?
+        - paragraph [ref=e88]: ¿Te reclaman un daño a una línea que tu gente no tocó?
+        - paragraph [ref=e96]: ¿Tu cuadrilla no llena la app porque está en inglés?
+      - paragraph [ref=e98]: Y mientras tanto…
+      - generic [ref=e99]:
+        - generic [ref=e100]: Cada semana pierdes horas reconstruyendo lo que ya hiciste — y a veces la factura igual no entra.
+        - generic [ref=e104]: Dos de cada tres contratistas ya recibieron un reclamo por un daño que no causaron.
+        - generic [ref=e108]: Seis meses así y sigues igual — con seis meses menos de pruebas guardadas.
+      - paragraph [ref=e113]: "Fuente: encuesta a contratistas de excavación, Associated General Contractors of America."
+    - generic [ref=e114]:
+      - paragraph [ref=e116]: La solución
+      - heading "No es que trabajes mal. La prueba de tu obra vive en cinco lugares a la vez." [level=2] [ref=e118]
+      - paragraph [ref=e120]: La Prueba de Campo la junta en uno solo.
+      - generic [ref=e121]:
+        - generic [ref=e123]:
+          - generic [ref=e124]: "1"
+          - paragraph [ref=e125]: Subes el plano en PDF o foto y tocas el tramo construido.
+        - generic [ref=e127]:
+          - generic [ref=e128]: "2"
+          - paragraph [ref=e129]: Le sumas la foto con GPS y el número de ticket 811.
+        - generic [ref=e131]:
+          - generic [ref=e132]: "3"
+          - paragraph [ref=e133]: "Queda una prueba lista para mandar: pies, cuadrilla, fecha, ubicación."
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]: Antes
+          - generic [ref=e138]: Media hora buscando en WhatsApp
+        - generic [ref=e139]:
+          - generic [ref=e140]: Después
+          - generic [ref=e141]: 30 segundos y enviado
+    - generic [ref=e143]:
+      - paragraph [ref=e145]: La app por dentro
+      - heading "Cuatro pantallas, una misión cada una." [level=2] [ref=e147]
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]: La Prueba de Campo
+          - generic [ref=e155]: El tramo, probado
+        - generic [ref=e156]:
+          - generic [ref=e157]: El día de hoy
+          - generic [ref=e162]: Pies por cuadrilla, sin llamar
+        - generic [ref=e163]:
+          - generic [ref=e164]: Tickets 811
+          - generic [ref=e169]: Cuáles vencen esta semana
+        - generic [ref=e170]:
+          - generic [ref=e171]: Planos
+          - generic [ref=e181]: Marca la producción encima
+      - paragraph [ref=e188]: Marcos de referencia — las capturas reales se montan cuando la app esté lista.
+    - generic [ref=e189]:
+      - paragraph [ref=e191]: La oferta
+      - heading "Un precio. Sin letra chica." [level=2] [ref=e193]
+      - generic [ref=e195]:
+        - generic [ref=e196]: Toda la empresa
+        - generic [ref=e197]: $30 /mes
+        - paragraph [ref=e198]:
+          - text: Un solo plan.
+          - strong [ref=e199]: Cuadrillas y personas ilimitadas.
+          - text: Cancela cuando quieras.
+        - generic [ref=e200]:
+          - generic [ref=e205]:
+            - text: EA Fiber Track completo — planos, fotos GPS, 811 y cuadrillas,
+            - strong [ref=e206]: personas ilimitadas
+          - generic [ref=e207]: Sin cobro por trabajador ni por cuadrilla
+          - generic [ref=e212]: Alertas de vencimiento de 811 por correo y en la app
+          - generic [ref=e217]: Tu registro te acompaña de un proyecto al siguiente
+        - link "Probar gratis con mi plano" [ref=e223] [cursor=pointer]:
+          - /url: /probar
+        - paragraph [ref=e226]: 14 días gratis · sin tarjeta para probar · pago por Stripe
+    - generic [ref=e234]:
+      - heading "La Garantía de la Primera Prueba" [level=3] [ref=e235]
+      - paragraph [ref=e236]: Si en 14 días no armaste tu primera Prueba de Campo con tu propio plano, escribes un correo y te devolvemos todo. Sin formulario, sin preguntas.
+      - paragraph [ref=e237]: Más 30 días de devolución desde el primer cobro.
+    - generic [ref=e238]:
+      - paragraph [ref=e240]: Preguntas frecuentes
+      - generic [ref=e241]:
+        - group [ref=e242]:
+          - generic "Ya lo hacemos con Excel y WhatsApp." [ref=e243] [cursor=pointer]
+        - group [ref=e246]:
+          - generic "Mi gente no va a llenar otra app." [ref=e247] [cursor=pointer]
+        - group [ref=e250]:
+          - generic "Ya usamos la plataforma del general contractor." [ref=e251] [cursor=pointer]
+        - group [ref=e254]:
+          - generic "No quiero pagar por cada trabajador." [ref=e255] [cursor=pointer]
+        - group [ref=e258]:
+          - generic "En muchas zonas no tengo buena señal." [ref=e259] [cursor=pointer]
+        - group [ref=e262]:
+          - generic "¿Esto reemplaza la llamada al 811?" [ref=e263] [cursor=pointer]
+    - generic [ref=e267]:
+      - heading "Que la obra te la cuente la app." [level=2] [ref=e269]
+      - paragraph [ref=e271]: "Es viernes, 6 p.m. Abres EA Fiber Track: pies por cuadrilla, los 811 al día, cada tramo probado. Cierras el teléfono."
+      - link "Probar gratis con mi plano" [ref=e274] [cursor=pointer]:
+        - /url: /probar
+      - paragraph [ref=e278]: "PS: EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Un solo precio: $30/mes para toda la empresa, 14 días gratis y la Garantía de la Primera Prueba."
+    - contentinfo [ref=e279]:
+      - generic [ref=e280]:
+        - generic [ref=e281]: EA Fiber Track
+        - generic [ref=e288]:
+          - link "Términos y Condiciones" [ref=e289] [cursor=pointer]:
+            - /url: /legal/terminos
+          - link "Política de Privacidad" [ref=e290] [cursor=pointer]:
+            - /url: /legal/privacidad
+          - link "Política de Reembolso" [ref=e291] [cursor=pointer]:
+            - /url: /legal/reembolso
+          - link "Contacto" [ref=e292] [cursor=pointer]:
+            - /url: mailto:hola@eafibertrack.com
+        - paragraph [ref=e293]: EA Fiber Track no reemplaza la llamada al 811 ni confirma el estado oficial de un locate. Verifica siempre con el centro 811 de tu estado antes de excavar.
+        - paragraph [ref=e294]: © 2026 EA Fiber Track · Pagos por Stripe
+    - link "Probar gratis con mi plano" [ref=e297] [cursor=pointer]:
+      - /url: "#planes"
+  - alert [ref=e298]

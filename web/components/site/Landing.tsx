@@ -194,7 +194,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "No quiero pagar por cada trabajador.",
-    a: "No cobramos por trabajador. Pagas por empresa y cuadrillas. Suma a toda tu gente sin que suba el precio.",
+    a: "No cobramos por trabajador. Es un solo precio por empresa: $30 al mes, con personas y cuadrillas ilimitadas.",
   },
   {
     q: "En muchas zonas no tengo buena señal.",
@@ -446,7 +446,7 @@ export default function Landing() {
         </Reveal>
         <Reveal delay={0.05}>
           <h2 className="mt-2 text-[24px] font-semibold">
-            Entra como <span className="text-accent">fundador</span>.
+            Un precio. <span className="text-accent">Sin letra chica.</span>
           </h2>
         </Reveal>
 
@@ -459,21 +459,20 @@ export default function Landing() {
             }}
           >
             <span className="inline-flex rounded-full bg-[var(--chip)] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-accent">
-              Primeras 20 empresas
+              Toda la empresa
             </span>
             <div className="mt-2.5 font-display text-[38px] font-bold leading-none tnum">
-              $99<span className="font-body text-[14px] font-semibold text-ink-2"> /mes</span>
+              $30<span className="font-body text-[14px] font-semibold text-ink-2"> /mes</span>
             </div>
             <p className="mt-1 text-[12px] text-ink-2">
-              Bloqueado <strong className="font-semibold">de por vida</strong>. Después sube a $129–$449/mes según cuadrillas.
+              Un solo plan. <strong className="font-semibold">Cuadrillas y personas ilimitadas.</strong> Cancela cuando quieras.
             </p>
-            <p className="mt-2 font-mono text-[11px] text-warn">● Quedan 17 de 20 cupos de fundador</p>
             <div className="mt-3.5 flex flex-col gap-2.5">
               {[
                 <>EA Fiber Track completo — planos, fotos GPS, 811 y cuadrillas, <strong className="font-semibold">personas ilimitadas</strong></>,
-                <>Guía de arranque para tu cuadrilla, en español (PDF + video) <span className="ml-auto flex-none font-mono text-[11px] text-ink-3">$120</span></>,
-                <>Plantilla de as-built lista para entregar al cliente <span className="ml-auto flex-none font-mono text-[11px] text-ink-3">$200</span></>,
-                <>Alertas de vencimiento de 811 por correo y en la app <span className="ml-auto flex-none font-mono text-[11px] text-ink-3">incluido</span></>,
+                <>Sin cobro por trabajador ni por cuadrilla</>,
+                <>Alertas de vencimiento de 811 por correo y en la app</>,
+                <>Tu registro te acompaña de un proyecto al siguiente</>,
               ].map((f, i) => (
                 <div key={i} className="flex items-start gap-2 text-[12px]">
                   <CheckMark />
@@ -490,31 +489,6 @@ export default function Landing() {
               14 días gratis · sin tarjeta para probar · pago por Stripe
             </p>
           </div>
-        </Reveal>
-
-        <Reveal>
-          <p className="mx-0.5 mb-2 mt-5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-ink-3">
-            Precio regular (después de los 20 cupos)
-          </p>
-        </Reveal>
-        <Reveal>
-          <div className="overflow-hidden rounded-[14px] border bg-bg">
-            {[
-              { nm: "Cuadrilla", cap: "1 cuadrilla · personas ilimitadas", pr: "$129/mes", reco: false },
-              { nm: "Contratista", cap: "hasta 5 cuadrillas · recomendado", pr: "$249/mes", reco: true },
-              { nm: "Multi-cuadrilla", cap: "hasta 12 cuadrillas", pr: "$449/mes", reco: false },
-              { nm: "Empresa", cap: "más de 12 cuadrillas", pr: "cotización", reco: false },
-            ].map((t) => (
-              <div key={t.nm} className="flex items-baseline gap-2 border-b px-3.5 py-2.5 text-[13px] last:border-b-0">
-                <span className={"font-semibold " + (t.reco ? "text-accent" : "")}>{t.nm}</span>
-                <span className="text-[11px] text-ink-3">{t.cap}</span>
-                <span className="ml-auto font-mono font-semibold">{t.pr}</span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-        <Reveal>
-          <p className="mt-2 text-[11px] text-ink-3">Plan anual: 2 meses gratis (se cobra una vez al año).</p>
         </Reveal>
       </section>
 
@@ -584,7 +558,7 @@ export default function Landing() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-5 border-t pt-4 text-[12.5px] leading-relaxed text-ink-2">
-              <b className="font-mono font-semibold text-ink">PS:</b> EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Hoy entras como una de las primeras 20 empresas: $99/mes para siempre, 14 días gratis y la Garantía de la Primera Prueba.
+              <b className="font-mono font-semibold text-ink">PS:</b> EA Fiber Track te muestra toda tu obra de fibra en un toque, con La Prueba de Campo detrás de cada tramo. Un solo precio: $30/mes para toda la empresa, 14 días gratis y la Garantía de la Primera Prueba.
             </p>
           </Reveal>
         </div>
