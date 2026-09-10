@@ -4,7 +4,7 @@ import TicketsUI from "./TicketsUI";
 
 export default async function TicketsPage() {
   const project = await getActiveProject();
-  if (!project) return <NoProject what="tickets 811" />;
+  if (!project) return <NoProject what="tickets" />;
 
   const tickets = await listTickets(project.id);
   return <TicketsUI projectId={project.id} projectName={project.name} tickets={tickets} />;

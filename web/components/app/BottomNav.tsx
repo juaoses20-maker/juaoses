@@ -2,22 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Home, PencilRuler, Camera, Hexagon, Users } from "lucide-react";
 
 const ITEMS = [
-  { href: "/app", label: "Hoy", icon: Home, exact: true },
-  { href: "/app/planos", label: "Planos", icon: PencilRuler },
-  { href: "/app/fotos", label: "Fotos", icon: Camera },
-  { href: "/app/811", label: "811", icon: Hexagon },
-  { href: "/app/cuadrillas", label: "Cuadrillas", icon: Users },
+  { href: "/app", key: "hoy", icon: Home, exact: true },
+  { href: "/app/planos", key: "planos", icon: PencilRuler, exact: false },
+  { href: "/app/fotos", key: "fotos", icon: Camera, exact: false },
+  { href: "/app/811", key: "ochoOnceUno", icon: Hexagon, exact: false },
+  { href: "/app/cuadrillas", key: "cuadrillas", icon: Users, exact: false },
 ];
 
 export default function BottomNav() {
   const path = usePathname();
+  const t = useTranslations("nav");
   return (
     <nav className="sticky bottom-0 z-20 flex justify-around border-t bg-surface px-1 pb-[calc(8px+env(safe-area-inset-bottom))] pt-2">
-      {ITEMS.map(({ href, label, icon: Icon, exact }) => {
+      {ITEMS.map(({ href, key, icon: Icon, exact }) => {
         const active = exact ? path === href : path.startsWith(href);
+        const label = t(key);
         return (
           <Link
             key={href}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { BarChart3, Camera, MapPin, PencilRuler } from "lucide-react";
 import {
   getActiveProject,
@@ -22,6 +23,7 @@ function Eyebrow({ children }: { children: React.ReactNode }) {
 }
 
 export default async function HoyPage() {
+  const t = await getTranslations("hoy");
   const project = await getActiveProject();
   if (!project) return <NoProject what="registros" />;
 
@@ -42,18 +44,22 @@ export default async function HoyPage() {
 
   return (
     <div>
-      <h1 className="mt-2 text-[22px] font-semibold">El día de hoy</h1>
+      <h1 className="mt-2 text-[22px] font-semibold">{t("title")}</h1>
       <p className="text-[10px] text-ink-3">{project.name}</p>
 
       <div className="mt-3 grid grid-cols-3 gap-1.5">
         {[
-          { k: nf.format(ftMarked), l: "ft marcados", cls: "text-accent" },
-          { k: String(atRisk), l: "811 x vencer", cls: atRisk > 0 ? "text-warn" : "" },
-          { k: String(crews.length), l: crews.length === 1 ? "cuadrilla" : "cuadrillas", cls: "" },
-        ].map((t) => (
-          <div key={t.l} className="rounded-[12px] border bg-surface p-2 shadow-[var(--shadow-1)]">
-            <div className={"font-display text-[19px] font-bold leading-none tnum " + t.cls}>{t.k}</div>
-            <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.03em] text-ink-3">{t.l}</div>
+          { k: nf.format(ftMarked), l: t("stats.ftMarked"), cls: "text-accent" },
+          { k: String(atRisk), l: t("stats.ticketsAtRisk"), cls: atRisk > 0 ? "text-warn" : "" },
+          {
+            k: String(crews.length),
+            l: crews.length === 1 ? t("stats.crew") : t("stats.crews"),
+            cls: "",
+          },
+        ].map((s) => (
+          <div key={s.l} className="rounded-[12px] border bg-surface p-2 shadow-[var(--shadow-1)]">
+            <div className={"font-display text-[19px] font-bold leading-none tnum " + s.cls}>{s.k}</div>
+            <div className="mt-1.5 text-[9px] font-semibold uppercase tracking-[0.03em] text-ink-3">{s.l}</div>
           </div>
         ))}
       </div>
@@ -61,22 +67,20 @@ export default async function HoyPage() {
       {nothingYet && (
         <div className="mt-4 rounded-[12px] border border-dashed bg-surface p-4 text-center">
           <PencilRuler className="mx-auto h-8 w-8 text-ink-3" strokeWidth={1.5} />
-          <div className="mt-2 font-display text-[14px] font-semibold">Empieza tu obra</div>
-          <p className="mx-auto mt-1 max-w-[30ch] text-[11.5px] text-ink-2">
-            Sube un plano y marca el primer tramo construido. Ahí aparece tu avance.
-          </p>
+          <div className="mt-2 font-display text-[14px] font-semibold">{t("start.title")}</div>
+          <p className="mx-auto mt-1 max-w-[30ch] text-[11.5px] text-ink-2">{t("start.body")}</p>
           <Link
             href="/app/planos"
             className="mt-3 inline-flex h-[36px] items-center rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink"
           >
-            Ir a Planos
+            {t("start.cta")}
           </Link>
         </div>
       )}
 
       {marks.length > 0 && (
         <>
-          <Eyebrow>Marcas recientes</Eyebrow>
+          <Eyebrow>{t("recentMarks")}</Eyebrow>
           <div className="overflow-hidden rounded-[12px] border bg-surface shadow-[var(--shadow-1)]">
             {marks.map((m) => (
               <Link
@@ -93,7 +97,9 @@ export default async function HoyPage() {
                 </span>
                 <div className="min-w-0">
                   <div className="truncate text-[12.5px] font-semibold">
-                    {m.kind === "seg" ? `${nf.format(m.qty)} ft · ${m.activity}` : m.activity}
+                    {m.kind === "seg"
+                      ? t("ftActivity", { ft: nf.format(m.qty), activity: m.activity })
+                      : m.activity}
                   </div>
                   <div className="mt-0.5 truncate text-[10px] text-ink-2">{m.plan_name}</div>
                 </div>
@@ -106,7 +112,7 @@ export default async function HoyPage() {
 
       {photos.length > 0 && (
         <>
-          <Eyebrow>Fotos recientes</Eyebrow>
+          <Eyebrow>{t("recentPhotos")}</Eyebrow>
           <div className="grid grid-cols-4 gap-[5px]">
             {photos.slice(0, 8).map((p) =>
               p.url ? (
@@ -130,13 +136,13 @@ export default async function HoyPage() {
             href="/app/planos"
             className="flex items-center gap-2 rounded-[12px] border bg-surface px-3 py-3 text-[12.5px] font-semibold shadow-[var(--shadow-1)]"
           >
-            <PencilRuler className="h-4 w-4 text-accent" strokeWidth={2} /> Marca un tramo en un plano
+            <PencilRuler className="h-4 w-4 text-accent" strokeWidth={2} /> {t("quick.mark")}
           </Link>
           <Link
             href="/app/fotos"
             className="flex items-center gap-2 rounded-[12px] border bg-surface px-3 py-3 text-[12.5px] font-semibold shadow-[var(--shadow-1)]"
           >
-            <Camera className="h-4 w-4 text-accent" strokeWidth={2} /> Toma una foto con GPS
+            <Camera className="h-4 w-4 text-accent" strokeWidth={2} /> {t("quick.photo")}
           </Link>
         </div>
       )}

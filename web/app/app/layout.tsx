@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import BottomNav from "@/components/app/BottomNav";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { getUserContext } from "@/lib/supabase/context";
 import { createClient } from "@/lib/supabase/server";
 import { getActiveProject } from "@/lib/data/queries";
@@ -11,7 +13,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   if (!ctx) redirect("/entrar");
   if (!ctx.companyId) redirect("/bienvenido");
 
-  const supabase = await createClient();
+  const [t, supabase] = await Promise.all([getTranslations("appShell"), createClient()]);
   const [{ data: company }, project] = await Promise.all([
     supabase.from("companies").select("name").eq("id", ctx.companyId).maybeSingle(),
     getActiveProject(),
@@ -20,7 +22,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const title = project?.name ?? company?.name ?? "Mi empresa";
   const sub = project
     ? [project.client, project.location].filter(Boolean).join(" · ")
-    : "Sin proyecto activo";
+    : t("noProjectActive");
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-[460px] flex-col bg-bg text-ink">
@@ -38,10 +40,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </span>
           <ChevronDown className="h-4 w-4 flex-none text-ink-3" strokeWidth={2} />
         </Link>
+        <LanguageSwitcher className="flex-none" />
         <form action="/auth/signout" method="post" className="flex-none">
           <button
             type="submit"
-            aria-label="Salir"
+            aria-label={t("signOut")}
             className="grid h-8 w-8 place-items-center rounded-[8px] text-ink-3 transition-colors hover:text-ink"
           >
             <LogOut className="h-4 w-4" strokeWidth={2} />

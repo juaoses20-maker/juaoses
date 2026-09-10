@@ -1,0 +1,52 @@
+{
+  "lang": {
+    "label": "Language",
+    "es": "Español",
+    "en": "English",
+    "switchTo": "Switch to {name}"
+  },
+  "nav": {
+    "hoy": "Today",
+    "planos": "Plans",
+    "fotos": "Photos",
+    "ochoOnceUno": "811",
+    "cuadrillas": "Crews"
+  },
+  "appShell": {
+    "noProjectActive": "No active project",
+    "signOut": "Sign out"
+  },
+  "noProject": {
+    "title": "Create your first project",
+    "body": "Your {what} live inside a project. Create one to get started.",
+    "cta": "Go to Projects",
+    "what": {
+      "registros": "records",
+      "fotos": "photos",
+      "planos": "plans",
+      "tickets": "811 tickets",
+      "cuadrillas": "crews"
+    }
+  },
+  "hoy": {
+    "title": "Today",
+    "stats": {
+      "ftMarked": "ft marked",
+      "ticketsAtRisk": "811 due soon",
+      "crew": "crew",
+      "crews": "crews"
+    },
+    "start": {
+      "title": "Start your job",
+      "body": "Upload a plan and mark the first bore or trench you built. Your progress shows up here.",
+      "cta": "Go to Plans"
+    },
+    "recentMarks": "Recent marks",
+    "recentPhotos": "Recent photos",
+    "quick": {
+      "mark": "Mark a segment on a plan",
+      "photo": "Take a GPS photo"
+    },
+    "ftActivity": "{ft} ft · {activity}"
+  }
+}

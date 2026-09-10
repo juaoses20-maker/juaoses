@@ -1,0 +1,52 @@
+{
+  "lang": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English",
+    "switchTo": "Cambiar a {name}"
+  },
+  "nav": {
+    "hoy": "Hoy",
+    "planos": "Planos",
+    "fotos": "Fotos",
+    "ochoOnceUno": "811",
+    "cuadrillas": "Cuadrillas"
+  },
+  "appShell": {
+    "noProjectActive": "Sin proyecto activo",
+    "signOut": "Salir"
+  },
+  "noProject": {
+    "title": "Crea tu primer proyecto",
+    "body": "Los {what} viven dentro de un proyecto. Crea uno para empezar.",
+    "cta": "Ir a Proyectos",
+    "what": {
+      "registros": "registros",
+      "fotos": "fotos",
+      "planos": "planos",
+      "tickets": "tickets 811",
+      "cuadrillas": "cuadrillas"
+    }
+  },
+  "hoy": {
+    "title": "El día de hoy",
+    "stats": {
+      "ftMarked": "ft marcados",
+      "ticketsAtRisk": "811 x vencer",
+      "crew": "cuadrilla",
+      "crews": "cuadrillas"
+    },
+    "start": {
+      "title": "Empieza tu obra",
+      "body": "Sube un plano y marca el primer tramo construido. Ahí aparece tu avance.",
+      "cta": "Ir a Planos"
+    },
+    "recentMarks": "Marcas recientes",
+    "recentPhotos": "Fotos recientes",
+    "quick": {
+      "mark": "Marca un tramo en un plano",
+      "photo": "Toma una foto con GPS"
+    },
+    "ftActivity": "{ft} ft · {activity}"
+  }
+}
