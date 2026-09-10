@@ -2,8 +2,15 @@
   "lang": {
     "label": "Language",
     "es": "Español",
-    "en": "English",
-    "switchTo": "Switch to {name}"
+    "en": "English"
+  },
+  "common": {
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back",
+    "creating": "Creating…"
   },
   "nav": {
     "hoy": "Today",
@@ -48,5 +55,196 @@
       "photo": "Take a GPS photo"
     },
     "ftActivity": "{ft} ft · {activity}"
+  },
+  "crews": {
+    "title": "Crews",
+    "subtitle": "{count, plural, one {# crew} other {# crews}} · {project}",
+    "empty": {
+      "title": "Add your first crew",
+      "body": "Foreman, people and equipment. Then you assign their production on the plan.",
+      "cta": "New crew"
+    },
+    "new": "New crew",
+    "create": "Create crew",
+    "editAria": "Edit crew",
+    "deleteAria": "Delete crew",
+    "foremanLine": "Foreman {name} · ",
+    "people": "{count, plural, one {# person} other {# people}}",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Crew A — Bore",
+      "foreman": "Foreman",
+      "foremanPlaceholder": "e.g. Miguel Santos",
+      "peopleField": "People",
+      "equipment": "Equipment (comma separated)",
+      "equipmentPlaceholder": "e.g. Vermeer D24x40, Vac-Tron"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "emptySubtitle": "You don't have any projects yet",
+    "subtitle": "{count, plural, one {# project} other {# projects}} · tap one to make it active",
+    "active": "Active",
+    "use": "Use this project",
+    "editAria": "Edit project",
+    "new": "New project",
+    "createCta": "Create project",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Owensboro Fiber — Phase 2",
+      "client": "Client",
+      "clientPlaceholder": "e.g. Owensboro Municipal Utilities",
+      "location": "Area",
+      "locationPlaceholder": "e.g. Owensboro, KY"
+    }
+  },
+  "plans": {
+    "title": "Plans",
+    "subtitle": "{count, plural, one {# plan} other {# plans}} · {project}",
+    "empty": {
+      "title": "Upload your first plan",
+      "body": "PDF or photo. On a photo you can mark the segments you built.",
+      "cta": "Upload plan"
+    },
+    "uploading": "Uploading plan…",
+    "uploadError": "Could not upload the plan. Check your connection and try again.",
+    "marksLine": "{count, plural, one {# mark} other {# marks}} · {ft} ft marked",
+    "deleteAria": "Delete plan",
+    "uploadAria": "Upload plan",
+    "defaultName": "Plan"
+  },
+  "planEditor": {
+    "marksCount": "{count, plural, one {# mark} other {# marks}} · {ft} ft marked",
+    "pdf": {
+      "body": "This plan is a PDF. To draw the route on top of it, take a photo of the plan sheet and upload it.",
+      "open": "Open PDF"
+    },
+    "tools": {
+      "draw": "Line",
+      "marker": "Marker",
+      "note": "Note",
+      "pan": "Pan"
+    },
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in",
+    "fit": "Fit",
+    "color": "Color",
+    "hint": {
+      "draw": "Tap one end and drag to the other: you get a straight line. Chain as many as you need (zoom + for precision).",
+      "marker": "Tap where the hub or handhole goes",
+      "note": "Tap where you want a note",
+      "pan": "Drag to move · use + and − to zoom"
+    },
+    "route": {
+      "unsaved": "{count, plural, one {# line} other {# lines}} unsaved",
+      "undo": "Undo",
+      "discard": "Discard",
+      "save": "Save route"
+    },
+    "routeForm": {
+      "title": "What was built along that route? ({count, plural, one {# line} other {# lines}})",
+      "feet": "Feet built (route total)",
+      "crew": "Crew",
+      "noCrew": "Unassigned",
+      "save": "Save route",
+      "keepDrawing": "Keep drawing"
+    },
+    "markerForm": {
+      "title": "Marker on the plan",
+      "label": "Label",
+      "type": "Type",
+      "crew": "Crew",
+      "noCrew": "Unassigned",
+      "save": "Save marker"
+    },
+    "noteForm": {
+      "title": "Note on the plan",
+      "placeholder": "e.g. Rock at 4 ft, call hydrovac",
+      "save": "Save note"
+    },
+    "marksSection": "Production marks",
+    "noteTitle": "Note: {text}",
+    "ptTitle": "{label} · {activity}",
+    "segTitle": "{ft} ft · {activity}",
+    "noCrew": "No crew",
+    "deleteMarkAria": "Delete mark"
+  },
+  "photos": {
+    "title": "GPS Photos",
+    "subtitle": "{count, plural, one {# photo} other {# photos}} · {company} · {project}",
+    "groupCount": "{label} · {count, plural, one {# photo} other {# photos}}",
+    "uploadError": "Could not upload the photo. Check your connection and try again.",
+    "uploading": "Uploading photo…",
+    "savingShort": "Saving…",
+    "askLocation": {
+      "title": "Where was this photo taken?",
+      "withCoords": "It's saved with the date, the coordinates and the name {company}.",
+      "noCoords": "It's saved with the date, no GPS, and the name {company}.",
+      "placeholder": "e.g. Frederica St & Parrish Ave",
+      "save": "Save photo",
+      "saving": "Saving…",
+      "skip": "Skip location"
+    },
+    "empty": {
+      "title": "Take your first photo",
+      "body": "Every photo is saved with date, location and the name {company}. It's proof of what was built.",
+      "cta": "Take photo"
+    },
+    "noLocation": "No location",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "takeAria": "Take photo",
+    "deleteAria": "Delete photo"
+  },
+  "tickets": {
+    "title": "811 Tickets",
+    "subtitle": "{count} tickets · Kentucky 811 · {project}",
+    "atRisk": "{count, plural, one {# ticket expires} other {# tickets expire}} in 3 days or less. Check the status with Kentucky 811 before digging.",
+    "empty": {
+      "title": "Add your first 811 ticket",
+      "body": "Save the number and the start date. The app warns you before it expires.",
+      "cta": "New ticket"
+    },
+    "new": "New ticket",
+    "newTitle": "New 811 ticket",
+    "status": {
+      "activo": "Active",
+      "por-vencer": "Due soon",
+      "vencido": "Expired",
+      "cerrado": "Closed"
+    },
+    "editAria": "Edit ticket",
+    "deleteAria": "Delete ticket",
+    "startedOn": "Started {date}",
+    "expiresOn": "Expires {date}",
+    "planPage": "Plan pg. {page}",
+    "daysLeft": "{days} days",
+    "daysAgo": "{days} d ago",
+    "renew": "Renew at Kentucky 811",
+    "disclaimer": "EA Fiber Track does not replace the 811 call. Verify the official locate status with Kentucky 811 before digging.",
+    "form": {
+      "number": "811 ticket number",
+      "numberPlaceholder": "2026-0000000",
+      "location": "Location",
+      "locationPlaceholder": "e.g. Frederica St & Parrish Ave",
+      "digStart": "Start date",
+      "expiration": "Expiration date",
+      "expirationHint": "Kentucky 811 expires 21 days after the start. Adjust the date if your state uses a different term.",
+      "planPage": "Plan page",
+      "planPagePlaceholder": "e.g. 3, A-1, Sheet 5",
+      "closed": "Mark as closed (work complete)",
+      "save": "Save ticket"
+    }
+  },
+  "welcome": {
+    "title": "First, your company.",
+    "body": "Everything you record —projects, crews, plans, photos and 811 tickets— is saved under your company. Only you and your team see it.",
+    "nameLabel": "Your company name",
+    "namePlaceholder": "e.g. Delgado Underground LLC",
+    "zoneLabel": "Area where you work",
+    "zoneOptional": "(optional)",
+    "zonePlaceholder": "e.g. Owensboro, KY",
+    "submit": "Create my company",
+    "entering": "Entering…"
   }
 }

@@ -2,8 +2,15 @@
   "lang": {
     "label": "Idioma",
     "es": "Español",
-    "en": "English",
-    "switchTo": "Cambiar a {name}"
+    "en": "English"
+  },
+  "common": {
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "creating": "Creando…"
   },
   "nav": {
     "hoy": "Hoy",
@@ -48,5 +55,196 @@
       "photo": "Toma una foto con GPS"
     },
     "ftActivity": "{ft} ft · {activity}"
+  },
+  "crews": {
+    "title": "Cuadrillas",
+    "subtitle": "{count, plural, one {# cuadrilla} other {# cuadrillas}} · {project}",
+    "empty": {
+      "title": "Agrega tu primera cuadrilla",
+      "body": "Capataz, gente y equipo. Después les asignas producción sobre el plano.",
+      "cta": "Nueva cuadrilla"
+    },
+    "new": "Nueva cuadrilla",
+    "create": "Crear cuadrilla",
+    "editAria": "Editar cuadrilla",
+    "deleteAria": "Eliminar cuadrilla",
+    "foremanLine": "Capataz {name} · ",
+    "people": "{count, plural, one {# persona} other {# personas}}",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej. Cuadrilla A — Bore",
+      "foreman": "Capataz",
+      "foremanPlaceholder": "Ej. Miguel Santos",
+      "peopleField": "Personas",
+      "equipment": "Equipo (separado por comas)",
+      "equipmentPlaceholder": "Ej. Vermeer D24x40, Vac-Tron"
+    }
+  },
+  "projects": {
+    "title": "Proyectos",
+    "emptySubtitle": "Aún no tienes proyectos",
+    "subtitle": "{count, plural, one {# proyecto} other {# proyectos}} · toca uno para activarlo",
+    "active": "Activo",
+    "use": "Usar este proyecto",
+    "editAria": "Editar proyecto",
+    "new": "Nuevo proyecto",
+    "createCta": "Crear proyecto",
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej. Fibra Owensboro — Fase 2",
+      "client": "Cliente",
+      "clientPlaceholder": "Ej. Owensboro Municipal Utilities",
+      "location": "Zona",
+      "locationPlaceholder": "Ej. Owensboro, KY"
+    }
+  },
+  "plans": {
+    "title": "Planos",
+    "subtitle": "{count, plural, one {# plano} other {# planos}} · {project}",
+    "empty": {
+      "title": "Sube tu primer plano",
+      "body": "PDF o foto. Sobre una foto puedes marcar los tramos construidos.",
+      "cta": "Subir plano"
+    },
+    "uploading": "Subiendo plano…",
+    "uploadError": "No se pudo subir el plano. Revisa tu conexión e inténtalo de nuevo.",
+    "marksLine": "{count, plural, one {# marca} other {# marcas}} · {ft} ft marcados",
+    "deleteAria": "Eliminar plano",
+    "uploadAria": "Subir plano",
+    "defaultName": "Plano"
+  },
+  "planEditor": {
+    "marksCount": "{count, plural, one {# marca} other {# marcas}} · {ft} ft marcados",
+    "pdf": {
+      "body": "Este plano es un PDF. Para dibujar la ruta encima, toma una foto de la hoja del plano y súbela.",
+      "open": "Abrir PDF"
+    },
+    "tools": {
+      "draw": "Línea",
+      "marker": "Marcador",
+      "note": "Nota",
+      "pan": "Mover"
+    },
+    "zoomOut": "Alejar",
+    "zoomIn": "Acercar",
+    "fit": "Ajustar",
+    "color": "Color",
+    "hint": {
+      "draw": "Toca un extremo y arrastra al otro: queda una línea recta. Encadena las que necesites (zoom + para precisión).",
+      "marker": "Toca donde va el hub o handhole",
+      "note": "Toca donde quieres una nota",
+      "pan": "Arrastra para mover · usa + y − para acercar"
+    },
+    "route": {
+      "unsaved": "{count, plural, one {# línea} other {# líneas}} sin guardar",
+      "undo": "Deshacer",
+      "discard": "Descartar",
+      "save": "Guardar ruta"
+    },
+    "routeForm": {
+      "title": "¿Qué se construyó en esa ruta? ({count, plural, one {# línea} other {# líneas}})",
+      "feet": "Pies construidos (total de la ruta)",
+      "crew": "Cuadrilla",
+      "noCrew": "Sin asignar",
+      "save": "Guardar ruta",
+      "keepDrawing": "Seguir dibujando"
+    },
+    "markerForm": {
+      "title": "Marcador en el plano",
+      "label": "Etiqueta",
+      "type": "Tipo",
+      "crew": "Cuadrilla",
+      "noCrew": "Sin asignar",
+      "save": "Guardar marcador"
+    },
+    "noteForm": {
+      "title": "Nota en el plano",
+      "placeholder": "Ej. Roca a 4 ft, pedir hidrovac",
+      "save": "Guardar nota"
+    },
+    "marksSection": "Marcas de producción",
+    "noteTitle": "Nota: {text}",
+    "ptTitle": "{label} · {activity}",
+    "segTitle": "{ft} ft · {activity}",
+    "noCrew": "Sin cuadrilla",
+    "deleteMarkAria": "Eliminar marca"
+  },
+  "photos": {
+    "title": "Fotos GPS",
+    "subtitle": "{count, plural, one {# foto} other {# fotos}} · {company} · {project}",
+    "groupCount": "{label} · {count, plural, one {# foto} other {# fotos}}",
+    "uploadError": "No se pudo subir la foto. Revisa tu conexión e inténtalo de nuevo.",
+    "uploading": "Subiendo foto…",
+    "savingShort": "Guardando…",
+    "askLocation": {
+      "title": "¿Dónde se tomó esta foto?",
+      "withCoords": "Queda con la fecha, las coordenadas y el nombre {company}.",
+      "noCoords": "Queda con la fecha, sin GPS, y el nombre {company}.",
+      "placeholder": "Ej. Frederica St & Parrish Ave",
+      "save": "Guardar foto",
+      "saving": "Guardando…",
+      "skip": "Omitir lugar"
+    },
+    "empty": {
+      "title": "Toma tu primera foto",
+      "body": "Cada foto queda con fecha, ubicación y el nombre {company}. Sirve de prueba de lo que se construyó.",
+      "cta": "Tomar foto"
+    },
+    "noLocation": "Sin ubicación",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "takeAria": "Tomar foto",
+    "deleteAria": "Eliminar foto"
+  },
+  "tickets": {
+    "title": "Tickets 811",
+    "subtitle": "{count} tickets · Kentucky 811 · {project}",
+    "atRisk": "{count, plural, one {# ticket vence} other {# tickets vencen}} en 3 días o menos. Verifica el estado con Kentucky 811 antes de excavar.",
+    "empty": {
+      "title": "Agrega tu primer ticket 811",
+      "body": "Guarda el número y la fecha de inicio. La app te avisa antes de que venza.",
+      "cta": "Nuevo ticket"
+    },
+    "new": "Nuevo ticket",
+    "newTitle": "Nuevo ticket 811",
+    "status": {
+      "activo": "Activo",
+      "por-vencer": "Por vencer",
+      "vencido": "Vencido",
+      "cerrado": "Cerrado"
+    },
+    "editAria": "Editar ticket",
+    "deleteAria": "Eliminar ticket",
+    "startedOn": "Inició {date}",
+    "expiresOn": "Vence {date}",
+    "planPage": "Plano pág. {page}",
+    "daysLeft": "{days} días",
+    "daysAgo": "hace {days} d",
+    "renew": "Renovar en Kentucky 811",
+    "disclaimer": "EA Fiber Track no reemplaza la llamada al 811. Verifica el estado oficial del locate con Kentucky 811 antes de excavar.",
+    "form": {
+      "number": "Número de ticket 811",
+      "numberPlaceholder": "2026-0000000",
+      "location": "Ubicación",
+      "locationPlaceholder": "Ej. Frederica St & Parrish Ave",
+      "digStart": "Fecha de inicio",
+      "expiration": "Fecha de expiración",
+      "expirationHint": "Kentucky 811 vence a los 21 días del inicio. Ajusta la fecha si tu estado usa otro plazo.",
+      "planPage": "Página del plano",
+      "planPagePlaceholder": "Ej. 3, A-1, Sheet 5",
+      "closed": "Marcar como cerrado (trabajo completo)",
+      "save": "Guardar ticket"
+    }
+  },
+  "welcome": {
+    "title": "Primero, tu empresa.",
+    "body": "Todo lo que registres —proyectos, cuadrillas, planos, fotos y tickets 811— queda guardado bajo tu empresa. Solo tú y tu equipo lo ven.",
+    "nameLabel": "Nombre de tu empresa",
+    "namePlaceholder": "Ej. Delgado Underground LLC",
+    "zoneLabel": "Zona donde trabajas",
+    "zoneOptional": "(opcional)",
+    "zonePlaceholder": "Ej. Owensboro, KY",
+    "submit": "Crear mi empresa",
+    "entering": "Entrando…"
   }
 }

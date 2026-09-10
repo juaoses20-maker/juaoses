@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { getUserContext } from "@/lib/supabase/context";
 import NuevaEmpresaForm from "./nueva-empresa-form";
 
@@ -8,6 +9,8 @@ export default async function BienvenidoPage() {
   const ctx = await getUserContext();
   if (!ctx) redirect("/entrar");
   if (ctx.companyId) redirect("/app");
+
+  const t = await getTranslations("welcome");
 
   return (
     <main className="flex min-h-dvh flex-col bg-bg text-ink">
@@ -19,13 +22,8 @@ export default async function BienvenidoPage() {
           </svg>
         </span>
 
-        <h1 className="mt-4 font-display text-[24px] font-semibold leading-tight">
-          Primero, tu empresa.
-        </h1>
-        <p className="mt-2 text-[13px] text-ink-2">
-          Todo lo que registres —proyectos, cuadrillas, planos, fotos y tickets 811— queda guardado
-          bajo tu empresa. Solo tú y tu equipo lo ven.
-        </p>
+        <h1 className="mt-4 font-display text-[24px] font-semibold leading-tight">{t("title")}</h1>
+        <p className="mt-2 text-[13px] text-ink-2">{t("body")}</p>
 
         <NuevaEmpresaForm />
       </div>

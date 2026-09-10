@@ -8,6 +8,7 @@ import {
   type PointerEvent as RPointerEvent,
 } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   ExternalLink,
@@ -67,11 +68,11 @@ function polyPoints(pts: XY[]) {
   return pts.map((p) => `${p[0]},${p[1]}`).join(" ");
 }
 
-const TOOLS: { id: Tool; label: string; Icon: typeof Minus }[] = [
-  { id: "draw", label: "Línea", Icon: Minus },
-  { id: "marker", label: "Marcador", Icon: MapPin },
-  { id: "note", label: "Nota", Icon: TypeIcon },
-  { id: "pan", label: "Mover", Icon: Hand },
+const TOOLS: { id: Tool; labelKey: string; Icon: typeof Minus }[] = [
+  { id: "draw", labelKey: "draw", Icon: Minus },
+  { id: "marker", labelKey: "marker", Icon: MapPin },
+  { id: "note", labelKey: "note", Icon: TypeIcon },
+  { id: "pan", labelKey: "pan", Icon: Hand },
 ];
 
 export default function PlanEditor({
@@ -83,6 +84,8 @@ export default function PlanEditor({
   marks: PlanMark[];
   crews: Crew[];
 }) {
+  const t = useTranslations("planEditor");
+  const tc = useTranslations("common");
   const imgRef = useRef<HTMLImageElement | null>(null);
   const panRef = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null);
 
@@ -205,7 +208,7 @@ export default function PlanEditor({
         <div className="min-w-0 flex-1">
           <div className="truncate font-display text-[14px] font-semibold">{plan.name}</div>
           <div className="text-[10px] text-ink-3">
-            {marks.length} {marks.length === 1 ? "marca" : "marcas"} · {nf.format(plan.ft_marked)} ft marcados
+            {t("marksCount", { count: marks.length, ft: nf.format(plan.ft_marked) })}
           </div>
         </div>
       </div>
@@ -213,9 +216,7 @@ export default function PlanEditor({
       {plan.is_pdf ? (
         <div className="mt-3 rounded-[12px] border bg-surface p-4 text-center shadow-[var(--shadow-1)]">
           <FileText className="mx-auto h-9 w-9 text-ink-3" strokeWidth={1.5} />
-          <p className="mx-auto mt-2 max-w-[32ch] text-[12px] text-ink-2">
-            Este plano es un PDF. Para dibujar la ruta encima, toma una foto de la hoja del plano y súbela.
-          </p>
+          <p className="mx-auto mt-2 max-w-[32ch] text-[12px] text-ink-2">{t("pdf.body")}</p>
           {plan.url && (
             <a
               href={plan.url}
@@ -223,14 +224,14 @@ export default function PlanEditor({
               rel="noopener noreferrer"
               className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-btn border px-3 text-[12px] font-semibold text-ink"
             >
-              <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} /> Abrir PDF
+              <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} /> {t("pdf.open")}
             </a>
           )}
         </div>
       ) : (
         <>
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            {TOOLS.map(({ id, label: l, Icon }) => (
+            {TOOLS.map(({ id, labelKey, Icon }) => (
               <button
                 key={id}
                 onClick={() => setTool(id)}
@@ -239,24 +240,24 @@ export default function PlanEditor({
                   (tool === id ? "border-accent bg-accent text-accent-ink" : "bg-surface text-ink-2")
                 }
               >
-                <Icon className="h-3.5 w-3.5" strokeWidth={2} /> {l}
+                <Icon className="h-3.5 w-3.5" strokeWidth={2} /> {t(`tools.${labelKey}`)}
               </button>
             ))}
             <span className="mx-0.5 h-5 w-px bg-line" />
-            <button onClick={() => zoomBy(1 / 1.4)} aria-label="Alejar" className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
+            <button onClick={() => zoomBy(1 / 1.4)} aria-label={t("zoomOut")} className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
               <ZoomOut className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
-            <button onClick={() => zoomBy(1.4)} aria-label="Acercar" className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
+            <button onClick={() => zoomBy(1.4)} aria-label={t("zoomIn")} className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
               <ZoomIn className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
-            <button onClick={resetView} aria-label="Ajustar" className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
+            <button onClick={resetView} aria-label={t("fit")} className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2">
               <Maximize2 className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
           </div>
 
           {tool === "draw" && (
             <div className="mt-2 flex items-center gap-1.5">
-              <span className="text-[10px] font-semibold text-ink-3">Color</span>
+              <span className="text-[10px] font-semibold text-ink-3">{t("color")}</span>
               {MARK_COLORS.map((c) => (
                 <button
                   key={c}
@@ -413,13 +414,7 @@ export default function PlanEditor({
           {/* pista */}
           {!formOpen && strokes.length === 0 && (
             <div className="mt-2 flex items-center gap-2 rounded-[8px] bg-[var(--chip)] px-2.5 py-2 text-[11.5px] font-semibold text-accent">
-              {tool === "draw"
-                ? "Toca un extremo y arrastra al otro: queda una línea recta. Encadena las que necesites (zoom + para precisión)."
-                : tool === "marker"
-                  ? "Toca donde va el hub o handhole"
-                  : tool === "note"
-                    ? "Toca donde quieres una nota"
-                    : "Arrastra para mover · usa + y − para acercar"}
+              {t(`hint.${tool}`)}
             </div>
           )}
 
@@ -427,25 +422,25 @@ export default function PlanEditor({
           {tool === "draw" && strokes.length > 0 && !savingRoute && (
             <div className="mt-2 flex flex-wrap items-center gap-2 rounded-[12px] border bg-surface p-2.5 shadow-[var(--shadow-1)]">
               <span className="text-[12px] font-semibold">
-                {strokes.length} {strokes.length === 1 ? "línea" : "líneas"} sin guardar
+                {t("route.unsaved", { count: strokes.length })}
               </span>
               <button
                 onClick={() => setStrokes((s) => s.slice(0, -1))}
                 className="inline-flex h-8 items-center gap-1 rounded-full border px-2.5 text-[11px] font-semibold text-ink-2"
               >
-                <Undo2 className="h-3.5 w-3.5" strokeWidth={2} /> Deshacer
+                <Undo2 className="h-3.5 w-3.5" strokeWidth={2} /> {t("route.undo")}
               </button>
               <button
                 onClick={() => setStrokes([])}
                 className="h-8 px-2 text-[11px] font-semibold text-ink-3"
               >
-                Descartar
+                {t("route.discard")}
               </button>
               <button
                 onClick={() => setSavingRoute(true)}
                 className="ml-auto h-9 rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink"
               >
-                Guardar ruta
+                {t("route.save")}
               </button>
             </div>
           )}
@@ -461,7 +456,7 @@ export default function PlanEditor({
               <input type="hidden" name="qty" value={feet.replace(/[^\d.]/g, "") || "0"} />
 
               <div className="font-display text-[13px] font-semibold">
-                ¿Qué se construyó en esa ruta? ({strokes.length} {strokes.length === 1 ? "línea" : "líneas"})
+                {t("routeForm.title", { count: strokes.length })}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {PLAN_ACTIVITIES.map((a) => (
@@ -479,7 +474,7 @@ export default function PlanEditor({
                 ))}
               </div>
               <label className="block">
-                <span className="text-[11px] font-semibold text-ink-2">Pies construidos (total de la ruta)</span>
+                <span className="text-[11px] font-semibold text-ink-2">{t("routeForm.feet")}</span>
                 <input
                   inputMode="numeric"
                   value={feet}
@@ -489,13 +484,13 @@ export default function PlanEditor({
                 />
               </label>
               <label className="block">
-                <span className="text-[11px] font-semibold text-ink-2">Cuadrilla</span>
+                <span className="text-[11px] font-semibold text-ink-2">{t("routeForm.crew")}</span>
                 <select
                   value={crewId}
                   onChange={(e) => setCrewId(e.target.value)}
                   className="mt-1 w-full rounded-[10px] border bg-surface px-3 py-2 text-[13px] outline-none"
                 >
-                  <option value="">Sin asignar</option>
+                  <option value="">{t("routeForm.noCrew")}</option>
                   {crews.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -506,14 +501,14 @@ export default function PlanEditor({
               {state.error && <p className="text-[11px] text-[var(--crit)]">{state.error}</p>}
               <div className="flex gap-2 pt-0.5">
                 <button type="submit" className="h-9 rounded-btn bg-accent px-3 text-[12px] font-bold text-accent-ink">
-                  Guardar ruta
+                  {t("routeForm.save")}
                 </button>
                 <button
                   type="button"
                   onClick={() => setSavingRoute(false)}
                   className="h-9 px-3 text-[12px] font-semibold text-ink-3"
                 >
-                  Seguir dibujando
+                  {t("routeForm.keepDrawing")}
                 </button>
               </div>
             </form>
@@ -529,10 +524,10 @@ export default function PlanEditor({
               <input type="hidden" name="crewId" value={crewId} />
               <input type="hidden" name="qty" value="0" />
 
-              <div className="font-display text-[13px] font-semibold">Marcador en el plano</div>
+              <div className="font-display text-[13px] font-semibold">{t("markerForm.title")}</div>
               <div className="flex gap-2">
                 <label className="block w-24">
-                  <span className="text-[11px] font-semibold text-ink-2">Etiqueta</span>
+                  <span className="text-[11px] font-semibold text-ink-2">{t("markerForm.label")}</span>
                   <input
                     value={label}
                     onChange={(e) => setLabel(e.target.value.slice(0, 6))}
@@ -540,7 +535,7 @@ export default function PlanEditor({
                   />
                 </label>
                 <label className="block flex-1">
-                  <span className="text-[11px] font-semibold text-ink-2">Tipo</span>
+                  <span className="text-[11px] font-semibold text-ink-2">{t("markerForm.type")}</span>
                   <select
                     value={activity}
                     onChange={(e) => setActivity(e.target.value)}
@@ -555,13 +550,13 @@ export default function PlanEditor({
                 </label>
               </div>
               <label className="block">
-                <span className="text-[11px] font-semibold text-ink-2">Cuadrilla</span>
+                <span className="text-[11px] font-semibold text-ink-2">{t("markerForm.crew")}</span>
                 <select
                   value={crewId}
                   onChange={(e) => setCrewId(e.target.value)}
                   className="mt-1 w-full rounded-[10px] border bg-surface px-3 py-2 text-[13px] outline-none"
                 >
-                  <option value="">Sin asignar</option>
+                  <option value="">{t("markerForm.noCrew")}</option>
                   {crews.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -572,10 +567,10 @@ export default function PlanEditor({
               {state.error && <p className="text-[11px] text-[var(--crit)]">{state.error}</p>}
               <div className="flex gap-2 pt-0.5">
                 <button type="submit" className="h-9 rounded-btn bg-accent px-3 text-[12px] font-bold text-accent-ink">
-                  Guardar marcador
+                  {t("markerForm.save")}
                 </button>
                 <button type="button" onClick={() => setPendingPoint(null)} className="h-9 px-3 text-[12px] font-semibold text-ink-3">
-                  Cancelar
+                  {tc("cancel")}
                 </button>
               </div>
             </form>
@@ -590,11 +585,11 @@ export default function PlanEditor({
               <input type="hidden" name="activity" value="Nota" />
               <input type="hidden" name="qty" value="0" />
 
-              <div className="font-display text-[13px] font-semibold">Nota en el plano</div>
+              <div className="font-display text-[13px] font-semibold">{t("noteForm.title")}</div>
               <input
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value.slice(0, 80))}
-                placeholder="Ej. Roca a 4 ft, pedir hidrovac"
+                placeholder={t("noteForm.placeholder")}
                 className="w-full rounded-[10px] border bg-surface px-3 py-2 text-[13px] outline-none placeholder:text-ink-3"
               />
               {state.error && <p className="text-[11px] text-[var(--crit)]">{state.error}</p>}
@@ -604,10 +599,10 @@ export default function PlanEditor({
                   disabled={noteText.trim().length === 0}
                   className="h-9 rounded-btn bg-accent px-3 text-[12px] font-bold text-accent-ink disabled:opacity-50"
                 >
-                  Guardar nota
+                  {t("noteForm.save")}
                 </button>
                 <button type="button" onClick={() => setPendingPoint(null)} className="h-9 px-3 text-[12px] font-semibold text-ink-3">
-                  Cancelar
+                  {tc("cancel")}
                 </button>
               </div>
             </form>
@@ -618,7 +613,7 @@ export default function PlanEditor({
       {marks.length > 0 && (
         <>
           <p className="mx-0.5 mb-2 mt-5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-ink-3">
-            Marcas de producción
+            {t("marksSection")}
           </p>
           <div className="overflow-hidden rounded-[12px] border bg-surface shadow-[var(--shadow-1)]">
             {normed.map(({ m, n }) => {
@@ -627,23 +622,23 @@ export default function PlanEditor({
                 n.shape === "strokes" ? (n.paths[0]?.color ?? "var(--ink-3)") : "color" in n ? n.color : "var(--ink-3)";
               const title =
                 n.shape === "text"
-                  ? `Nota: ${n.text}`
+                  ? t("noteTitle", { text: n.text })
                   : n.shape === "pt"
-                    ? `${n.label} · ${m.activity}`
-                    : `${nf.format(m.qty)} ft · ${m.activity}`;
+                    ? t("ptTitle", { label: n.label, activity: m.activity })
+                    : t("segTitle", { ft: nf.format(m.qty), activity: m.activity });
               return (
                 <div key={m.id} className="flex items-center gap-2.5 border-b px-3 py-2.5 text-[11.5px] last:border-b-0">
                   <span className="h-2.5 w-2.5 flex-none rounded-[3px]" style={{ background: dot }} />
                   <div className="min-w-0">
                     <div className="truncate font-semibold">{title}</div>
-                    <div className="text-[10px] text-ink-2">{crew ? crew.name : "Sin cuadrilla"}</div>
+                    <div className="text-[10px] text-ink-2">{crew ? crew.name : t("noCrew")}</div>
                   </div>
                   <form action={deletePlanMark} className="ml-auto flex-none">
                     <input type="hidden" name="id" value={m.id} />
                     <input type="hidden" name="planId" value={plan.id} />
                     <button
                       type="submit"
-                      aria-label="Eliminar marca"
+                      aria-label={t("deleteMarkAria")}
                       className="grid h-7 w-7 place-items-center rounded-[7px] text-ink-3 hover:text-[var(--crit)]"
                     >
                       <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
