@@ -74,13 +74,27 @@ function TicketForm({
       )}
       <Field name="number" label="Número de ticket 811" defaultValue={ticket?.number} placeholder="2026-0000000" required />
       <Field name="location" label="Ubicación" defaultValue={ticket?.location ?? ""} placeholder="Ej. Frederica St & Parrish Ave" />
+      <div className="grid grid-cols-2 gap-2">
+        <Field
+          name="dig_start"
+          label="Fecha de inicio"
+          type="date"
+          defaultValue={ticket?.dig_start ?? isoPlusDays(0)}
+        />
+        <Field
+          name="expiration"
+          label="Fecha de expiración"
+          type="date"
+          defaultValue={ticket?.expiration ?? isoPlusDays(21)}
+        />
+      </div>
+      <p className="text-[10px] text-ink-3">Kentucky 811 vence a los 21 días del inicio. Ajusta la fecha si tu estado usa otro plazo.</p>
       <Field
-        name="dig_start"
-        label="Fecha de excavación"
-        type="date"
-        defaultValue={ticket?.dig_start ?? isoPlusDays(0)}
+        name="plan_page"
+        label="Página del plano"
+        defaultValue={ticket?.plan_page ?? ""}
+        placeholder="Ej. 3, A-1, Sheet 5"
       />
-      <p className="text-[10px] text-ink-3">El vencimiento se calcula solo: 21 días desde la excavación (Kentucky 811).</p>
       {ticket && (
         <label className="flex items-center gap-2 text-[12px] font-semibold text-ink-2">
           <input type="checkbox" name="closed" defaultChecked={ticket.status_manual === "cerrado"} />
@@ -192,8 +206,9 @@ export default function TicketsUI({
               </div>
               {t.location && <div className="text-[11px] font-medium">{t.location}</div>}
               <div className="flex flex-wrap gap-2 text-[9.5px] text-ink-2">
-                {t.dig_start && <span>Excavó {t.dig_start}</span>}
+                {t.dig_start && <span>Inició {t.dig_start}</span>}
                 {t.expiration && <span>Vence {t.expiration}</span>}
+                {t.plan_page && <span>Plano pág. {t.plan_page}</span>}
                 {s.daysLeft !== null && s.status !== "cerrado" && (
                   <span>{s.daysLeft < 0 ? `hace ${-s.daysLeft} d` : `${s.daysLeft} días`}</span>
                 )}

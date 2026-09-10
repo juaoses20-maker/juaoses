@@ -28,6 +28,7 @@ export type Ticket811 = {
   life_days: number;
   status_manual: string | null;
   notes: string | null;
+  plan_page: string | null;
 };
 
 export type TicketStatus = "activo" | "por-vencer" | "vencido" | "cerrado";

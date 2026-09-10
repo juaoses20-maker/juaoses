@@ -171,10 +171,12 @@ export async function createTicket(
   const number = eq(formData.get("number"));
   const location = eq(formData.get("location"));
   const digStart = eq(formData.get("dig_start")) || isoPlusDays(0);
+  const planPage = eq(formData.get("plan_page"));
   if (!projectId) return { error: "Elige un proyecto primero." };
   if (number.length < 4) return { error: "Escribe el número del ticket 811." };
 
-  const expiration = isoPlusDaysFrom(digStart, LIFE_DAYS);
+  const expiration = eq(formData.get("expiration")) || isoPlusDaysFrom(digStart, LIFE_DAYS);
+  if (expiration < digStart) return { error: "La fecha de expiración no puede ser antes de la de inicio." };
 
   const supabase = await createClient();
   const { error } = await supabase.from("tickets811").insert({
@@ -185,6 +187,7 @@ export async function createTicket(
     dig_start: digStart,
     expiration,
     life_days: LIFE_DAYS,
+    plan_page: planPage || null,
   });
 
   if (error) return { error: "No pudimos guardar el ticket. Inténtalo de nuevo." };
@@ -201,19 +204,23 @@ export async function updateTicket(
   const number = eq(formData.get("number"));
   const location = eq(formData.get("location"));
   const digStart = eq(formData.get("dig_start"));
+  const expiration = eq(formData.get("expiration"));
+  const planPage = eq(formData.get("plan_page"));
   const closed = eq(formData.get("closed")) === "on";
   if (!id) return { error: "Ticket no encontrado." };
   if (number.length < 4) return { error: "Escribe el número del ticket 811." };
+  if (digStart && expiration && expiration < digStart)
+    return { error: "La fecha de expiración no puede ser antes de la de inicio." };
 
   const patch: Record<string, unknown> = {
     number,
     location: location || null,
     status_manual: closed ? "cerrado" : null,
+    plan_page: planPage || null,
   };
-  if (digStart) {
-    patch.dig_start = digStart;
-    patch.expiration = isoPlusDaysFrom(digStart, LIFE_DAYS);
-  }
+  if (digStart) patch.dig_start = digStart;
+  if (expiration) patch.expiration = expiration;
+  else if (digStart) patch.expiration = isoPlusDaysFrom(digStart, LIFE_DAYS);
 
   const supabase = await createClient();
   const { error } = await supabase.from("tickets811").update(patch).eq("id", id);

@@ -44,7 +44,7 @@ export async function listTickets(projectId: string): Promise<Ticket811[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("tickets811")
-    .select("id, number, location, dig_start, expiration, life_days, status_manual, notes")
+    .select("id, number, location, dig_start, expiration, life_days, status_manual, notes, plan_page")
     .eq("project_id", projectId)
     .order("expiration", { ascending: true, nullsFirst: false });
   return (data ?? []) as Ticket811[];
