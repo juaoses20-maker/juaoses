@@ -175,7 +175,7 @@ export async function listPhotos(projectId: string): Promise<Photo[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("photos")
-    .select("id, storage_path, lat, lng, taken_at, activity")
+    .select("id, storage_path, lat, lng, taken_at, activity, location")
     .eq("project_id", projectId)
     .order("taken_at", { ascending: false })
     .limit(120);
@@ -199,5 +199,6 @@ export async function listPhotos(projectId: string): Promise<Photo[]> {
     lng: r.lng,
     taken_at: r.taken_at,
     activity: r.activity,
+    location: r.location ?? null,
   }));
 }

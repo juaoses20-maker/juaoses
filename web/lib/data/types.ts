@@ -68,6 +68,7 @@ export type Photo = {
   lng: number | null;
   taken_at: string;
   activity: string | null;
+  location: string | null;
 };
 
 export const PHOTOS_BUCKET = "photos";

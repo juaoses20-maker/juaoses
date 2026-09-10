@@ -266,7 +266,7 @@ function isoPlusDaysFrom(baseIso: string, days: number): string {
 
 // ───────────────────────── fotos GPS ─────────────────────────
 
-export type PhotoSaveState = { error: string | null; ok?: boolean };
+export type PhotoSaveState = { error: string | null; ok?: boolean; nonce?: string };
 
 /** Guarda la fila de la foto. El archivo ya se subió a Storage desde el navegador. */
 export async function savePhoto(
@@ -281,6 +281,7 @@ export async function savePhoto(
   const latRaw = eq(formData.get("lat"));
   const lngRaw = eq(formData.get("lng"));
   const activity = eq(formData.get("activity"));
+  const location = eq(formData.get("location")).slice(0, 120);
   if (!projectId || !storagePath) return { error: "Falta la foto o el proyecto." };
   if (!storagePath.startsWith(ctx.companyId + "/")) return { error: "Ruta de archivo inválida." };
 
@@ -292,6 +293,7 @@ export async function savePhoto(
     lat: latRaw ? Number(latRaw) : null,
     lng: lngRaw ? Number(lngRaw) : null,
     activity: activity || null,
+    location: location || null,
   });
 
   if (error) {
@@ -299,7 +301,7 @@ export async function savePhoto(
     return { error: "No pudimos guardar la foto. Inténtalo de nuevo." };
   }
   revalidatePath("/app/fotos");
-  return { error: null, ok: true };
+  return { error: null, ok: true, nonce: crypto.randomUUID() };
 }
 
 export async function deletePhoto(formData: FormData): Promise<void> {

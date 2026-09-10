@@ -8,6 +8,8 @@ import type { Photo } from "@/lib/data/types";
 
 const initial: PhotoSaveState = { error: null };
 
+type Pending = { path: string; lat: number | null; lng: number | null };
+
 function dayLabel(iso: string): string {
   const d = new Date(iso);
   const today = new Date();
@@ -23,13 +25,19 @@ function timeLabel(iso: string): string {
   return new Date(iso).toLocaleTimeString("es-US", { hour: "2-digit", minute: "2-digit" });
 }
 
+function dateLabel(iso: string): string {
+  return new Date(iso).toLocaleDateString("es-US", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
 export default function FotosUI({
   companyId,
+  companyName,
   projectId,
   projectName,
   photos,
 }: {
   companyId: string;
+  companyName: string;
   projectId: string;
   projectName: string;
   photos: Photo[];
@@ -39,6 +47,15 @@ export default function FotosUI({
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [pending, setPending] = useState<Pending | null>(null);
+  const [where, setWhere] = useState("");
+  const [seenNonce, setSeenNonce] = useState<string | undefined>(undefined);
+
+  if (state.nonce && state.nonce !== seenNonce) {
+    setSeenNonce(state.nonce);
+    setPending(null);
+    setWhere("");
+  }
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -49,17 +66,24 @@ export default function FotosUI({
     try {
       const { lat, lng } = await getCoords();
       const path = await uploadPhoto(companyId, projectId, file);
-      const fd = new FormData();
-      fd.set("projectId", projectId);
-      fd.set("storagePath", path);
-      if (lat != null) fd.set("lat", String(lat));
-      if (lng != null) fd.set("lng", String(lng));
-      startTransition(() => formAction(fd));
+      setPending({ path, lat, lng });
+      setWhere("");
     } catch {
       setErr("No se pudo subir la foto. Revisa tu conexión e inténtalo de nuevo.");
     } finally {
       setUploading(false);
     }
+  }
+
+  function submitPending(skipLocation = false) {
+    if (!pending) return;
+    const fd = new FormData();
+    fd.set("projectId", projectId);
+    fd.set("storagePath", pending.path);
+    if (pending.lat != null) fd.set("lat", String(pending.lat));
+    if (pending.lng != null) fd.set("lng", String(pending.lng));
+    if (!skipLocation && where.trim()) fd.set("location", where.trim());
+    startTransition(() => formAction(fd));
   }
 
   const busy = uploading || isPending;
@@ -76,7 +100,7 @@ export default function FotosUI({
         <p className="text-[10px] text-ink-3">
           {photos.length === 0
             ? projectName
-            : `${photos.length} ${photos.length === 1 ? "foto" : "fotos"} · fecha, hora y coordenadas · ${projectName}`}
+            : `${photos.length} ${photos.length === 1 ? "foto" : "fotos"} · ${companyName} · ${projectName}`}
         </p>
       </div>
 
@@ -86,13 +110,51 @@ export default function FotosUI({
         </p>
       )}
 
-      {photos.length === 0 && !busy && (
+      {pending && (
+        <div className="mt-3 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
+          <div className="font-display text-[13px] font-semibold">¿Dónde se tomó esta foto?</div>
+          <p className="mt-0.5 text-[10px] text-ink-3">
+            Queda con la fecha, {pending.lat != null ? "las coordenadas" : "sin GPS"} y el nombre {companyName}.
+          </p>
+          <input
+            autoFocus
+            value={where}
+            onChange={(e) => setWhere(e.target.value.slice(0, 120))}
+            placeholder="Ej. Frederica St & Parrish Ave"
+            className="mt-2 w-full rounded-[10px] border bg-surface px-3 py-2 text-[13px] outline-none placeholder:text-ink-3"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                submitPending();
+              }
+            }}
+          />
+          <div className="mt-2 flex gap-2">
+            <button
+              onClick={() => submitPending()}
+              disabled={busy}
+              className="h-9 rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink disabled:opacity-50"
+            >
+              {busy ? "Guardando…" : "Guardar foto"}
+            </button>
+            <button
+              onClick={() => submitPending(true)}
+              disabled={busy}
+              className="h-9 px-3 text-[12px] font-semibold text-ink-3 disabled:opacity-50"
+            >
+              Omitir lugar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {photos.length === 0 && !busy && !pending && (
         <div className="mt-8 grid place-items-center py-12 text-center">
           <div>
             <Camera className="mx-auto h-9 w-9 text-ink-3" strokeWidth={1.5} />
             <div className="mt-2.5 font-display text-[15px] font-semibold">Toma tu primera foto</div>
             <p className="mx-auto mt-1.5 max-w-[28ch] text-[11.5px] text-ink-2">
-              Cada foto queda con fecha, hora y ubicación. Sirve de prueba de lo que se construyó.
+              Cada foto queda con fecha, ubicación y el nombre {companyName}. Sirve de prueba de lo que se construyó.
             </p>
             <button
               onClick={() => fileRef.current?.click()}
@@ -107,7 +169,7 @@ export default function FotosUI({
       {busy && (
         <div className="mt-3 flex items-center gap-2 rounded-[10px] border bg-surface px-3 py-2.5 text-[12px] text-ink-2">
           <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line border-t-accent" />
-          Subiendo foto…
+          {uploading ? "Subiendo foto…" : "Guardando…"}
         </div>
       )}
 
@@ -123,10 +185,19 @@ export default function FotosUI({
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={p.url} alt="" className="h-full w-full object-cover" loading="lazy" />
                 )}
-                <span className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-[linear-gradient(transparent,rgba(0,0,0,0.65))] px-1 py-[3px] font-mono text-[7px] text-white">
-                  {p.lat != null && <MapPin className="h-2 w-2 flex-none" strokeWidth={2.5} />}
-                  {timeLabel(p.taken_at)}
-                  {p.lat != null && p.lng != null ? ` · ${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}` : ""}
+                <span className="absolute inset-x-0 top-0 truncate bg-[linear-gradient(rgba(0,0,0,0.6),transparent)] px-1 py-[3px] font-mono text-[7px] font-semibold uppercase tracking-[0.04em] text-white">
+                  {companyName}
+                </span>
+                <span className="absolute inset-x-0 bottom-0 flex flex-col gap-[1px] bg-[linear-gradient(transparent,rgba(0,0,0,0.7))] px-1 py-[3px] font-mono text-[7px] text-white">
+                  <span>{dateLabel(p.taken_at)} · {timeLabel(p.taken_at)}</span>
+                  <span className="flex items-center gap-0.5 truncate">
+                    {(p.location || p.lat != null) && <MapPin className="h-2 w-2 flex-none" strokeWidth={2.5} />}
+                    {p.location
+                      ? p.location
+                      : p.lat != null && p.lng != null
+                        ? `${p.lat.toFixed(4)}, ${p.lng.toFixed(4)}`
+                        : "Sin ubicación"}
+                  </span>
                 </span>
                 <form action={deletePhoto} className="absolute right-1 top-1">
                   <input type="hidden" name="id" value={p.id} />
