@@ -11,7 +11,14 @@ import {
   type PlanMark,
   type Project,
   type Ticket811,
+  type TodayRecap,
+  type TodayStatus,
 } from "@/lib/data/types";
+
+/** Fecha de hoy en UTC, yyyy-mm-dd — mismo criterio que `production_entries.day`. */
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export async function listProjects(): Promise<Project[]> {
   const supabase = await createClient();
@@ -202,4 +209,61 @@ export async function listPhotos(projectId: string): Promise<Photo[]> {
     activity: r.activity,
     location: r.location ?? null,
   }));
+}
+
+/** ¿Ya se cerró el parte de hoy? y racha de días seguidos con parte cerrado. */
+export async function getTodayStatus(projectId: string): Promise<TodayStatus> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("daily_reports")
+    .select("day")
+    .eq("project_id", projectId)
+    .order("day", { ascending: false })
+    .limit(90);
+
+  const days = new Set((data ?? []).map((r) => r.day as string));
+  const today = todayIso();
+  const closedToday = days.has(today);
+
+  let streak = 0;
+  const cursor = new Date(`${today}T00:00:00.000Z`);
+  if (!closedToday) cursor.setUTCDate(cursor.getUTCDate() - 1);
+  while (days.has(cursor.toISOString().slice(0, 10))) {
+    streak++;
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
+  }
+
+  return { closedToday, streak, lastClosedDay: (data ?? [])[0]?.day ?? null };
+}
+
+/** Resumen de la actividad de hoy en el proyecto (para el recap antes de cerrar el parte). */
+export async function getTodayRecap(projectId: string): Promise<TodayRecap> {
+  const supabase = await createClient();
+  const startOfToday = `${todayIso()}T00:00:00.000Z`;
+
+  const [{ data: marks }, { data: photos }] = await Promise.all([
+    supabase
+      .from("plan_marks")
+      .select("qty, kind, crew_id, at, plans!inner(project_id)")
+      .eq("plans.project_id", projectId)
+      .gte("at", startOfToday),
+    supabase
+      .from("photos")
+      .select("id")
+      .eq("project_id", projectId)
+      .gte("taken_at", startOfToday),
+  ]);
+
+  const rows = marks ?? [];
+  const ftMarked = Math.round(
+    rows.filter((m) => m.kind === "seg").reduce((s, m) => s + (Number(m.qty) || 0), 0),
+  );
+  const crewCount = new Set(rows.map((m) => m.crew_id).filter(Boolean)).size;
+
+  return {
+    ftMarked,
+    markCount: rows.length,
+    photoCount: (photos ?? []).length,
+    crewCount,
+  };
 }

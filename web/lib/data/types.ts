@@ -10,6 +10,21 @@ export type Project = {
   status: string;
 };
 
+/** Estado del parte diario del proyecto activo (racha del loop de retención — Regla 6). */
+export type TodayStatus = {
+  closedToday: boolean;
+  streak: number;
+  lastClosedDay: string | null;
+};
+
+/** Resumen de lo hecho hoy en el proyecto, para el recap antes de cerrar el parte. */
+export type TodayRecap = {
+  ftMarked: number;
+  markCount: number;
+  photoCount: number;
+  crewCount: number;
+};
+
 export type Crew = {
   id: string;
   name: string;

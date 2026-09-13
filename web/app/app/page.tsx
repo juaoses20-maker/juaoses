@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { BarChart3, Camera, MapPin, PencilRuler } from "lucide-react";
 import {
   getActiveProject,
+  getTodayRecap,
+  getTodayStatus,
   listCrews,
   listPhotos,
   listPlans,
@@ -11,6 +13,7 @@ import {
 } from "@/lib/data/queries";
 import { ticketStatus } from "@/lib/data/types";
 import NoProject from "@/components/app/NoProject";
+import CloseDayCard from "@/components/app/CloseDayCard";
 
 const nf = new Intl.NumberFormat("en-US");
 
@@ -27,12 +30,14 @@ export default async function HoyPage() {
   const project = await getActiveProject();
   if (!project) return <NoProject what="registros" />;
 
-  const [crews, tickets, plans, marks, photos] = await Promise.all([
+  const [crews, tickets, plans, marks, photos, todayStatus, todayRecap] = await Promise.all([
     listCrews(project.id),
     listTickets(project.id),
     listPlans(project.id),
     listRecentMarks(project.id, 6),
     listPhotos(project.id),
+    getTodayStatus(project.id),
+    getTodayRecap(project.id),
   ]);
 
   const atRisk = tickets.filter((t) => {
@@ -63,6 +68,10 @@ export default async function HoyPage() {
           </div>
         ))}
       </div>
+
+      {!nothingYet && (
+        <CloseDayCard projectId={project.id} status={todayStatus} recap={todayRecap} />
+      )}
 
       {nothingYet && (
         <div className="mt-4 rounded-[12px] border border-dashed bg-surface p-4 text-center">

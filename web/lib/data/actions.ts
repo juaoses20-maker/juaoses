@@ -438,3 +438,37 @@ export async function deletePlanMark(formData: FormData): Promise<void> {
   revalidatePath(`/app/planos/${planId}`);
   revalidatePath("/app/planos");
 }
+
+// ───────────────────────── parte diario ─────────────────────────
+
+export type CloseDayState = { error: string | null; ok?: boolean };
+
+/** Cierra el parte de hoy para el proyecto activo (idempotente: un solo parte por día). */
+export async function closeDailyReport(
+  _prev: CloseDayState,
+  formData: FormData,
+): Promise<CloseDayState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const projectId = eq(formData.get("projectId"));
+  const note = eq(formData.get("note")).slice(0, 200);
+  if (!projectId) return { error: "Elige un proyecto primero." };
+
+  const day = new Date().toISOString().slice(0, 10);
+  const supabase = await createClient();
+  const { error } = await supabase.from("daily_reports").upsert(
+    {
+      company_id: ctx.companyId,
+      project_id: projectId,
+      day,
+      note: note || null,
+      closed_by: ctx.user.id,
+    },
+    { onConflict: "project_id,day" },
+  );
+
+  if (error) return { error: "No pudimos cerrar el parte. Inténtalo de nuevo." };
+  revalidatePath("/app");
+  return { error: null, ok: true };
+}

@@ -56,6 +56,20 @@
     },
     "ftActivity": "{ft} ft · {activity}"
   },
+  "dailyReport": {
+    "title": "Close today's report",
+    "cta": "Close today's report",
+    "closing": "Closing…",
+    "closedToday": "Report closed today",
+    "streak": "{count, plural, =0 {No streak yet} one {Streak: # day} other {Streak: # days}}",
+    "streakShort": "{count, plural, one {# day} other {# days}}",
+    "notePlaceholder": "Anything to report? (optional)",
+    "recap": {
+      "ft": "ft marked",
+      "marks": "marks",
+      "photos": "photos"
+    }
+  },
   "crews": {
     "title": "Crews",
     "subtitle": "{count, plural, one {# crew} other {# crews}} · {project}",
