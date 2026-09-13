@@ -20,16 +20,32 @@ export async function getUserContext(): Promise<UserContext | null> {
   } = await supabase.auth.getSession();
   if (!session?.user) return null;
 
-  const { data: membership, error } = await supabase
+  const first = await supabase
     .from("memberships")
     .select("company_id, role")
     .order("created_at", { ascending: true })
     .limit(1)
     .maybeSingle();
+  let membership = first.data;
+  const error = first.error;
 
   if (error) {
     // No silenciar: si RLS falla, esto evita un bucle mudo de redirecciones.
     console.error("getUserContext: no se pudo leer memberships:", error.message);
+  }
+
+  // Sin membresía todavía: si alguien lo invitó a una empresa (company_invites por su
+  // correo), `accept_invite()` lo une automáticamente en vez de dejarlo crear la suya.
+  if (!membership) {
+    const { data: joinedCompanyId } = await supabase.rpc("accept_invite");
+    if (joinedCompanyId) {
+      const rejoined = await supabase
+        .from("memberships")
+        .select("company_id, role")
+        .eq("company_id", joinedCompanyId)
+        .maybeSingle();
+      membership = rejoined.data;
+    }
   }
 
   return {

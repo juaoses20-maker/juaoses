@@ -12,6 +12,7 @@ import {
   PHOTOS_BUCKET,
   PLANS_BUCKET,
   type CrewFormState,
+  type InviteFormState,
   type ProjectFormState,
   type TicketFormState,
 } from "@/lib/data/types";
@@ -471,4 +472,67 @@ export async function closeDailyReport(
   if (error) return { error: "No pudimos cerrar el parte. Inténtalo de nuevo." };
   revalidatePath("/app");
   return { error: null, ok: true };
+}
+
+// ───────────────────────── equipo ─────────────────────────
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export async function inviteTeammate(
+  _prev: InviteFormState,
+  formData: FormData,
+): Promise<InviteFormState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+  if (ctx.role !== "owner" && ctx.role !== "admin") {
+    return { error: "Solo el dueño o un administrador puede invitar." };
+  }
+
+  const email = eq(formData.get("email")).toLowerCase();
+  const role = eq(formData.get("role")) === "admin" ? "admin" : "member";
+  if (!EMAIL_RE.test(email)) return { error: "Escribe un correo válido." };
+  if (email === ctx.user.email?.toLowerCase()) return { error: "Ese ya es tu correo." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("company_invites").upsert(
+    {
+      company_id: ctx.companyId,
+      email,
+      role,
+      created_by: ctx.user.id,
+      accepted_at: null,
+      accepted_by: null,
+    },
+    { onConflict: "company_id,email" },
+  );
+
+  if (error) return { error: "No pudimos guardar la invitación. Inténtalo de nuevo." };
+  revalidatePath("/app/equipo");
+  return { error: null, ok: true, nonce: crypto.randomUUID() };
+}
+
+export async function deleteInvite(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("company_invites").delete().eq("id", id);
+  revalidatePath("/app/equipo");
+}
+
+export async function removeTeamMember(formData: FormData): Promise<void> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+  if (ctx.role !== "owner" && ctx.role !== "admin") return;
+
+  const userId = eq(formData.get("userId"));
+  if (!userId || userId === ctx.user.id) return;
+
+  const supabase = await createClient();
+  await supabase
+    .from("memberships")
+    .delete()
+    .eq("company_id", ctx.companyId)
+    .eq("user_id", userId)
+    .neq("role", "owner");
+  revalidatePath("/app/equipo");
 }

@@ -6,7 +6,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { getUserContext } from "@/lib/supabase/context";
 import { createClient } from "@/lib/supabase/server";
 import { getActiveProject } from "@/lib/data/queries";
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, Users } from "lucide-react";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const ctx = await getUserContext();
@@ -41,6 +41,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           <ChevronDown className="h-4 w-4 flex-none text-ink-3" strokeWidth={2} />
         </Link>
         <LanguageSwitcher className="flex-none" />
+        <Link
+          href="/app/equipo"
+          aria-label={t("team")}
+          className="grid h-8 w-8 flex-none place-items-center rounded-[8px] text-ink-3 transition-colors hover:text-ink"
+        >
+          <Users className="h-4 w-4" strokeWidth={2} />
+        </Link>
         <form action="/auth/signout" method="post" className="flex-none">
           <button
             type="submit"

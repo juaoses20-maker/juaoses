@@ -21,7 +21,8 @@
   },
   "appShell": {
     "noProjectActive": "No active project",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "team": "Team"
   },
   "noProject": {
     "title": "Create your first project",
@@ -55,6 +56,28 @@
       "photo": "Take a GPS photo"
     },
     "ftActivity": "{ft} ft · {activity}"
+  },
+  "team": {
+    "title": "Team",
+    "subtitle": "{count, plural, one {# person} other {# people}} in your company",
+    "inviteTitle": "Invite someone",
+    "emailPlaceholder": "email@example.com",
+    "role": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "member": "Member"
+    },
+    "invite": "Invite",
+    "inviting": "Inviting…",
+    "pending": "Pending invites",
+    "shareAria": "Share access on WhatsApp",
+    "shareMessage": "Hi, I'm inviting you to my company on EA Fiber Track. Go to {url} with this email: {email}",
+    "cancelInviteAria": "Cancel invite",
+    "members": "Members",
+    "you": "You",
+    "noEmail": "Member",
+    "removeAria": "Remove from team",
+    "howNote": "The invited person signs in with their email (the \"Sign in\" button on the home page) — no password needed. As soon as they sign in, they land inside your company automatically."
   },
   "dailyReport": {
     "title": "Close today's report",

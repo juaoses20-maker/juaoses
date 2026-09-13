@@ -21,7 +21,8 @@
   },
   "appShell": {
     "noProjectActive": "Sin proyecto activo",
-    "signOut": "Salir"
+    "signOut": "Salir",
+    "team": "Equipo"
   },
   "noProject": {
     "title": "Crea tu primer proyecto",
@@ -55,6 +56,28 @@
       "photo": "Toma una foto con GPS"
     },
     "ftActivity": "{ft} ft · {activity}"
+  },
+  "team": {
+    "title": "Equipo",
+    "subtitle": "{count, plural, one {# persona} other {# personas}} en tu empresa",
+    "inviteTitle": "Invitar a alguien",
+    "emailPlaceholder": "correo@ejemplo.com",
+    "role": {
+      "owner": "Dueño",
+      "admin": "Administrador",
+      "member": "Miembro"
+    },
+    "invite": "Invitar",
+    "inviting": "Invitando…",
+    "pending": "Invitaciones pendientes",
+    "shareAria": "Compartir acceso por WhatsApp",
+    "shareMessage": "Hola, te invito a mi empresa en EA Fiber Track. Entra a {url} con este correo: {email}",
+    "cancelInviteAria": "Cancelar invitación",
+    "members": "Miembros",
+    "you": "Tú",
+    "noEmail": "Miembro",
+    "removeAria": "Quitar del equipo",
+    "howNote": "La persona invitada entra a la app con su correo (el botón \"Entrar\" en la página de inicio) — no necesita contraseña. En cuanto entra, queda dentro de tu empresa automáticamente."
   },
   "dailyReport": {
     "title": "Cerrar el parte de hoy",

@@ -11,6 +11,8 @@ import {
   type PlanMark,
   type Project,
   type Ticket811,
+  type TeamInvite,
+  type TeamMember,
   type TodayRecap,
   type TodayStatus,
 } from "@/lib/data/types";
@@ -208,6 +210,38 @@ export async function listPhotos(projectId: string): Promise<Photo[]> {
     taken_at: r.taken_at,
     activity: r.activity,
     location: r.location ?? null,
+  }));
+}
+
+export async function listTeam(companyId: string): Promise<TeamMember[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("memberships")
+    .select("user_id, email, role")
+    .eq("company_id", companyId)
+    .order("created_at", { ascending: true });
+
+  return (data ?? []).map((m) => ({
+    userId: m.user_id as string,
+    email: (m.email as string | null) ?? null,
+    role: m.role as TeamMember["role"],
+  }));
+}
+
+export async function listInvites(companyId: string): Promise<TeamInvite[]> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("company_invites")
+    .select("id, email, role, created_at")
+    .eq("company_id", companyId)
+    .is("accepted_at", null)
+    .order("created_at", { ascending: false });
+
+  return (data ?? []).map((i) => ({
+    id: i.id as string,
+    email: i.email as string,
+    role: i.role as TeamInvite["role"],
+    createdAt: i.created_at as string,
   }));
 }
 

@@ -25,6 +25,21 @@ export type TodayRecap = {
   crewCount: number;
 };
 
+export type TeamRole = "owner" | "admin" | "member";
+
+export type TeamMember = {
+  userId: string;
+  email: string | null;
+  role: TeamRole;
+};
+
+export type TeamInvite = {
+  id: string;
+  email: string;
+  role: TeamRole;
+  createdAt: string;
+};
+
 export type Crew = {
   id: string;
   name: string;
@@ -133,3 +148,4 @@ export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole"
 export type ProjectFormState = { error: string | null };
 export type CrewFormState = { error: string | null; ok?: boolean };
 export type TicketFormState = { error: string | null; ok?: boolean };
+export type InviteFormState = { error: string | null; ok?: boolean; nonce?: string };
