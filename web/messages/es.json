@@ -75,19 +75,19 @@
     "subtitle": "{count, plural, one {# cuadrilla} other {# cuadrillas}} · {project}",
     "empty": {
       "title": "Agrega tu primera cuadrilla",
-      "body": "Capataz, gente y equipo. Después les asignas producción sobre el plano.",
+      "body": "Líder, gente y equipo. Después les asignas producción sobre el plano.",
       "cta": "Nueva cuadrilla"
     },
     "new": "Nueva cuadrilla",
     "create": "Crear cuadrilla",
     "editAria": "Editar cuadrilla",
     "deleteAria": "Eliminar cuadrilla",
-    "foremanLine": "Capataz {name} · ",
+    "foremanLine": "Líder {name} · ",
     "people": "{count, plural, one {# persona} other {# personas}}",
     "form": {
       "name": "Nombre",
       "namePlaceholder": "Ej. Cuadrilla A — Bore",
-      "foreman": "Capataz",
+      "foreman": "Líder",
       "foremanPlaceholder": "Ej. Miguel Santos",
       "peopleField": "Personas",
       "equipment": "Equipo (separado por comas)",

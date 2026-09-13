@@ -75,19 +75,19 @@
     "subtitle": "{count, plural, one {# crew} other {# crews}} · {project}",
     "empty": {
       "title": "Add your first crew",
-      "body": "Foreman, people and equipment. Then you assign their production on the plan.",
+      "body": "Leader, people and equipment. Then you assign their production on the plan.",
       "cta": "New crew"
     },
     "new": "New crew",
     "create": "Create crew",
     "editAria": "Edit crew",
     "deleteAria": "Delete crew",
-    "foremanLine": "Foreman {name} · ",
+    "foremanLine": "Leader {name} · ",
     "people": "{count, plural, one {# person} other {# people}}",
     "form": {
       "name": "Name",
       "namePlaceholder": "e.g. Crew A — Bore",
-      "foreman": "Foreman",
+      "foreman": "Leader",
       "foremanPlaceholder": "e.g. Miguel Santos",
       "peopleField": "People",
       "equipment": "Equipment (comma separated)",
