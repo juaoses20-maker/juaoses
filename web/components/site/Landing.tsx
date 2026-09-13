@@ -148,16 +148,29 @@ function HeroPhone() {
             <Check className="h-2.5 w-2.5" strokeWidth={2.8} /> {t("proofTag")}
           </div>
           <div className="mx-3 mt-2 overflow-hidden rounded-[10px] border bg-white">
-            <svg viewBox="0 0 280 78" className="block w-full">
-              <rect width="280" height="78" fill="#fff" />
-              <g stroke="#ece4d7" strokeWidth="1">
-                <path d="M0 28H280M0 54H280M70 0V78M160 0V78" />
-              </g>
-              <path d="M20 40H262" stroke="#cbb9a3" strokeWidth="2" strokeDasharray="6 4" />
-              <path d="M20 40H150" stroke="#e8590c" strokeWidth="4.5" strokeLinecap="round" />
-              <circle cx="20" cy="40" r="4" fill="#e8590c" />
-              <circle cx="150" cy="40" r="4" fill="#e8590c" />
-              <text x="20" y="30" fontFamily="monospace" fontSize="8.5" fill="#e8590c">
+            <svg viewBox="0 0 280 90" className="block w-full">
+              <rect width="280" height="90" fill="#fff" />
+              {/* líneas de propiedad / servidumbre, cruzando como en un plano real */}
+              <path d="M16 18 L264 70" stroke="#e4d9c5" strokeWidth="1.2" strokeDasharray="4 3" />
+              <path d="M16 70 L264 18" stroke="#e4d9c5" strokeWidth="1.2" strokeDasharray="4 3" />
+              {/* ramal existente, sin marcar */}
+              <path
+                d="M140 44 L246 64"
+                fill="none"
+                stroke="#5f7248"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeOpacity="0.55"
+              />
+              {/* tramo marcado — La Prueba de Campo */}
+              <path d="M16 18 L140 44" fill="none" stroke="#e8590c" strokeWidth="4.5" strokeLinecap="round" />
+              <circle cx="140" cy="44" r="5.5" fill="#fff" stroke="#8d8271" strokeWidth="1.4" />
+              <text x="140" y="46.5" fontFamily="monospace" fontSize="6" fill="#8d8271" textAnchor="middle">
+                M
+              </text>
+              <circle cx="16" cy="18" r="4" fill="#e8590c" stroke="#fff" strokeWidth="1.2" />
+              <circle cx="140" cy="44" r="3.2" fill="#e8590c" />
+              <text x="16" y="84" fontFamily="monospace" fontSize="8" fontWeight="700" fill="#e8590c">
                 STA 12+00 → 30+50
               </text>
             </svg>
