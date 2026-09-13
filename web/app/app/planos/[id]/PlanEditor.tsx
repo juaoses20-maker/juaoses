@@ -2,6 +2,7 @@
 
 import {
   useActionState,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -11,6 +12,8 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
   FileText,
   Hand,
@@ -24,6 +27,7 @@ import {
   ZoomOut,
 } from "lucide-react";
 import { addPlanMark, deletePlanMark, type MarkSaveState } from "@/lib/data/actions";
+import { renderPdfPage } from "@/lib/pdf";
 import {
   MARK_COLORS,
   PLAN_ACTIVITIES,
@@ -96,6 +100,38 @@ export default function PlanEditor({
     plan.width && plan.height ? plan.width / plan.height : 4 / 3,
   );
 
+  const [pdfPage, setPdfPage] = useState(1);
+  const [pdfPages, setPdfPages] = useState(1);
+  const [pdfImg, setPdfImg] = useState<string | null>(null);
+  const [pdfImgPage, setPdfImgPage] = useState<number | null>(null);
+  const [pdfErr, setPdfErr] = useState(false);
+
+  useEffect(() => {
+    if (!plan.is_pdf || !plan.url) return;
+    let cancelled = false;
+    renderPdfPage(plan.url, pdfPage)
+      .then(({ image, numPages, page }) => {
+        if (cancelled) return;
+        setPdfImg(image.dataUrl);
+        setPdfImgPage(page);
+        setAr(image.width / image.height);
+        setPdfPages(numPages);
+        setPdfErr(false);
+        setView({ zoom: 1, tx: 0, ty: 0 });
+        if (page !== pdfPage) setPdfPage(page);
+      })
+      .catch(() => {
+        if (!cancelled) setPdfErr(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [plan.is_pdf, plan.url, pdfPage]);
+
+  const pdfLoading = plan.is_pdf && pdfImgPage !== pdfPage && !pdfErr;
+  const imgSrc = plan.is_pdf ? (pdfImg ?? "") : (plan.url ?? "");
+  const pdfReady = !plan.is_pdf || (pdfImgPage === pdfPage && !!pdfImg);
+
   const [drawing, setDrawing] = useState<Segment | null>(null);
   const [strokes, setStrokes] = useState<Stroke[]>([]); // líneas rectas sin guardar de la ruta actual
   const [savingRoute, setSavingRoute] = useState(false);
@@ -115,9 +151,14 @@ export default function PlanEditor({
     return (id: string | null) => (id && m.get(id)) || MARK_COLORS[0];
   }, [crews]);
 
+  const marksForPage = useMemo(
+    () => (plan.is_pdf ? marks.filter((m) => (m.page || 1) === pdfPage) : marks),
+    [marks, plan.is_pdf, pdfPage],
+  );
+
   const normed = useMemo(
-    () => marks.map((m) => ({ m, n: norm(m.geom, crewColor(m.crew_id)) })),
-    [marks, crewColor],
+    () => marksForPage.map((m) => ({ m, n: norm(m.geom, crewColor(m.crew_id)) })),
+    [marksForPage, crewColor],
   );
   const ptCount = normed.filter(({ n }) => n.shape === "pt").length;
 
@@ -144,7 +185,7 @@ export default function PlanEditor({
   }
 
   function onPointerDown(e: RPointerEvent) {
-    if (formOpen || plan.is_pdf) return;
+    if (formOpen || !pdfReady) return;
     (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
     if (tool === "pan") {
       panRef.current = { x: e.clientX, y: e.clientY, tx: view.tx, ty: view.ty };
@@ -213,10 +254,10 @@ export default function PlanEditor({
         </div>
       </div>
 
-      {plan.is_pdf ? (
+      {plan.is_pdf && pdfErr ? (
         <div className="mt-3 rounded-[12px] border bg-surface p-4 text-center shadow-[var(--shadow-1)]">
           <FileText className="mx-auto h-9 w-9 text-ink-3" strokeWidth={1.5} />
-          <p className="mx-auto mt-2 max-w-[32ch] text-[12px] text-ink-2">{t("pdf.body")}</p>
+          <p className="mx-auto mt-2 max-w-[32ch] text-[12px] text-ink-2">{t("pdf.errorBody")}</p>
           {plan.url && (
             <a
               href={plan.url}
@@ -230,6 +271,30 @@ export default function PlanEditor({
         </div>
       ) : (
         <>
+          {plan.is_pdf && pdfPages > 1 && (
+            <div className="mt-2.5 flex items-center justify-center gap-2.5">
+              <button
+                onClick={() => setPdfPage((p) => Math.max(1, p - 1))}
+                disabled={pdfPage <= 1 || pdfLoading}
+                aria-label={t("pdf.prevPage")}
+                className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2 disabled:opacity-40"
+              >
+                <ChevronLeft className="h-4 w-4" strokeWidth={2.2} />
+              </button>
+              <span className="font-mono text-[12px] font-semibold">
+                {t("pdf.pageOf", { page: pdfPage, total: pdfPages })}
+              </span>
+              <button
+                onClick={() => setPdfPage((p) => Math.min(pdfPages, p + 1))}
+                disabled={pdfPage >= pdfPages || pdfLoading}
+                aria-label={t("pdf.nextPage")}
+                className="grid h-8 w-8 place-items-center rounded-full border bg-surface text-ink-2 disabled:opacity-40"
+              >
+                <ChevronRight className="h-4 w-4" strokeWidth={2.2} />
+              </button>
+            </div>
+          )}
+
           <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
             {TOOLS.map(({ id, labelKey, Icon }) => (
               <button
@@ -292,16 +357,24 @@ export default function PlanEditor({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 ref={imgRef}
-                src={plan.url ?? ""}
+                src={imgSrc}
                 alt={plan.name}
                 onLoad={(e) => {
                   const el = e.currentTarget;
-                  if (el.naturalWidth && el.naturalHeight)
+                  if (!plan.is_pdf && el.naturalWidth && el.naturalHeight)
                     setAr(el.naturalWidth / el.naturalHeight);
                 }}
                 className="block h-full w-full select-none"
                 draggable={false}
               />
+              {plan.is_pdf && pdfLoading && (
+                <div className="absolute inset-0 grid place-items-center bg-[var(--surface)]">
+                  <span className="flex items-center gap-2 text-[12px] font-semibold text-ink-2">
+                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-line border-t-accent" />
+                    {t("pdf.loading")}
+                  </span>
+                </div>
+              )}
               <svg
                 className="pointer-events-none absolute inset-0 h-full w-full"
                 viewBox="0 0 1 1"
@@ -449,6 +522,7 @@ export default function PlanEditor({
           {savingRoute && (
             <form action={formAction} className="mt-2 space-y-2 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
               <input type="hidden" name="planId" value={plan.id} />
+              <input type="hidden" name="page" value={pdfPage} />
               <input type="hidden" name="kind" value="seg" />
               <input type="hidden" name="geom" value={routeGeom} />
               <input type="hidden" name="activity" value={activity} />
@@ -518,6 +592,7 @@ export default function PlanEditor({
           {pendingPoint?.kind === "marker" && (
             <form action={formAction} className="mt-2 space-y-2 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
               <input type="hidden" name="planId" value={plan.id} />
+              <input type="hidden" name="page" value={pdfPage} />
               <input type="hidden" name="kind" value="pt" />
               <input type="hidden" name="geom" value={pointGeom} />
               <input type="hidden" name="activity" value={activity} />
@@ -580,6 +655,7 @@ export default function PlanEditor({
           {pendingPoint?.kind === "note" && (
             <form action={formAction} className="mt-2 space-y-2 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
               <input type="hidden" name="planId" value={plan.id} />
+              <input type="hidden" name="page" value={pdfPage} />
               <input type="hidden" name="kind" value="pt" />
               <input type="hidden" name="geom" value={pointGeom} />
               <input type="hidden" name="activity" value="Nota" />
@@ -610,7 +686,7 @@ export default function PlanEditor({
         </>
       )}
 
-      {marks.length > 0 && (
+      {marksForPage.length > 0 && (
         <>
           <p className="mx-0.5 mb-2 mt-5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.1em] text-ink-3">
             {t("marksSection")}

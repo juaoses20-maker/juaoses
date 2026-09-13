@@ -110,6 +110,7 @@ export type PlanMark = {
   unit: string;
   note: string | null;
   crew_id: string | null;
+  page: number;
 };
 
 export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole", "Empalme"] as const;

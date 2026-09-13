@@ -116,8 +116,12 @@
   "planEditor": {
     "marksCount": "{count, plural, one {# mark} other {# marks}} · {ft} ft marked",
     "pdf": {
-      "body": "This plan is a PDF. To draw the route on top of it, take a photo of the plan sheet and upload it.",
-      "open": "Open PDF"
+      "errorBody": "We couldn't open this PDF to mark on top of it. You can open it, or take a photo of the sheet and upload it as a plan.",
+      "open": "Open PDF",
+      "loading": "Loading the plan…",
+      "prevPage": "Previous page",
+      "nextPage": "Next page",
+      "pageOf": "Page {page} of {total}"
     },
     "tools": {
       "draw": "Line",

@@ -384,6 +384,7 @@ export async function addPlanMark(
   const crewId = eq(formData.get("crewId"));
   const note = eq(formData.get("note"));
   const geomRaw = eq(formData.get("geom"));
+  const page = Math.max(1, Number(eq(formData.get("page"))) || 1);
   if (!planId || !geomRaw) return { error: "Marca incompleta." };
   if (!activity) return { error: "Elige la actividad." };
 
@@ -419,6 +420,7 @@ export async function addPlanMark(
     unit: "ft",
     crew_id: crewId || null,
     note: note || null,
+    page,
   });
 
   if (error) return { error: "No pudimos guardar la marca. Inténtalo de nuevo." };

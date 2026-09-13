@@ -107,7 +107,7 @@ export async function getPlan(
     supabase.storage.from(PLANS_BUCKET).createSignedUrl(r.storage_path, 60 * 60),
     supabase
       .from("plan_marks")
-      .select("id, kind, geom, activity, qty, unit, note, crew_id")
+      .select("id, kind, geom, activity, qty, unit, note, crew_id, page")
       .eq("plan_id", planId)
       .order("at", { ascending: false }),
   ]);
@@ -133,6 +133,7 @@ export async function getPlan(
       unit: m.unit,
       note: m.note,
       crew_id: m.crew_id,
+      page: m.page ?? 1,
     })),
   };
 }

@@ -116,8 +116,12 @@
   "planEditor": {
     "marksCount": "{count, plural, one {# marca} other {# marcas}} · {ft} ft marcados",
     "pdf": {
-      "body": "Este plano es un PDF. Para dibujar la ruta encima, toma una foto de la hoja del plano y súbela.",
-      "open": "Abrir PDF"
+      "errorBody": "No pudimos abrir este PDF para marcar encima. Puedes abrirlo, o tomar una foto de la hoja y subirla como plano.",
+      "open": "Abrir PDF",
+      "loading": "Cargando el plano…",
+      "prevPage": "Página anterior",
+      "nextPage": "Página siguiente",
+      "pageOf": "Página {page} de {total}"
     },
     "tools": {
       "draw": "Línea",
