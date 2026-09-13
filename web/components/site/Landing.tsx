@@ -186,7 +186,7 @@ function HeroPhone() {
           </div>
           <div className="flex flex-wrap gap-1.5 px-3 pb-3 pt-0.5">
             <span className="rounded-full bg-surface-2 px-2 py-[3px] font-mono text-[9px] font-medium text-ink-2">
-              38.2542, −85.7585
+              37.7742, −87.1133
             </span>
             <span className="rounded-full bg-[color-mix(in_oklab,var(--warn)_15%,transparent)] px-2 py-[3px] font-mono text-[9px] font-medium text-warn">
               {t("ticketChip")}
