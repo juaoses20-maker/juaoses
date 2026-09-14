@@ -14,39 +14,55 @@ async function siteUrl(): Promise<string> {
   return `${proto}://${host}`;
 }
 
+function isRedirectError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "digest" in err &&
+    typeof (err as { digest?: unknown }).digest === "string" &&
+    (err as { digest: string }).digest.startsWith("NEXT_REDIRECT")
+  );
+}
+
 /** Abre el checkout de Stripe (14 días gratis, luego $30/mes) para la empresa del usuario. */
 export async function startCheckout(): Promise<void> {
-  const ctx = await getUserContext();
-  if (!ctx) redirect("/entrar");
-  if (!ctx.companyId) redirect("/bienvenido");
+  try {
+    const ctx = await getUserContext();
+    if (!ctx) redirect("/entrar");
+    if (!ctx.companyId) redirect("/bienvenido");
 
-  const supabase = await createClient();
-  const { data: company } = await supabase
-    .from("companies")
-    .select("stripe_customer_id, subscription_status")
-    .eq("id", ctx.companyId)
-    .single();
+    const supabase = await createClient();
+    const { data: company } = await supabase
+      .from("companies")
+      .select("stripe_customer_id, subscription_status")
+      .eq("id", ctx.companyId)
+      .single();
 
-  if (company?.subscription_status === "active" || company?.subscription_status === "trialing") {
-    redirect("/app");
+    if (company?.subscription_status === "active" || company?.subscription_status === "trialing") {
+      redirect("/app");
+    }
+
+    const base = await siteUrl();
+    const stripe = getStripe();
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: company?.stripe_customer_id ?? undefined,
+      customer_email: company?.stripe_customer_id ? undefined : (ctx.user.email ?? undefined),
+      client_reference_id: ctx.companyId,
+      line_items: [{ price: stripePriceId(), quantity: 1 }],
+      subscription_data: {
+        trial_period_days: 14,
+        metadata: { company_id: ctx.companyId },
+      },
+      success_url: `${base}/app?checkout=success`,
+      cancel_url: `${base}/suscripcion`,
+    });
+
+    if (!session.url) throw new Error("Stripe no devolvió una URL de checkout.");
+    redirect(session.url);
+  } catch (err) {
+    if (isRedirectError(err)) throw err;
+    const msg = err instanceof Error ? err.message : "Error desconocido.";
+    redirect(`/suscripcion?error=${encodeURIComponent(msg)}`);
   }
-
-  const base = await siteUrl();
-  const stripe = getStripe();
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: company?.stripe_customer_id ?? undefined,
-    customer_email: company?.stripe_customer_id ? undefined : (ctx.user.email ?? undefined),
-    client_reference_id: ctx.companyId,
-    line_items: [{ price: stripePriceId(), quantity: 1 }],
-    subscription_data: {
-      trial_period_days: 14,
-      metadata: { company_id: ctx.companyId },
-    },
-    success_url: `${base}/app?checkout=success`,
-    cancel_url: `${base}/suscripcion`,
-  });
-
-  if (!session.url) throw new Error("Stripe no devolvió una URL de checkout.");
-  redirect(session.url);
 }

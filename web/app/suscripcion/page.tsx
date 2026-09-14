@@ -18,7 +18,12 @@ function Feat({ children }: { children: React.ReactNode }) {
 
 export const metadata = { title: "Activa tu plan — EA Fiber Track" };
 
-export default async function SuscripcionPage() {
+export default async function SuscripcionPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
   const ctx = await getUserContext();
   if (!ctx) redirect("/entrar");
   if (!ctx.companyId) redirect("/bienvenido");
@@ -73,6 +78,12 @@ export default async function SuscripcionPage() {
               <Feat>Alertas antes de que venza un ticket 811</Feat>
             </div>
           </div>
+
+          {error && (
+            <p className="mt-3 rounded-[10px] border border-[color:color-mix(in_oklab,var(--crit)_40%,transparent)] bg-[color:color-mix(in_oklab,var(--crit)_8%,transparent)] px-3 py-2 text-[12px] text-[var(--crit)]">
+              No se pudo abrir el pago: {error}
+            </p>
+          )}
 
           <div className="mt-auto pt-6">
             <form action={startCheckout}>
