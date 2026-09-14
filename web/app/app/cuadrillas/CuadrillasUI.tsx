@@ -1,13 +1,14 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Pencil, Plus, Trash2, Users } from "lucide-react";
+import { Pencil, Plus, Trash2, Users, X } from "lucide-react";
 import { Btn } from "@/components/site/ui";
-import { createCrew, updateCrew, deleteCrew } from "@/lib/data/actions";
-import type { Crew, CrewFormState } from "@/lib/data/types";
+import { createCrew, updateCrew, deleteCrew, addCrewMember, removeCrewMember } from "@/lib/data/actions";
+import type { Crew, CrewFormState, CrewMemberFormState } from "@/lib/data/types";
 
 const initial: CrewFormState = { error: null };
+const memberInitial: CrewMemberFormState = { error: null };
 
 function Field({
   name,
@@ -66,7 +67,6 @@ function CrewForm({
       )}
       <Field name="name" label={t("form.name")} defaultValue={crew?.name} placeholder={t("form.namePlaceholder")} required />
       <Field name="foreman" label={t("form.foreman")} defaultValue={crew?.foreman ?? ""} placeholder={t("form.foremanPlaceholder")} />
-      <Field name="people" label={t("form.peopleField")} type="number" defaultValue={crew?.people ?? 0} />
       <Field
         name="equipment"
         label={t("form.equipment")}
@@ -87,6 +87,59 @@ function CrewForm({
         </button>
       </div>
     </form>
+  );
+}
+
+function MembersSection({ crew }: { crew: Crew }) {
+  const t = useTranslations("crews");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [state, action, pending] = useActionState(addCrewMember, memberInitial);
+
+  useEffect(() => {
+    if (state.ok && inputRef.current) inputRef.current.value = "";
+  }, [state.nonce, state.ok]);
+
+  return (
+    <div className="mt-2 border-t pt-2">
+      <div className="text-[10px] font-semibold text-ink-3">
+        {t("members", { count: crew.members.length })}
+      </div>
+      {crew.members.length > 0 && (
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {crew.members.map((m) => (
+            <form key={m.id} action={removeCrewMember} className="inline-flex">
+              <input type="hidden" name="id" value={m.id} />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-1 rounded-full border bg-surface-2 px-1.5 py-0.5 text-[9px] font-semibold text-ink-2 hover:text-[var(--crit)]"
+                aria-label={t("removeMemberAria", { name: m.name })}
+              >
+                {m.name}
+                <X className="h-2.5 w-2.5" strokeWidth={2.4} />
+              </button>
+            </form>
+          ))}
+        </div>
+      )}
+      <form action={action} className="mt-1.5 flex gap-1.5">
+        <input type="hidden" name="crewId" value={crew.id} />
+        <input
+          ref={inputRef}
+          name="name"
+          required
+          placeholder={t("form.memberPlaceholder")}
+          className="h-8 w-full min-w-0 rounded-[10px] border bg-surface px-2.5 text-[12px] outline-none placeholder:text-ink-3"
+        />
+        <button
+          type="submit"
+          disabled={pending}
+          className="h-8 flex-none rounded-btn bg-surface-2 px-2.5 text-[11px] font-bold text-ink disabled:opacity-50"
+        >
+          <Plus className="h-3.5 w-3.5" strokeWidth={2.6} />
+        </button>
+      </form>
+      {state.error && <p className="mt-1 text-[11px] text-[var(--crit)]">{state.error}</p>}
+    </div>
   );
 }
 
@@ -155,10 +208,7 @@ export default function CuadrillasUI({
                   </button>
                 </form>
               </div>
-              <div className="mt-1 text-[10.5px] text-ink-2">
-                {c.foreman ? t("foremanLine", { name: c.foreman }) : ""}
-                {t("people", { count: c.people })}
-              </div>
+              {c.foreman && <div className="mt-1 text-[10.5px] text-ink-2">{t("foremanLine", { name: c.foreman })}</div>}
               {c.equipment.length > 0 && (
                 <div className="mt-1.5 flex flex-wrap gap-1">
                   {c.equipment.map((e) => (
@@ -171,6 +221,7 @@ export default function CuadrillasUI({
                   ))}
                 </div>
               )}
+              <MembersSection crew={c} />
             </div>
           ),
         )}

@@ -43,10 +43,18 @@ export async function listCrews(projectId: string): Promise<Crew[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("crews")
-    .select("id, name, color, foreman, people, equipment")
+    .select("id, name, color, foreman, equipment, crew_members(id, name)")
     .eq("project_id", projectId)
-    .order("created_at", { ascending: true });
-  return (data ?? []) as Crew[];
+    .order("created_at", { ascending: true })
+    .order("name", { referencedTable: "crew_members", ascending: true });
+  return (data ?? []).map((c) => ({
+    id: c.id,
+    name: c.name,
+    color: c.color,
+    foreman: c.foreman,
+    equipment: c.equipment,
+    members: c.crew_members ?? [],
+  })) as Crew[];
 }
 
 export async function listTickets(projectId: string): Promise<Ticket811[]> {

@@ -105,14 +105,15 @@
     "create": "Crear cuadrilla",
     "editAria": "Editar cuadrilla",
     "deleteAria": "Eliminar cuadrilla",
-    "foremanLine": "Líder {name} · ",
-    "people": "{count, plural, one {# persona} other {# personas}}",
+    "foremanLine": "Líder {name}",
+    "members": "{count, plural, =0 {Sin trabajadores} one {# trabajador} other {# trabajadores}}",
+    "removeMemberAria": "Quitar a {name}",
     "form": {
       "name": "Nombre",
       "namePlaceholder": "Ej. Cuadrilla A — Bore",
       "foreman": "Líder",
       "foremanPlaceholder": "Ej. Miguel Santos",
-      "peopleField": "Personas",
+      "memberPlaceholder": "Nombre del trabajador",
       "equipment": "Equipo (separado por comas)",
       "equipmentPlaceholder": "Ej. Vermeer D24x40, Vac-Tron"
     }

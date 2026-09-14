@@ -12,6 +12,7 @@ import {
   PHOTOS_BUCKET,
   PLANS_BUCKET,
   type CrewFormState,
+  type CrewMemberFormState,
   type InviteFormState,
   type ProjectFormState,
   type TicketFormState,
@@ -100,7 +101,6 @@ export async function createCrew(
   const projectId = eq(formData.get("projectId"));
   const name = eq(formData.get("name"));
   const foreman = eq(formData.get("foreman"));
-  const people = Number.parseInt(eq(formData.get("people")) || "0", 10) || 0;
   const equipment = parseEquipment(eq(formData.get("equipment")));
   if (!projectId) return { error: "Elige un proyecto primero." };
   if (name.length < 2) return { error: "Escribe el nombre de la cuadrilla." };
@@ -116,7 +116,6 @@ export async function createCrew(
     project_id: projectId,
     name,
     foreman: foreman || null,
-    people,
     equipment,
     color: CREW_COLORS[(count ?? 0) % CREW_COLORS.length],
   });
@@ -133,7 +132,6 @@ export async function updateCrew(
   const id = eq(formData.get("id"));
   const name = eq(formData.get("name"));
   const foreman = eq(formData.get("foreman"));
-  const people = Number.parseInt(eq(formData.get("people")) || "0", 10) || 0;
   const equipment = parseEquipment(eq(formData.get("equipment")));
   if (!id) return { error: "Cuadrilla no encontrada." };
   if (name.length < 2) return { error: "Escribe el nombre de la cuadrilla." };
@@ -141,7 +139,7 @@ export async function updateCrew(
   const supabase = await createClient();
   const { error } = await supabase
     .from("crews")
-    .update({ name, foreman: foreman || null, people, equipment })
+    .update({ name, foreman: foreman || null, equipment })
     .eq("id", id);
 
   if (error) return { error: "No pudimos guardar los cambios." };
@@ -154,6 +152,38 @@ export async function deleteCrew(formData: FormData): Promise<void> {
   if (!id) return;
   const supabase = await createClient();
   await supabase.from("crews").delete().eq("id", id);
+  revalidatePath("/app/cuadrillas");
+}
+
+// ───────────────────────── trabajadores de cuadrilla ─────────────────────────
+
+export async function addCrewMember(
+  _prev: CrewMemberFormState,
+  formData: FormData,
+): Promise<CrewMemberFormState> {
+  const ctx = await getUserContext();
+  if (!ctx?.companyId) redirect("/bienvenido");
+
+  const crewId = eq(formData.get("crewId"));
+  const name = eq(formData.get("name"));
+  if (!crewId) return { error: "Cuadrilla no encontrada." };
+  if (name.length < 2) return { error: "Escribe el nombre del trabajador." };
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("crew_members")
+    .insert({ company_id: ctx.companyId, crew_id: crewId, name });
+
+  if (error) return { error: "No pudimos agregar al trabajador. Inténtalo de nuevo." };
+  revalidatePath("/app/cuadrillas");
+  return { error: null, ok: true, nonce: crypto.randomUUID() };
+}
+
+export async function removeCrewMember(formData: FormData): Promise<void> {
+  const id = eq(formData.get("id"));
+  if (!id) return;
+  const supabase = await createClient();
+  await supabase.from("crew_members").delete().eq("id", id);
   revalidatePath("/app/cuadrillas");
 }
 

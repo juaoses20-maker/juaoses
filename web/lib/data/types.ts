@@ -40,13 +40,18 @@ export type TeamInvite = {
   createdAt: string;
 };
 
+export type CrewMember = {
+  id: string;
+  name: string;
+};
+
 export type Crew = {
   id: string;
   name: string;
   color: string;
   foreman: string | null;
-  people: number;
   equipment: string[];
+  members: CrewMember[];
 };
 
 export type Ticket811 = {
@@ -147,5 +152,6 @@ export const PLAN_ACTIVITIES = ["HDD Bore", "Zanja", "Tendido fibra", "Handhole"
 
 export type ProjectFormState = { error: string | null };
 export type CrewFormState = { error: string | null; ok?: boolean };
+export type CrewMemberFormState = { error: string | null; ok?: boolean; nonce?: string };
 export type TicketFormState = { error: string | null; ok?: boolean };
 export type InviteFormState = { error: string | null; ok?: boolean; nonce?: string };

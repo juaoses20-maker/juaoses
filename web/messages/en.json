@@ -105,14 +105,15 @@
     "create": "Create crew",
     "editAria": "Edit crew",
     "deleteAria": "Delete crew",
-    "foremanLine": "Leader {name} · ",
-    "people": "{count, plural, one {# person} other {# people}}",
+    "foremanLine": "Leader {name}",
+    "members": "{count, plural, =0 {No workers yet} one {# worker} other {# workers}}",
+    "removeMemberAria": "Remove {name}",
     "form": {
       "name": "Name",
       "namePlaceholder": "e.g. Crew A — Bore",
       "foreman": "Leader",
       "foremanPlaceholder": "e.g. Miguel Santos",
-      "peopleField": "People",
+      "memberPlaceholder": "Worker's name",
       "equipment": "Equipment (comma separated)",
       "equipmentPlaceholder": "e.g. Vermeer D24x40, Vac-Tron"
     }
