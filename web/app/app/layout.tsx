@@ -15,9 +15,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const [t, supabase] = await Promise.all([getTranslations("appShell"), createClient()]);
   const [{ data: company }, project] = await Promise.all([
-    supabase.from("companies").select("name").eq("id", ctx.companyId).maybeSingle(),
+    supabase.from("companies").select("name, subscription_status").eq("id", ctx.companyId).maybeSingle(),
     getActiveProject(),
   ]);
+
+  const activa = company?.subscription_status === "active" || company?.subscription_status === "trialing";
+  if (!activa) redirect("/suscripcion");
 
   const title = project?.name ?? company?.name ?? "Mi empresa";
   const sub = project

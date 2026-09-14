@@ -27,3 +27,22 @@ export function serverEnv() {
   if (!secret) throw new Error("Falta SUPABASE_SECRET_KEY (solo servidor).");
   return { SUPABASE_SECRET_KEY: secret };
 }
+
+/** Variables de Stripe — solo servidor. Cada una se valida donde se usa (no todas hacen falta siempre). */
+export function stripeSecretKey(): string {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("Falta STRIPE_SECRET_KEY (solo servidor).");
+  return key;
+}
+
+export function stripeWebhookSecret(): string {
+  const key = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!key) throw new Error("Falta STRIPE_WEBHOOK_SECRET (solo servidor).");
+  return key;
+}
+
+export function stripePriceId(): string {
+  const id = process.env.STRIPE_PRICE_ID;
+  if (!id) throw new Error("Falta STRIPE_PRICE_ID (solo servidor).");
+  return id;
+}
