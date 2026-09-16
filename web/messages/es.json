@@ -236,7 +236,8 @@
     "today": "Hoy",
     "yesterday": "Ayer",
     "takeAria": "Tomar foto",
-    "deleteAria": "Eliminar foto"
+    "deleteAria": "Eliminar foto",
+    "deleteConfirm": "¿Eliminar esta foto? No se puede deshacer."
   },
   "tickets": {
     "title": "Tickets 811",

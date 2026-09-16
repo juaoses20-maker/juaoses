@@ -9,8 +9,6 @@ import type { Photo } from "@/lib/data/types";
 
 const initial: PhotoSaveState = { error: null };
 
-type Pending = { path: string; lat: number | null; lng: number | null };
-
 export default function FotosUI({
   companyId,
   companyName,
@@ -33,9 +31,6 @@ export default function FotosUI({
   const [isPending, startTransition] = useTransition();
   const [uploading, setUploading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [pending, setPending] = useState<Pending | null>(null);
-  const [where, setWhere] = useState("");
-  const [seenNonce, setSeenNonce] = useState<string | undefined>(undefined);
 
   function dayLabel(iso: string): string {
     const d = new Date(iso);
@@ -52,12 +47,6 @@ export default function FotosUI({
   const dateLabel = (iso: string) =>
     new Date(iso).toLocaleDateString(intlLocale, { day: "2-digit", month: "2-digit", year: "numeric" });
 
-  if (state.nonce && state.nonce !== seenNonce) {
-    setSeenNonce(state.nonce);
-    setPending(null);
-    setWhere("");
-  }
-
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     e.target.value = "";
@@ -67,24 +56,17 @@ export default function FotosUI({
     try {
       const { lat, lng } = await getCoords();
       const path = await uploadPhoto(companyId, projectId, file);
-      setPending({ path, lat, lng });
-      setWhere("");
+      const fd = new FormData();
+      fd.set("projectId", projectId);
+      fd.set("storagePath", path);
+      if (lat != null) fd.set("lat", String(lat));
+      if (lng != null) fd.set("lng", String(lng));
+      startTransition(() => formAction(fd));
     } catch {
       setErr(t("uploadError"));
     } finally {
       setUploading(false);
     }
-  }
-
-  function submitPending(skipLocation = false) {
-    if (!pending) return;
-    const fd = new FormData();
-    fd.set("projectId", projectId);
-    fd.set("storagePath", pending.path);
-    if (pending.lat != null) fd.set("lat", String(pending.lat));
-    if (pending.lng != null) fd.set("lng", String(pending.lng));
-    if (!skipLocation && where.trim()) fd.set("location", where.trim());
-    startTransition(() => formAction(fd));
   }
 
   const busy = uploading || isPending;
@@ -111,47 +93,7 @@ export default function FotosUI({
         </p>
       )}
 
-      {pending && (
-        <div className="mt-3 rounded-[12px] border bg-surface p-3 shadow-[var(--shadow-1)]">
-          <div className="font-display text-[13px] font-semibold">{t("askLocation.title")}</div>
-          <p className="mt-0.5 text-[10px] text-ink-3">
-            {pending.lat != null
-              ? t("askLocation.withCoords", { company: companyName })
-              : t("askLocation.noCoords", { company: companyName })}
-          </p>
-          <input
-            autoFocus
-            value={where}
-            onChange={(e) => setWhere(e.target.value.slice(0, 120))}
-            placeholder={t("askLocation.placeholder")}
-            className="mt-2 w-full rounded-[10px] border bg-surface px-3 py-2 text-[13px] outline-none placeholder:text-ink-3"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                submitPending();
-              }
-            }}
-          />
-          <div className="mt-2 flex gap-2">
-            <button
-              onClick={() => submitPending()}
-              disabled={busy}
-              className="h-9 rounded-btn bg-accent px-4 text-[12px] font-bold text-accent-ink disabled:opacity-50"
-            >
-              {busy ? t("askLocation.saving") : t("askLocation.save")}
-            </button>
-            <button
-              onClick={() => submitPending(true)}
-              disabled={busy}
-              className="h-9 px-3 text-[12px] font-semibold text-ink-3 disabled:opacity-50"
-            >
-              {t("askLocation.skip")}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {photos.length === 0 && !busy && !pending && (
+      {photos.length === 0 && !busy && (
         <div className="mt-8 grid place-items-center py-12 text-center">
           <div>
             <Camera className="mx-auto h-9 w-9 text-ink-3" strokeWidth={1.5} />
@@ -202,15 +144,21 @@ export default function FotosUI({
                         : t("noLocation")}
                   </span>
                 </span>
-                <form action={deletePhoto} className="absolute right-1 top-1">
+                <form
+                  action={deletePhoto}
+                  className="absolute right-1 top-1"
+                  onSubmit={(e) => {
+                    if (!confirm(t("deleteConfirm"))) e.preventDefault();
+                  }}
+                >
                   <input type="hidden" name="id" value={p.id} />
                   <input type="hidden" name="storagePath" value={p.storage_path} />
                   <button
                     type="submit"
                     aria-label={t("deleteAria")}
-                    className="grid h-6 w-6 place-items-center rounded-full bg-black/45 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                    className="grid h-7 w-7 place-items-center rounded-full bg-black/55 text-white transition-colors hover:bg-black/75"
                   >
-                    <Trash2 className="h-3 w-3" strokeWidth={2.2} />
+                    <Trash2 className="h-3.5 w-3.5" strokeWidth={2.2} />
                   </button>
                 </form>
               </div>

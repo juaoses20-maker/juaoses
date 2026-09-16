@@ -236,7 +236,8 @@
     "today": "Today",
     "yesterday": "Yesterday",
     "takeAria": "Take photo",
-    "deleteAria": "Delete photo"
+    "deleteAria": "Delete photo",
+    "deleteConfirm": "Delete this photo? This can't be undone."
   },
   "tickets": {
     "title": "811 Tickets",
