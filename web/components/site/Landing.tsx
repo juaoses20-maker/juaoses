@@ -447,6 +447,41 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* 4C · EN EL CAMPO */}
+      <section className="mx-auto max-w-[460px] px-5 py-11">
+        <Reveal>
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-accent">
+            {t("field.eyebrow")}
+          </p>
+        </Reveal>
+        <Reveal delay={0.05}>
+          <h2 className="mt-2 text-[22px] font-semibold">{t("field.title")}</h2>
+        </Reveal>
+        <div className="mt-5 grid grid-cols-2 gap-2.5">
+          <Reveal className="col-span-2">
+            <figure className="overflow-hidden rounded-[14px] border shadow-[var(--shadow-1)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/landing/campo-1.jpg" alt="" className="aspect-[16/10] w-full object-cover" loading="lazy" />
+              <figcaption className="px-3 py-2 text-[12px] font-medium text-ink-2">{t("field.cap1")}</figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <figure className="overflow-hidden rounded-[14px] border shadow-[var(--shadow-1)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/landing/campo-2.jpg" alt="" className="aspect-square w-full object-cover" loading="lazy" />
+              <figcaption className="px-2.5 py-2 text-[11px] font-medium text-ink-2">{t("field.cap2")}</figcaption>
+            </figure>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <figure className="overflow-hidden rounded-[14px] border shadow-[var(--shadow-1)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/landing/campo-3.jpg" alt="" className="aspect-square w-full object-cover" loading="lazy" />
+              <figcaption className="px-2.5 py-2 text-[11px] font-medium text-ink-2">{t("field.cap3")}</figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </section>
+
       {/* 5 · LA APP POR DENTRO */}
       <section className="border-y bg-surface">
         <div className="mx-auto max-w-[460px] px-5 py-11">

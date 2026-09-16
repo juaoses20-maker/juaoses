@@ -364,6 +364,13 @@
       "c4Cap": "Marca la producción encima",
       "note": "Marcos de referencia — las capturas reales se montan cuando la app esté lista."
     },
+    "field": {
+      "eyebrow": "En el campo",
+      "title": "El trabajo real, todos los días.",
+      "cap1": "Cada ruta, medida antes de la primera palada",
+      "cap2": "Del carrete a la zanja, tramo por tramo",
+      "cap3": "Perforación dirigida, sin romper toda la calle"
+    },
     "offer": {
       "eyebrow": "La oferta",
       "title": "Un precio. <accent>Sin letra chica.</accent>",

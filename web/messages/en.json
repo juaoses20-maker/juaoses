@@ -364,6 +364,13 @@
       "c4Cap": "Mark production on top",
       "note": "Reference frames — real screenshots go in once the app is ready."
     },
+    "field": {
+      "eyebrow": "In the field",
+      "title": "The real work, every day.",
+      "cap1": "Every route, measured before the first shovel",
+      "cap2": "From the reel to the trench, span by span",
+      "cap3": "Directional drilling, without tearing up the street"
+    },
     "offer": {
       "eyebrow": "The offer",
       "title": "One price. <accent>No fine print.</accent>",
