@@ -1,13 +1,15 @@
 # ESTADO — EA Fiber Track
-Última actualización: 2026-09-10 | Sesión actual: 3
+Última actualización: 2026-09-16 | Sesión actual: 5
 
-⏸️ CHECKPOINT — Sesión 3 (2026-09-10): ajustes pedidos por el usuario, todo verificado (tsc ✓ build ✓ eslint ✓) y desplegado a https://juaoses.vercel.app:
-  1. Planos: marcado con LÍNEAS RECTAS (arrastre) en vez de trazo libre.
-  2. Tickets 811: campos número · ubicación · fecha de inicio · fecha de expiración EDITABLE (default inicio+21) · página del plano (`plan_page`, migración 0004). Botón "Renovar" abre el portal `https://ky.itic.occinc.com/`.
-  3. Fotos: se pide LUGAR de texto tras tomar la foto (`photos.location`, migración 0005) + miniatura estampa nombre de empresa + fecha completa + hora.
-  4. Landing + paywall: precio ÚNICO $30/mes (fundador/planes por cuadrilla archivados). Sección de servicios "Los servicios" — 2 servicios en tipografía display grande (27px, regla de acento): "Marcación de planos" y "Solicitud de tickets 811" + "Todo incluido en el plan de $30/mes" + bloque de contacto (WhatsApp +16185142665 / SMS / correo eafibertrack@gmail.com).
-  Migraciones 0004 y 0005 ya ejecutadas por el usuario en Supabase.
-/ Siguiente acción sugerida: **parte diario** (`production_entries`) que alimente "El día de hoy" + racha (loop Regla 6). Luego servicios externos que faltan: Stripe → Resend → dominio → Google OAuth.
+⏸️ CHECKPOINT — Sesión 5 (2026-09-16): app funcionando en producción con cobro real (modo de prueba) desde https://juaoses.vercel.app. Todo lo construido hasta hoy está verificado y desplegado.
+
+## 👉 PENDIENTE AHORA MISMO (en orden)
+1. **Dominio** — el usuario ya compró `eafibertrack.com` en Namecheap. Falta: (a) agregarlo en Vercel → Settings → Domains, (b) copiar los registros DNS que dé Vercel a Namecheap → Advanced DNS. Quedamos aquí cuando surgieron los problemas de esta sesión (ver abajo).
+2. **Resend** (correos con dominio propio) — depende de tener el dominio ya conectado (paso 1).
+3. Después de dominio + Resend: actualizar Supabase Auth (Site URL/Redirect) y el webhook de Stripe para que apunten al dominio nuevo en vez de `juaoses.vercel.app`.
+4. Modo LIVE de Stripe (cobro real) — cuando el usuario esté listo para vender de verdad (hoy todo corre en modo de prueba).
+5. Google OAuth — proveedor pendiente de configurar en Supabase.
+6. `revisor-visual` sobre landing/onboarding/paywall/pantalla principal antes de considerar la app "lista para vender" (ver Problemas conocidos).
 
 ## Nombre
 EA Fiber Track (confirmado por el usuario 2026-08-31). Verificar dominio/handles antes de la landing.
@@ -128,14 +130,11 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
 - Loop de retención (Regla 6) DEFINIDO: gatillo = aviso 6 p.m. "cierra el parte" / 811 por vencer → acción = foreman marca la producción sobre el plano + cierra el parte → recompensa = "El día de hoy" se actualiza (el owner ve el avance sin llamar) + racha de días con parte → inversión = cada tramo se acumula en el plano + crece el historial de pruebas. Test "borrar historial": la app de mañana NO es idéntica ✓.
 
 ## Sesión en progreso 🔧
-- (ninguna — esperando OK del usuario para Bloque 2)
+- (ninguna — ver "PENDIENTE AHORA MISMO" arriba: seguimos con dominio → Resend)
 
 ## Próximas sesiones 📋
-- **Bloque 2 — Página de ventas:** landing con la estructura canónica de 10 secciones del 19, copy 100% derivado de FICHA-AVATAR.md, kit de landing del SO (`plantillas-codigo/landing/`), tokens de FICHA-ARTE. Carrusel de "la app por dentro" con placeholders hasta que exista.
-- Bloque 3 — Preview anónimo + paywall + login
-- Bloque 4 — App interna (Planos/Fotos/811/Cuadrillas)
-- Bloque 5 — Supabase + Stripe + Vercel + dominio + Resend (aquí entran los pendientes del usuario)
-- Bloque 6 — Testing + pulido + rigor de entrega
+- Bloque 5 (en curso) — Servicios externos: Stripe ✅ · GitHub ✅ · Supabase ✅ · Vercel ✅ · falta dominio + Resend + Google OAuth
+- Bloque 6 — Testing + pulido + rigor de entrega (incluye correr `revisor-visual` en las 4 pantallas del dinero)
 - Bloque 7 — Lanzamiento + adquisición + backoffice
 
 ## Problemas conocidos ⚠️
@@ -175,9 +174,9 @@ Ganar con: (1) español de campo primero, (2) plano + producción + ticket 811 +
   - Verificado por el agente: tsc ✓ build ✓ eslint ✓.
   - ✅ **PROBADO DE PUNTA A PUNTA en producción 2026-09-14** con tarjeta de prueba de Stripe: checkout → webhook → `subscription_status='trialing'` → entra a `/app`. Las 4 variables están en Vercel (Production). Bug encontrado y corregido en el camino: `STRIPE_PRICE_ID` en Vercel tenía pegada por error la Publishable key en vez del Price ID (el error "No such price" no se veía porque `/suscripcion` no mostraba el motivo — se agregó manejo de errores visible en pantalla, `app/suscripcion/actions.ts` + `page.tsx`, que se queda como mejora permanente, no solo diagnóstico).
   - Pendiente real: (1) cuando haya negocio para cobrar de verdad, activar el modo LIVE de Stripe con los datos del negocio, crear el mismo producto/precio ahí (Price ID de modo real es distinto) y repetir el alta de claves+webhook en modo real; (2) no hay botón de auto-cancelación en la app todavía — hoy "cancela con un correo" (copy del paywall) es literal, no hay flujo de self-service; (3) `getUserContext` no expone el estado de suscripción para mostrar "tu prueba termina en N días" dentro de la app (hoy el usuario solo se entera al toparse con el candado).
-- [ ] **Vercel** (publicación) — conecta el repo de GitHub
-- [ ] **Resend** (correos)
-- [ ] **Dominio** (~$12/año)
+- [~] **Dominio** — `eafibertrack.com` comprado en Namecheap 2026-09-16. Falta agregarlo en Vercel → Domains y copiar los registros DNS a Namecheap → Advanced DNS (quedamos aquí, ver "PENDIENTE AHORA MISMO" arriba).
+- [ ] **Resend** (correos con dominio propio) — depende del dominio conectado
+- [ ] **Google OAuth** — falta configurar el proveedor en Supabase (cuenta Google Cloud → OAuth client)
 
 ## Notas para la próxima sesión
 - El usuario NO tiene clientes aún (confirmado 2026-08-31) → landing sin testimonios, con oferta Founding Customer (20 empresas a $99/mo).
